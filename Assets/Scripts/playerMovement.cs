@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Diagnostics;
+using System.Security.Cryptography;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
 
@@ -9,10 +10,15 @@ public class playerMovement : MonoBehaviour
 {
     private int nextUpdate = 1;
     public GameObject bulletPrefab;
+    public GameObject enemyPrefab;
     // Start is called before the first frame update
     void Start()
     {
-        
+        Vector3 enemyPosition = transform.position;
+        enemyPosition.x += 3;
+        enemyPosition.y += 5;
+        GameObject go2 = Instantiate(enemyPrefab, enemyPosition, Quaternion.identity);
+        EnemyPlane4 plane = go2.GetComponent<EnemyPlane4>();
     }
 
     // Update is called once per frame

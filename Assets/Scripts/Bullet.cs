@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    public int speed = 50;          // The speed our bullet travels
+    public int speed = 200;          // The speed our bullet travels
     public Vector3 targetVector;    // the direction it travels
     public float lifetime = 10f;     // how long it lives before destroying itself
     public float damage = 10;       // how much damage this projectile causes
@@ -26,6 +26,15 @@ public class Bullet : MonoBehaviour
         {
             // we have ran out of life
             Destroy(gameObject);    // kill me
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.name.Equals("EnemyObject1(Clone)") || collision.gameObject.name.Equals("EnemyObject1"))
+        {
+            Destroy(gameObject);
+            Destroy(collision.gameObject);
         }
     }
 }
