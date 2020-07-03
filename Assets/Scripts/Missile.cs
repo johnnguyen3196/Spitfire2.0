@@ -1,10 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using UnityEngine;
 
 public class Missile : MonoBehaviour
 {
-    public float speed = 1f;          // The speed our bullet travels
+    public float speed = 50f;          // The speed our bullet travels
     public Vector3 targetVector;    // the direction it travels
     public float lifetime = 10f;     // how long it lives before destroying itself
     public float damage = 10;       // how much damage this projectile causes
@@ -21,10 +22,10 @@ public class Missile : MonoBehaviour
     void Update()
     {
         rb.AddForce((target.transform.position - transform.position).normalized * speed);
-        Vector3 moveDirection = gameObject.transform.position;
-        if (moveDirection != Vector3.zero)
+        targetVector = gameObject.transform.position;
+        if (targetVector != Vector3.zero)
         {
-            float angle = Mathf.Atan2(moveDirection.y, moveDirection.x) * Mathf.Rad2Deg;
+            float angle = Mathf.Atan2(targetVector.y, targetVector.x) * Mathf.Rad2Deg;
             transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
         }
     }

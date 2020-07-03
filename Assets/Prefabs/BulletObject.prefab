@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8614772388674581768}
   - component: {fileID: 1764714557373002556}
+  - component: {fileID: 5646558216584427125}
   m_Layer: 8
   m_Name: BulletSprite
   m_TagString: Untagged
@@ -81,6 +82,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &5646558216584427125
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 105516614055498885}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e89ab64cc1235bf468a6034c09e889e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2225351258445128224
 GameObject:
   m_ObjectHideFlags: 0
@@ -90,9 +103,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3700544402829819477}
-  - component: {fileID: 2350581992493273551}
   - component: {fileID: 2418307888955114948}
   - component: {fileID: 7756450006393133993}
+  - component: {fileID: 7115503333742911808}
+  - component: {fileID: 6939219258980323152}
   m_Layer: 8
   m_Name: BulletObject
   m_TagString: Untagged
@@ -115,22 +129,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2350581992493273551
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2225351258445128224}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3bceaf30a76d58e4faadd41b16dad704, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 200
-  targetVector: {x: 0, y: 0, z: 0}
-  lifetime: 10
-  damage: 10
 --- !u!50 &2418307888955114948
 Rigidbody2D:
   serializedVersion: 4
@@ -176,5 +174,38 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.05, y: 0.1}
+  m_Size: {x: 0.07, y: 0.07}
   m_EdgeRadius: 0
+--- !u!111 &7115503333742911808
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2225351258445128224}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 0}
+  m_Animations:
+  - {fileID: 0}
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0
+--- !u!114 &6939219258980323152
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2225351258445128224}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3bceaf30a76d58e4faadd41b16dad704, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 200
+  targetVector: {x: 0, y: 0, z: 0}
+  lifetime: 10
+  damage: 10
+  explosionPrefab: {fileID: 0}

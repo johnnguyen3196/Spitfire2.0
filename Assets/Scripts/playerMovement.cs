@@ -14,11 +14,7 @@ public class playerMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Vector3 enemyPosition = transform.position;
-        enemyPosition.x += 3;
-        enemyPosition.y += 5;
-        GameObject go2 = Instantiate(enemyPrefab, enemyPosition, Quaternion.identity);
-        EnemyPlane4 plane = go2.GetComponent<EnemyPlane4>();
+
     }
 
     // Update is called once per frame
