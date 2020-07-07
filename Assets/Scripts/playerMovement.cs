@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Diagnostics;
@@ -11,10 +12,15 @@ public class playerMovement : MonoBehaviour
     private int nextUpdate = 1;
     public GameObject bulletPrefab;
     public GameObject enemyPrefab;
+    public int maxHealth = 100;
+    public int currentHealth;
+    public HealthBar healthBar;
     // Start is called before the first frame update
     void Start()
     {
-
+        currentHealth = maxHealth;
+        healthBar.SetMaxHealth(maxHealth);
+        //GameObject test = Instantiate(enemyPrefab, new Vector3(0, 3, 0), Quaternion.identity);
     }
 
     // Update is called once per frame

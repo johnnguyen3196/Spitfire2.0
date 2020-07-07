@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyPlane4 : MonoBehaviour
 {
-    private int nextUpdate = 1;
+    private int nextUpdate = 5;
     public GameObject missilePrefab;
     public int speed = 50;
     public Vector3 targetVector;
@@ -23,7 +23,7 @@ public class EnemyPlane4 : MonoBehaviour
     {
         if (Time.time >= nextUpdate)
         {
-            nextUpdate = Mathf.FloorToInt(Time.time) + 1;
+            nextUpdate = Mathf.FloorToInt(Time.time) + 5;
             UpdateEverySecond();
         }
     }
