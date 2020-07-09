@@ -9,7 +9,7 @@ public class Missile : MonoBehaviour
     public float speed;          // The speed our bullet travels
     public Vector3 targetVector;    // the direction it travels
     public float lifetime = 10f;     // how long it lives before destroying itself
-    public float damage = 10;       // how much damage this projectile causes
+    public int damage = 20;       // how much damage this projectile causes
     public GameObject target;   // the player 
     private Rigidbody2D rb;
     private float distance;     // distance between missile and player
@@ -49,6 +49,15 @@ public class Missile : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        
+        if (collision.gameObject.name == "plane")
+        {
+            Destroy(gameObject);
+            Player player = collision.gameObject.GetComponent<Player>();
+            player.currentHealth -= damage;
+            if (player.currentHealth <= 0)
+            {
+                player.Die();
+            }
+        }
     }
 }
