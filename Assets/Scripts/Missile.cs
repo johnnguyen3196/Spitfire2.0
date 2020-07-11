@@ -13,6 +13,7 @@ public class Missile : MonoBehaviour
     public GameObject target;   // the player 
     private Rigidbody2D rb;
     private float distance;     // distance between missile and player
+    private float spawnTime;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,26 +23,30 @@ public class Missile : MonoBehaviour
         speed = 100f;
         //missile will initially go straight until 0.5 seconds
         rb.AddForce(new Vector3(0, -1, 0) * speed);
+        spawnTime = Time.time;
+        transform.rotation = Quaternion.AngleAxis(-90, Vector3.forward);
     }
 
     // Update is called once per frame
     void Update()
     {
         //missile starts tracking after 0.5 seconds
-        if(Time.time >= nextUpdate)
+        if(Time.time >= spawnTime + nextUpdate)
         {
-            speed = 50f;
+            speed = 1f;
             //missile will continue in current direction if it overshoots the player
             float currentDistance = Vector3.Distance(gameObject.transform.position, target.gameObject.transform.position);
             if (currentDistance <= distance)
             {
                 rb.AddForce((target.transform.position - transform.position).normalized * speed);
-                targetVector = gameObject.transform.position;
-                if (targetVector != Vector3.zero)
-                {
-                    float angle = Mathf.Atan2(targetVector.y, targetVector.x) * Mathf.Rad2Deg;
-                    transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
-                }
+                transform.right = target.transform.position - transform.position;
+
+                //targetVector = gameObject.transform.position;
+                //if (targetvector != vector3.zero)
+                //{
+                //    float angle = mathf.atan2(targetvector.y, targetvector.x) * mathf.rad2deg;
+                //    transform.rotation = quaternion.angleaxis(angle, vector3.forward);
+                //}
                 distance = currentDistance;
             }
         }

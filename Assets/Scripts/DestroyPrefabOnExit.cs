@@ -4,18 +4,6 @@ using UnityEngine;
 
 public class DestroyPrefabOnExit : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     void OnBecameInvisible()
     {
         Destroy(this.transform.parent.gameObject);

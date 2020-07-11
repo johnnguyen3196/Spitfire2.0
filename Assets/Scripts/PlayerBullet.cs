@@ -10,6 +10,7 @@ public class PlayerBullet : MonoBehaviour
     public int damage;       // how much damage this projectile causes
     public GameObject explosionPrefab;
     public string[] targetNames;
+    public Sprite upgradeBullet;
 
     // Start is called before the first frame update
     void Start()
@@ -18,6 +19,11 @@ public class PlayerBullet : MonoBehaviour
         Rigidbody2D rb = gameObject.GetComponentInChildren<Rigidbody2D>();
         // add force 
         rb.AddForce(targetVector.normalized * speed);
+
+        if(damage > 10f)
+        {
+            gameObject.GetComponentInChildren<SpriteRenderer>().sprite = upgradeBullet;
+        }
     }
 
     // Update is called once per frame

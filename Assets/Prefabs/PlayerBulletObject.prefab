@@ -194,3 +194,4 @@ MonoBehaviour:
   explosionPrefab: {fileID: 2423041736348177234, guid: 0b86143daed4231458ba42146e3b88d5,
     type: 3}
   targetNames: []
+  upgradeBullet: {fileID: 21300000, guid: e0869871ca9e9aa429b6f44bbe6655c4, type: 3}
