@@ -10,8 +10,11 @@ using Debug = UnityEngine.Debug;
 
 public class Player : MonoBehaviour
 {
-    private int nextUpdate = 1;
+    private int shootUpdate = 1;
+    private int missileUpdate = 2;
     public float speed;
+
+    private GameObject missileTarget;
 
     public int maxHealth = 100;
     public int currentHealth;
@@ -26,6 +29,7 @@ public class Player : MonoBehaviour
     public GameObject bulletPrefab;
     public GameObject powerUpPrefab;
     public GameObject playerMissilePrefab;
+    public GameObject missileCrosshairPrefab;
     
     public bool disableLeft;
     public bool disableRight;
@@ -56,10 +60,36 @@ public class Player : MonoBehaviour
     void Update()
     {
         //Shooting updates
-        if (Time.time >= nextUpdate)
+        if (Time.time >= shootUpdate)
         {
-            nextUpdate = Mathf.FloorToInt(Time.time) + 1;
-            UpdateEverySecond();
+            shootUpdate = Mathf.FloorToInt(Time.time) + 1;
+            ShootGun();
+        }
+
+        if(Time.time >= missileUpdate)
+        {
+            missileUpdate = Mathf.FloorToInt(Time.time) + 2;
+            ShootMissile();
+        }
+
+        //Manual missile targeting updates
+        if (Input.GetKey("left shift") && Input.GetMouseButton(0))
+        {
+            RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
+            if (hit.collider != null)
+            {
+                if(hit.collider.name.Substring(0, 5) == "Enemy")
+                {
+                    //destroy previous crosshair
+                    GameObject[] temp = GameObject.FindGameObjectsWithTag("MissileCrosshair");
+                    if(temp.Length > 0)
+                    {
+                        Destroy(temp[0]);
+                    }
+                    missileTarget = hit.transform.gameObject;
+                    SetMissileTarget(missileTarget);
+                }
+            }
         }
 
         //Teleport updates
@@ -107,7 +137,7 @@ public class Player : MonoBehaviour
         teleportBar.SetTele(1 - Mathf.Lerp(0, 1, teleCoolDown / 5));
     }
 
-    void UpdateEverySecond()
+    void ShootGun()
     {
         switch (shootType)
         {
@@ -124,7 +154,11 @@ public class Player : MonoBehaviour
                 UpgradeTripleShot();
                 break;
         }
-        fireMissile();
+    }
+
+    void ShootMissile()
+    {
+        FireMissile();
     }
 
     public void Die()
@@ -233,7 +267,7 @@ public class Player : MonoBehaviour
         bullet3.targetNames = targetNames;
     }
 
-    void fireMissile()
+    void FireMissile()
     {
         Vector3 middleMissilePos = new Vector3(transform.position.x, transform.position.y + .5f, transform.position.z);
         GameObject go = Instantiate(playerMissilePrefab, middleMissilePos, Quaternion.identity);
@@ -242,5 +276,47 @@ public class Player : MonoBehaviour
     void CreateDust()
     {
         teleportDust.Play();
+    }
+
+    public GameObject GetMissileTarget()
+    {
+        if(missileTarget == null)
+        {
+            missileTarget = GameObject.FindGameObjectWithTag("Enemy");
+            if(missileTarget != null)
+            {
+                Debug.Log("Adding crosshair to " + missileTarget.name);
+                GameObject go = Instantiate(missileCrosshairPrefab, missileTarget.transform.position, Quaternion.identity);
+                MissileCrosshair missileCrosshair = go.GetComponent<MissileCrosshair>();
+                missileCrosshair.target = missileTarget;
+            }
+        }
+        return missileTarget;
+    }
+
+    public void ResetMissileTarget()
+    {
+        missileTarget = null;
+        foreach(GameObject missileObject in GameObject.FindGameObjectsWithTag("PlayerMissile"))
+        {
+            PlayerMissile missile = missileObject.GetComponent<PlayerMissile>();
+            missile.target = null;
+        }
+    }
+
+    public void SetMissileTarget(GameObject target)
+    {
+        //add targeting crosshair if enemy doesn't have one yet
+        if (GameObject.FindGameObjectsWithTag("MissileCrosshair").Length == 0)
+        {
+            GameObject go = Instantiate(missileCrosshairPrefab, missileTarget.transform.position, Quaternion.identity);
+            MissileCrosshair missileCrosshair = go.GetComponent<MissileCrosshair>();
+            missileCrosshair.target = missileTarget;
+        }
+        foreach (GameObject missileObject in GameObject.FindGameObjectsWithTag("PlayerMissile"))
+        {
+            PlayerMissile missile = missileObject.GetComponent<PlayerMissile>();
+            missile.target = target;
+        }
     }
 }

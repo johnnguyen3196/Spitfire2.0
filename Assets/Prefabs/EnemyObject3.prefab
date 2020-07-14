@@ -107,8 +107,8 @@ GameObject:
   - component: {fileID: 4691713169200685437}
   - component: {fileID: 1673450442327351411}
   m_Layer: 0
-  m_Name: EnemyPlaneObject3
-  m_TagString: Untagged
+  m_Name: EnemyObject3
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

@@ -33,10 +33,10 @@ public class game : MonoBehaviour
             UpdateCloudEverySecond();
         }
 
-        //spawn enemy at random time (3 - 5 seconds)
+        //spawn enemy at random time (2 - 4 seconds)
         if (Time.time >= enemyUpdate)
         {
-            int random = Random.Range(3, 6);
+            int random = Random.Range(2, 5);
             enemyUpdate = Mathf.FloorToInt(Time.time) + random;
             UpdateEnemyEverySecond();
         }
@@ -51,8 +51,7 @@ public class game : MonoBehaviour
     void UpdateEnemyEverySecond()
     {
         //random enemy type and position
-        //enemy = Random.Range(1, 6);
-        enemy = 4;
+        enemy = Random.Range(1, 6);
         Vector3 enemyPosition = Camera.main.ScreenToWorldPoint(new Vector3(Random.Range(0, Screen.width), Screen.height, Camera.main.farClipPlane / 2));
         enemyPosition.z = 0;
         switch (enemy)
