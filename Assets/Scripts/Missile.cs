@@ -7,7 +7,6 @@ public class Missile : MonoBehaviour
 {
     private float nextUpdate = .5f;
     public float speed;          // The speed our bullet travels
-    public Vector3 targetVector;    // the direction it travels
     public float lifetime = 10f;     // how long it lives before destroying itself
     public int damage = 20;       // how much damage this projectile causes
     public GameObject target;   // the player 
@@ -36,17 +35,11 @@ public class Missile : MonoBehaviour
             speed = 1f;
             //missile will continue in current direction if it overshoots the player
             float currentDistance = Vector3.Distance(gameObject.transform.position, target.gameObject.transform.position);
-            if (currentDistance <= distance)
+            if (currentDistance <= distance + .2f)
             {
                 rb.AddForce((target.transform.position - transform.position).normalized * speed);
                 transform.right = target.transform.position - transform.position;
 
-                //targetVector = gameObject.transform.position;
-                //if (targetvector != vector3.zero)
-                //{
-                //    float angle = mathf.atan2(targetvector.y, targetvector.x) * mathf.rad2deg;
-                //    transform.rotation = quaternion.angleaxis(angle, vector3.forward);
-                //}
                 distance = currentDistance;
             }
         }

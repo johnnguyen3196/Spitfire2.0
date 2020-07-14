@@ -158,8 +158,6 @@ public class EnemyPlane : MonoBehaviour
     {
         Vector3 missilePos = new Vector3(transform.position.x, transform.position.y - .8f, transform.position.z);
         GameObject go1 = Instantiate(missilePrefab, missilePos, Quaternion.identity);
-        Missile missile = go1.GetComponent<Missile>();
-        missile.targetVector = new Vector3(0, -1, 0);
     }
 
     private void Enemy5AttackPattern()

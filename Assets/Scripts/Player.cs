@@ -5,53 +5,106 @@ using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Security.Cryptography;
 using UnityEngine;
+using Random = UnityEngine.Random;
 using Debug = UnityEngine.Debug;
 
 public class Player : MonoBehaviour
 {
     private int nextUpdate = 1;
-    public GameObject bulletPrefab;
-    public GameObject powerUpPrefab;
+    public float speed;
+
     public int maxHealth = 100;
     public int currentHealth;
-    public HealthBar healthBar;
-    public Menu Menu;
     public int shootType;
+
+    public HealthBar healthBar;
+    public TeleportBar teleportBar;
+    public Menu Menu;
+
+    private float teleCoolDown = 0f;
+
+    public GameObject bulletPrefab;
+    public GameObject powerUpPrefab;
+    public GameObject playerMissilePrefab;
+    
+    public bool disableLeft;
+    public bool disableRight;
+    public bool disableUp;
+    public bool disableDown;
+    private Vector3 bottomLeft;
+    private Vector3 topRight;
+
     private string[] targetNames = new string[] { "EnemyObject1(Clone)", "EnemyObject1", "EnemyObject2(Clone)", "EnemyObject2", "EnemyObject3(Clone)", "EnemyObject3", "EnemyObject4(Clone)", "EnemyObject4", "EnemyObject5(Clone)", "EnemyObject5"};
+
+    public ParticleSystem teleportDust;
+    
     // Start is called before the first frame update
     void Start()
     {
+        speed = 5;
         shootType = 0;
         currentHealth = maxHealth;
         healthBar.SetMaxHealth(maxHealth);
         GameObject test = Instantiate(powerUpPrefab, new Vector3(0, 3, 0), Quaternion.identity);
         PowerUpScript powerUp = test.GetComponent<PowerUpScript>();
         powerUp.type = 3;
+        bottomLeft = Camera.main.ScreenToWorldPoint(new Vector3(0, 0 ,0));
+        topRight = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0));
     }
 
     // Update is called once per frame
     void Update()
     {
+        //Shooting updates
         if (Time.time >= nextUpdate)
         {
             nextUpdate = Mathf.FloorToInt(Time.time) + 1;
             UpdateEverySecond();
         }
 
-        if (Input.touchCount > 0)
+        //Teleport updates
+        if (Input.GetKeyDown("z") && teleCoolDown == 0)
         {
-
-            Touch touch = Input.GetTouch(0); // get first touch since touch count is greater than zero
-
-            if (touch.phase == TouchPhase.Stationary || touch.phase == TouchPhase.Moved)
-            {
-                // get the touch position from the screen touch to world point
-                Vector3 touchedPos = Camera.main.ScreenToWorldPoint(new Vector3(touch.position.x, touch.position.y, 10));
-                // lerp and set the position of the current object to that of the touch, but smoothly over time.
-                transform.position = Vector3.Lerp(transform.position, touchedPos, Time.deltaTime);
-            }
+            transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            teleCoolDown = 5f;
+            CreateDust();
         }
+        if(teleCoolDown > 0)
+        {
+            teleCoolDown -= Time.deltaTime;
+        } else
+        {
+            teleCoolDown = 0;
+        }
+
+        //Movement updates
+        float moveHorizontal = Input.GetAxis("Horizontal") * speed * Time.deltaTime;
+        float moveVertical = Input.GetAxis("Vertical") * speed * Time.deltaTime;
+        Vector3 movement = new Vector3(moveHorizontal, moveVertical, 0);
+        transform.Translate(movement);
+        float xPosition = transform.position.x;
+        float yPosition = transform.position.y;
+        if (xPosition < bottomLeft.x)
+        {
+            xPosition = bottomLeft.x;
+        }
+        if (xPosition > topRight.x)
+        {
+            xPosition = topRight.x;
+        }
+        if (yPosition < bottomLeft.y)
+        {
+            yPosition = bottomLeft.y;
+        }
+        if (yPosition > topRight.y)
+        {
+            yPosition = topRight.y;
+        }
+        transform.position = new Vector3(xPosition, yPosition, 0);
+
+        //UI updates
         healthBar.SetHealth(currentHealth);
+        teleportBar.SetTele(1 - Mathf.Lerp(0, 1, teleCoolDown / 5));
     }
 
     void UpdateEverySecond()
@@ -71,6 +124,7 @@ public class Player : MonoBehaviour
                 UpgradeTripleShot();
                 break;
         }
+        fireMissile();
     }
 
     public void Die()
@@ -177,5 +231,16 @@ public class Player : MonoBehaviour
         bullet1.targetNames = targetNames;
         bullet2.targetNames = targetNames;
         bullet3.targetNames = targetNames;
+    }
+
+    void fireMissile()
+    {
+        Vector3 middleMissilePos = new Vector3(transform.position.x, transform.position.y + .5f, transform.position.z);
+        GameObject go = Instantiate(playerMissilePrefab, middleMissilePos, Quaternion.identity);
+    }
+
+    void CreateDust()
+    {
+        teleportDust.Play();
     }
 }
