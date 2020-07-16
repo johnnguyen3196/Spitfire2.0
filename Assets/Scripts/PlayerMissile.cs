@@ -8,7 +8,7 @@ public class PlayerMissile : MonoBehaviour
 {
     public float speed;          // The speed our bullet travels
     public float lifetime = 10f;     // how long it lives before destroying itself
-    public int damage = 20;
+    public int damage;
     public GameObject target = null;
     private Player player;
     private Rigidbody2D rb;

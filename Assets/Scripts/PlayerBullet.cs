@@ -9,7 +9,6 @@ public class PlayerBullet : MonoBehaviour
     public float lifetime = 10f;     // how long it lives before destroying itself
     public int damage;       // how much damage this projectile causes
     public GameObject explosionPrefab;
-    public string[] targetNames;
     public Sprite upgradeBullet;
 
     // Start is called before the first frame update
@@ -39,7 +38,7 @@ public class PlayerBullet : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (System.Array.IndexOf(targetNames, collision.gameObject.name) > -1)
+        if (collision.gameObject.tag == "Enemy")
         {
             Destroy(gameObject);
             //Destroy(collision.gameObject);

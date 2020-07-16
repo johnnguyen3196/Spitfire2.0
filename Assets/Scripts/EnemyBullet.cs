@@ -6,7 +6,7 @@ public class EnemyBullet : MonoBehaviour
 {
     public int speed;          // The speed our bullet travels
     public Vector3 targetVector;    // the direction it travels
-    public int damage;       // how much damage this projectile causes
+    public float damage;       // how much damage this projectile causes
     public GameObject explosionPrefab;
 
     // Start is called before the first frame update
@@ -24,7 +24,7 @@ public class EnemyBullet : MonoBehaviour
         {
             Destroy(gameObject);
             Player player = collision.gameObject.GetComponent<Player>();
-            player.currentHealth -= damage;
+            player.TakeDamage(damage);
             if (player.currentHealth <= 0)
             {
                 player.Die();

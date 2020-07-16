@@ -104,6 +104,7 @@ MonoBehaviour:
   targetVector: {x: 0, y: 0, z: 0}
   explosionPrefab: {fileID: 2423041736348177234, guid: 0b86143daed4231458ba42146e3b88d5,
     type: 3}
+  player: {fileID: 0}
 --- !u!1 &3485562322546607243
 GameObject:
   m_ObjectHideFlags: 0

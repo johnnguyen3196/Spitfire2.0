@@ -10,21 +10,39 @@ using Debug = UnityEngine.Debug;
 
 public class Player : MonoBehaviour
 {
-    private int shootUpdate = 1;
-    private int missileUpdate = 2;
+    private int oneSecondUpdate = 1;
+
+    private float shootTimer = 0;
+    private float defaultShootUpdate = 1;
+    private float shootUpdate;
+    private float missileTimer = 0;
+    private float defaultMissileUpdate = 2;
+    private float missileUpdate = 2;
+    private float defaultSpeed = 5;
     public float speed;
 
     private GameObject missileTarget;
 
-    public int maxHealth = 100;
-    public int currentHealth;
+    public float maxHealth = 100;
+    public float currentHealth;
+    private float defaultMaxShieldHealth = 25;
+    public float maxShieldHealth;
+    public float currentShieldHealth;
     public int shootType;
+    public int stance;
 
     public HealthBar healthBar;
     public TeleportBar teleportBar;
+    public ShieldBar shieldBar;
+    public StanceUI stanceUI;
     public Menu Menu;
 
     private float teleCoolDown = 0f;
+    private float maxTeleCoolDown;
+    private float defaultMaxTeleCoolDown = 5f;
+    private float shieldCoolDown = 0f;
+    private float maxShieldCoolDown;
+    private float defaultMaxShieldCoolDown = 10f;
 
     public GameObject bulletPrefab;
     public GameObject powerUpPrefab;
@@ -38,42 +56,55 @@ public class Player : MonoBehaviour
     private Vector3 bottomLeft;
     private Vector3 topRight;
 
-    private string[] targetNames = new string[] { "EnemyObject1(Clone)", "EnemyObject1", "EnemyObject2(Clone)", "EnemyObject2", "EnemyObject3(Clone)", "EnemyObject3", "EnemyObject4(Clone)", "EnemyObject4", "EnemyObject5(Clone)", "EnemyObject5"};
+    //manual missile targeting on 1 sec cooldown
+    private bool manualTarget;
 
     public ParticleSystem teleportDust;
     
     // Start is called before the first frame update
     void Start()
     {
-        speed = 5;
         shootType = 0;
+        stance = 1;
+        SetStance(stance);
+        stanceUI.SelectAgility();
         currentHealth = maxHealth;
+        currentShieldHealth = maxShieldHealth;
         healthBar.SetMaxHealth(maxHealth);
+        shieldBar.SetMaxShield(maxShieldHealth);
         GameObject test = Instantiate(powerUpPrefab, new Vector3(0, 3, 0), Quaternion.identity);
         PowerUpScript powerUp = test.GetComponent<PowerUpScript>();
         powerUp.type = 3;
         bottomLeft = Camera.main.ScreenToWorldPoint(new Vector3(0, 0 ,0));
         topRight = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0));
+        manualTarget = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        //Shooting updates
-        if (Time.time >= shootUpdate)
+        //update every second
+        if(Time.time >= oneSecondUpdate)
         {
-            shootUpdate = Mathf.FloorToInt(Time.time) + 1;
+            oneSecondUpdate = Mathf.FloorToInt(Time.time) + 1;
+            manualTarget = false;
+        }
+
+        //Shooting updates
+        if (Time.time >= shootTimer)
+        {
+            shootTimer = Time.time + shootUpdate;
             ShootGun();
         }
 
-        if(Time.time >= missileUpdate)
+        if(Time.time >= missileTimer)
         {
-            missileUpdate = Mathf.FloorToInt(Time.time) + 2;
+            missileTimer = Time.time + missileUpdate;
             ShootMissile();
         }
 
         //Manual missile targeting updates
-        if (Input.GetKey("left shift") && Input.GetMouseButton(0))
+        if (Input.GetKey("left shift") && Input.GetMouseButton(0) && !manualTarget)
         {
             RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
             if (hit.collider != null)
@@ -90,13 +121,14 @@ public class Player : MonoBehaviour
                     SetMissileTarget(missileTarget);
                 }
             }
+            manualTarget = true;
         }
 
         //Teleport updates
         if (Input.GetKeyDown("z") && teleCoolDown == 0)
         {
             transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            teleCoolDown = 5f;
+            teleCoolDown = maxTeleCoolDown;
             CreateDust();
         }
         if(teleCoolDown > 0)
@@ -105,6 +137,62 @@ public class Player : MonoBehaviour
         } else
         {
             teleCoolDown = 0;
+        }
+
+        //Shield updates
+        if(shieldCoolDown > 0)
+        {
+            shieldCoolDown -= Time.deltaTime;
+        } else
+        {
+            if(currentShieldHealth != maxShieldHealth)
+            {
+                shieldCoolDown = 0;
+                //Recover 5 shield/second
+                currentShieldHealth += 5 * Time.deltaTime;
+                //edge case
+                if(currentShieldHealth > maxShieldHealth)
+                {
+                    currentShieldHealth = maxShieldHealth;
+                }
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            if(stance != 1)
+            {
+                stance = 1;
+                SetStance(stance);
+                stanceUI.SelectAgility();
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            if (stance != 2)
+            {
+                stance = 2;
+                SetStance(stance);
+                stanceUI.SelectGun();
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            if (stance != 3)
+            {
+                stance = 3;
+                SetStance(stance);
+                stanceUI.SelectMissile();
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            if (stance != 4)
+            {
+                stance = 4;
+                SetStance(stance);
+                stanceUI.SelectShield();
+            }
         }
 
         //Movement updates
@@ -134,6 +222,7 @@ public class Player : MonoBehaviour
 
         //UI updates
         healthBar.SetHealth(currentHealth);
+        shieldBar.SetShield(currentShieldHealth);
         teleportBar.SetTele(1 - Mathf.Lerp(0, 1, teleCoolDown / 5));
     }
 
@@ -181,8 +270,6 @@ public class Player : MonoBehaviour
         bullet2.speed = 200;
         bullet1.damage = 10;
         bullet2.damage = 10;
-        bullet1.targetNames = targetNames;
-        bullet2.targetNames = targetNames;
     }
 
     void TripleShot()
@@ -205,9 +292,6 @@ public class Player : MonoBehaviour
         bullet1.damage = 10;
         bullet2.damage = 10;
         bullet3.damage = 10;
-        bullet1.targetNames = targetNames;
-        bullet2.targetNames = targetNames;
-        bullet3.targetNames = targetNames;
     }
 
     void QuadShot()
@@ -236,10 +320,6 @@ public class Player : MonoBehaviour
         bullet2.damage = 10;
         bullet3.damage = 10;
         bullet4.damage = 10;
-        bullet1.targetNames = targetNames;
-        bullet2.targetNames = targetNames;
-        bullet3.targetNames = targetNames;
-        bullet4.targetNames = targetNames;
     }
 
     void UpgradeTripleShot()
@@ -262,15 +342,14 @@ public class Player : MonoBehaviour
         bullet1.damage = 10;
         bullet2.damage = 10;
         bullet3.damage = 30;
-        bullet1.targetNames = targetNames;
-        bullet2.targetNames = targetNames;
-        bullet3.targetNames = targetNames;
     }
 
     void FireMissile()
     {
         Vector3 middleMissilePos = new Vector3(transform.position.x, transform.position.y + .5f, transform.position.z);
         GameObject go = Instantiate(playerMissilePrefab, middleMissilePos, Quaternion.identity);
+        PlayerMissile playerMissile = go.GetComponent<PlayerMissile>();
+        playerMissile.damage = 10;
     }
 
     void CreateDust()
@@ -285,7 +364,6 @@ public class Player : MonoBehaviour
             missileTarget = GameObject.FindGameObjectWithTag("Enemy");
             if(missileTarget != null)
             {
-                Debug.Log("Adding crosshair to " + missileTarget.name);
                 GameObject go = Instantiate(missileCrosshairPrefab, missileTarget.transform.position, Quaternion.identity);
                 MissileCrosshair missileCrosshair = go.GetComponent<MissileCrosshair>();
                 missileCrosshair.target = missileTarget;
@@ -318,5 +396,85 @@ public class Player : MonoBehaviour
             PlayerMissile missile = missileObject.GetComponent<PlayerMissile>();
             missile.target = target;
         }
+    }
+
+    public void TakeDamage(float damage)
+    {
+        float leftover = damage;
+        if (currentShieldHealth > 0)
+        {
+            if(currentShieldHealth - damage < 0)
+            {
+                leftover = Math.Abs(currentShieldHealth - damage);
+                currentShieldHealth = 0;
+            } else
+            {
+                currentShieldHealth -= leftover;
+                leftover = 0;
+            }
+            //taking damage on shield resets recharge cooldown
+            shieldCoolDown = maxShieldCoolDown;
+        }
+        currentHealth -= leftover;
+    }
+
+    private void SetStance(int stance)
+    {
+        SetDefaultStats();
+        switch (stance)
+        {
+            case 1:
+                SetAgilityStance();
+                break;
+            case 2:
+                SetGunStance();
+                break;
+            case 3:
+                SetMissileStance();
+                break;
+            case 4:
+                SetShieldStance();
+                break;
+        }
+    }
+
+    private void SetDefaultStats()
+    {
+        speed = defaultSpeed;
+        maxTeleCoolDown = defaultMaxTeleCoolDown;
+        maxShieldHealth = defaultMaxShieldHealth;
+        maxShieldCoolDown = defaultMaxShieldCoolDown;
+        shieldBar.SetMaxValue(maxShieldHealth);
+        shootUpdate = defaultShootUpdate;
+        missileUpdate = defaultMissileUpdate;
+    }
+
+    //speed increased by 25%
+    //teleport cooldown lowered by 25%
+    private void SetAgilityStance()
+    {
+        speed += defaultSpeed * .25f;
+        maxTeleCoolDown -= defaultMaxTeleCoolDown * .25f;
+    }
+
+    //gun attackspeed increased by 25%
+    private void SetGunStance()
+    {
+        shootUpdate -= defaultShootUpdate * .25f;
+    }
+
+    //missile attackspeed increased by 50%
+    private void SetMissileStance()
+    {
+        missileUpdate -= defaultMissileUpdate * .5f;
+    }
+
+    //shield HP increased by 100%
+    //shield recharge delay decreased by 50%
+    private void SetShieldStance()
+    {
+        maxShieldHealth = defaultMaxShieldHealth * 2;
+        maxShieldCoolDown -= defaultMaxTeleCoolDown * .5f;
+        shieldBar.SetMaxValue(maxShieldHealth);
     }
 }
