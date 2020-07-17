@@ -12,6 +12,9 @@ public class game : MonoBehaviour
     public GameObject enemyPrefab3;
     public GameObject enemyPrefab4;
     public GameObject enemyPrefab5;
+    public GameObject enemyPrefab6;
+    public GameObject enemyPrefab7;
+    public GameObject enemyPrefab8;
     public GameObject cloudPrefab;
     private int enemyUpdate;
     private int cloudUpdate;
@@ -51,7 +54,8 @@ public class game : MonoBehaviour
     void UpdateEnemyEverySecond()
     {
         //random enemy type and position
-        enemy = Random.Range(1, 6);
+        //enemy = Random.Range(1, 9);
+        enemy = 8;
         Vector3 enemyPosition = Camera.main.ScreenToWorldPoint(new Vector3(Random.Range(0, Screen.width), Screen.height, Camera.main.farClipPlane / 2));
         enemyPosition.z = 0;
         switch (enemy)
@@ -80,6 +84,21 @@ public class game : MonoBehaviour
                 GameObject go5 = Instantiate(enemyPrefab5, enemyPosition, Quaternion.identity);
                 EnemyPlane temp5 = go5.GetComponent<EnemyPlane>();
                 temp5.type = 5;
+                break;
+            case 6:
+                GameObject go6 = Instantiate(enemyPrefab6, enemyPosition, Quaternion.identity);
+                EnemyPlane temp6 = go6.GetComponent<EnemyPlane>();
+                temp6.type = 6;
+                break;
+            case 7:
+                GameObject go7 = Instantiate(enemyPrefab7, enemyPosition, Quaternion.identity);
+                EnemyPlane temp7 = go7.GetComponent<EnemyPlane>();
+                temp7.type = 7;
+                break;
+            case 8:
+                GameObject go8 = Instantiate(enemyPrefab8, enemyPosition, Quaternion.identity);
+                EnemyPlane temp8 = go8.GetComponent<EnemyPlane>();
+                temp8.type = 8;
                 break;
         }
     }

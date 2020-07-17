@@ -8,6 +8,7 @@ public class EnemyBullet : MonoBehaviour
     public Vector3 targetVector;    // the direction it travels
     public float damage;       // how much damage this projectile causes
     public GameObject explosionPrefab;
+    public Sprite upgradeBullet;
 
     // Start is called before the first frame update
     void Start()
@@ -16,6 +17,10 @@ public class EnemyBullet : MonoBehaviour
         Rigidbody2D rb = gameObject.GetComponentInChildren<Rigidbody2D>();
         // add force 
         rb.AddForce(targetVector.normalized * speed);
+        if (damage > 10f)
+        {
+            gameObject.GetComponentInChildren<SpriteRenderer>().sprite = upgradeBullet;
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
