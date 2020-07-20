@@ -108,7 +108,7 @@ GameObject:
   - component: {fileID: 6939219258980323152}
   m_Layer: 8
   m_Name: PlayerBulletObject
-  m_TagString: Untagged
+  m_TagString: PlayerBullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -193,5 +193,4 @@ MonoBehaviour:
   damage: 10
   explosionPrefab: {fileID: 2423041736348177234, guid: 0b86143daed4231458ba42146e3b88d5,
     type: 3}
-  targetNames: []
   upgradeBullet: {fileID: 21300000, guid: e0869871ca9e9aa429b6f44bbe6655c4, type: 3}

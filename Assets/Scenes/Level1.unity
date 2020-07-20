@@ -516,6 +516,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 0
+  missileTarget: {fileID: 0}
   maxHealth: 100
   currentHealth: 0
   maxShieldHealth: 25
@@ -695,7 +696,11 @@ MonoBehaviour:
     type: 3}
   enemyPrefab7: {fileID: 5826956364054838915, guid: fd99343281859cf4696e2d3a8e626d44,
     type: 3}
+  enemyPrefab8: {fileID: 3063647177519949101, guid: 7fc85e582ce61304ebcbf93f402349ef,
+    type: 3}
   cloudPrefab: {fileID: 2887225732421820834, guid: ffdf28280a2b3d3498063a56426f7237,
+    type: 3}
+  bossPrefab: {fileID: 7573545205385313420, guid: 90ed25b3212e52f40bdaed6d34cecf3e,
     type: 3}
 --- !u!4 &443594165
 Transform:
@@ -6850,6 +6855,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Canvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 7809771418382704266, guid: 1ac77871d2f89c74ab953201b03766ba,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7809771418382704270, guid: 1ac77871d2f89c74ab953201b03766ba,
         type: 3}

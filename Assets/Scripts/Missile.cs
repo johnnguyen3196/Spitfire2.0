@@ -10,6 +10,7 @@ public class Missile : MonoBehaviour
     public float lifetime = 10f;     // how long it lives before destroying itself
     public float damage = 10;       // how much damage this projectile causes
     public GameObject target;   // the player 
+    public Vector3 targetVector;
     private Rigidbody2D rb;
     private float distance;     // distance between missile and player
     private float spawnTime;
@@ -21,7 +22,7 @@ public class Missile : MonoBehaviour
         distance = Vector3.Distance(gameObject.transform.position, target.gameObject.transform.position);
         speed = 100f;
         //missile will initially go straight until 0.5 seconds
-        rb.AddForce(new Vector3(0, -1, 0) * speed);
+        rb.AddForce(targetVector * speed);
         spawnTime = Time.time;
         transform.rotation = Quaternion.AngleAxis(-90, Vector3.forward);
     }

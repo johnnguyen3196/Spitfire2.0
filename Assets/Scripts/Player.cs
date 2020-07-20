@@ -21,7 +21,7 @@ public class Player : MonoBehaviour
     private float defaultSpeed = 5;
     public float speed;
 
-    private GameObject missileTarget;
+    public GameObject missileTarget;
 
     public float maxHealth = 100;
     public float currentHealth;
@@ -109,7 +109,7 @@ public class Player : MonoBehaviour
             RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
             if (hit.collider != null)
             {
-                if(hit.collider.name.Substring(0, 5) == "Enemy")
+                if(hit.collider.gameObject.tag == "Enemy" || hit.collider.gameObject.tag == "Boss")
                 {
                     //destroy previous crosshair
                     GameObject[] temp = GameObject.FindGameObjectsWithTag("MissileCrosshair");

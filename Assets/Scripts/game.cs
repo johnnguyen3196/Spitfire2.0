@@ -19,11 +19,14 @@ public class game : MonoBehaviour
     private int enemyUpdate;
     private int cloudUpdate;
     private int enemy;
+
+    public GameObject bossPrefab;
     // Start is called before the first frame update
     void Start()
     {
         enemyUpdate = Random.Range(3, 6);
         cloudUpdate = Random.Range(0, 3);
+        GameObject go1 = Instantiate(bossPrefab, new Vector3(0, 3, 0), Quaternion.identity);
     }
 
     // Update is called once per frame
@@ -37,12 +40,12 @@ public class game : MonoBehaviour
         }
 
         //spawn enemy at random time (2 - 4 seconds)
-        if (Time.time >= enemyUpdate)
-        {
-            int random = Random.Range(2, 5);
-            enemyUpdate = Mathf.FloorToInt(Time.time) + random;
-            UpdateEnemyEverySecond();
-        }
+        //if (Time.time >= enemyUpdate)
+        //{
+        //    int random = Random.Range(2, 5);
+        //    enemyUpdate = Mathf.FloorToInt(Time.time) + random;
+        //    UpdateEnemyEverySecond();
+        //}
     }
 
     void UpdateCloudEverySecond()

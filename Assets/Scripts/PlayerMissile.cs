@@ -48,7 +48,7 @@ public class PlayerMissile : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.name.Substring(0, 5) == "Enemy")
+        if (collision.gameObject.tag == "Enemy")
         {
             Destroy(gameObject);
             EnemyPlane enemy = collision.gameObject.GetComponent<EnemyPlane>();
