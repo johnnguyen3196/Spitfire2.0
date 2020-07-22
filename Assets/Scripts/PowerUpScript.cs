@@ -8,10 +8,17 @@ public class PowerUpScript : MonoBehaviour
     private int speed = 100;
     //TODO random or assignable type
     public int type;
-    public ShootTypeUI Menu;
+    public ShootTypeUI shootTypeMenu;
+    public ShootTypeUI missileTypeMenu;
+    public ShootTypeUI squadronTypeUI;
+
     public Sprite tripleShotSprite;
     public Sprite quadShotSprite;
     public Sprite upgradeTripleShotSprite;
+    public Sprite doubleMissileSprite;
+    public Sprite tripleMissileSprite;
+    public Sprite doubleSquadronSprite;
+    public Sprite tripleSquadronSprite;
     // Start is called before the first frame update
     void Start()
     {
@@ -26,13 +33,30 @@ public class PowerUpScript : MonoBehaviour
             case 3:
                 gameObject.GetComponent<SpriteRenderer>().sprite = upgradeTripleShotSprite;
                 break;
+            case -1:
+                gameObject.GetComponent<SpriteRenderer>().sprite = doubleMissileSprite;
+                break;
+            case -2:
+                gameObject.GetComponent<SpriteRenderer>().sprite = tripleMissileSprite;
+                break;
+            case 9002:
+                gameObject.GetComponent<SpriteRenderer>().sprite = doubleSquadronSprite;
+                transform.localScale = new Vector3(1, 1, 1);
+                break;
+            case 9003:
+                gameObject.GetComponent<SpriteRenderer>().sprite = tripleSquadronSprite;
+                transform.localScale = new Vector3(1, 1, 1);
+                break;
+
         }
         // find our RigidBody
         Rigidbody2D rb = gameObject.GetComponentInChildren<Rigidbody2D>();
         // add force 
         Vector3 targetVector = new Vector3(0, -1, 0);
         rb.AddForce(targetVector.normalized * speed);
-        Menu = GameObject.Find("ShootTypeUI").GetComponent<ShootTypeUI>();
+        shootTypeMenu = GameObject.Find("ShootTypeUI").GetComponent<ShootTypeUI>();
+        missileTypeMenu = GameObject.Find("MissileTypeUI").GetComponent<ShootTypeUI>();
+        squadronTypeUI = GameObject.Find("SquadronTypeUI").GetComponent<ShootTypeUI>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -41,9 +65,26 @@ public class PowerUpScript : MonoBehaviour
         {
             Destroy(gameObject);
             Player player = collision.gameObject.GetComponent<Player>();
-            player.shootType = type;
             Sprite sprite = gameObject.GetComponent<SpriteRenderer>().sprite;
-            Menu.ChangeShootSprite(sprite);
+            if (type > 0)
+            {
+                //squadron powerup
+                if(type > 9000)
+                {
+                    player.SetNumberOfSquadrons(type - 9000);
+                    squadronTypeUI.ChangeShootSprite(sprite);
+                } else
+                {
+                    //gun powerup
+                    player.shootType = type;
+                    shootTypeMenu.ChangeShootSprite(sprite);
+                }
+            } else
+            {
+                //missile powerup
+                player.missileType = Mathf.Abs(type);
+                missileTypeMenu.ChangeShootSprite(sprite);
+            }
         }
     }
 }

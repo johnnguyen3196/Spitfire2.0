@@ -97,10 +97,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 1
-  Menu: {fileID: 0}
+  shootTypeMenu: {fileID: 0}
+  missileTypeMenu: {fileID: 0}
+  squadronTypeUI: {fileID: 0}
   tripleShotSprite: {fileID: 21300000, guid: 06bc4ac577f9d1e4dbda42493b722fb8, type: 3}
   quadShotSprite: {fileID: 21300000, guid: 5385a27ff8fcf564ead1c282621b18d2, type: 3}
   upgradeTripleShotSprite: {fileID: 21300000, guid: 558afd24eaf2c8b47945c316cf761ecc,
+    type: 3}
+  doubleMissileSprite: {fileID: 21300000, guid: 49b337e65460e634f9bbc8f7352436fd,
+    type: 3}
+  tripleMissileSprite: {fileID: 21300000, guid: 5f238f77be3b0cf4f86051f4221fac6c,
+    type: 3}
+  doubleSquadronSprite: {fileID: 21300000, guid: c4e2113ee54465342bb022a5e4fec989,
+    type: 3}
+  tripleSquadronSprite: {fileID: 21300000, guid: 27dc9c9cabf2b5e409d87cdf89d78081,
     type: 3}
 --- !u!61 &4456121364389633451
 BoxCollider2D:

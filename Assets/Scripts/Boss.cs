@@ -30,6 +30,8 @@ public class Boss : MonoBehaviour
     private Vector3 bottomLeft;
     private Vector3 topRight;
 
+    private game game;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -42,6 +44,8 @@ public class Boss : MonoBehaviour
 
         Player player = GameObject.Find("plane").GetComponent<Player>();
         player.missileTarget = gameObject;
+
+        game = GameObject.Find("Game").GetComponent<game>();
 
         healthBarUI = Instantiate(UIPrefab);
         healthBar = healthBarUI.transform.GetChild(0).gameObject.transform.GetChild(0).gameObject.GetComponent<HealthBar>();
@@ -155,13 +159,14 @@ public class Boss : MonoBehaviour
                 }
                 break;
         }
-        if(currentHealth < 0)
+        if(currentHealth <= 0)
         {
             Destroy(gameObject);
             Destroy(healthBarUI);
             GameObject go = Instantiate(explosionPrefab, transform.position, Quaternion.identity);
             //BIG BOOM
             go.transform.localScale = new Vector3(7, 7, 1);
+            game.notifyKill(9001);
         }
     }
 }

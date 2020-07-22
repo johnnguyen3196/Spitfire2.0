@@ -29,6 +29,7 @@ public class Player : MonoBehaviour
     public float maxShieldHealth;
     public float currentShieldHealth;
     public int shootType;
+    public int missileType;
     public int stance;
 
     public HealthBar healthBar;
@@ -44,10 +45,13 @@ public class Player : MonoBehaviour
     private float maxShieldCoolDown;
     private float defaultMaxShieldCoolDown = 10f;
 
+    private GameObject[] squadrons = new GameObject[0];
+
     public GameObject bulletPrefab;
     public GameObject powerUpPrefab;
     public GameObject playerMissilePrefab;
     public GameObject missileCrosshairPrefab;
+    public GameObject squadronPrefab;
     
     public bool disableLeft;
     public bool disableRight;
@@ -65,19 +69,28 @@ public class Player : MonoBehaviour
     void Start()
     {
         shootType = 0;
+        missileType = 0;
+
         stance = 1;
         SetStance(stance);
         stanceUI.SelectAgility();
+
         currentHealth = maxHealth;
         currentShieldHealth = maxShieldHealth;
         healthBar.SetMaxHealth(maxHealth);
         shieldBar.SetMaxShield(maxShieldHealth);
-        GameObject test = Instantiate(powerUpPrefab, new Vector3(0, 3, 0), Quaternion.identity);
-        PowerUpScript powerUp = test.GetComponent<PowerUpScript>();
-        powerUp.type = 3;
+
         bottomLeft = Camera.main.ScreenToWorldPoint(new Vector3(0, 0 ,0));
         topRight = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0));
+
         manualTarget = false;
+
+        SetNumberOfSquadrons(1);
+
+        //temporary
+        GameObject test = Instantiate(powerUpPrefab, new Vector3(0, 3, 0), Quaternion.identity);
+        PowerUpScript powerUp = test.GetComponent<PowerUpScript>();
+        powerUp.type = 9003;
     }
 
     // Update is called once per frame
@@ -95,6 +108,7 @@ public class Player : MonoBehaviour
         {
             shootTimer = Time.time + shootUpdate;
             ShootGun();
+            ShootSquadronGun();
         }
 
         if(Time.time >= missileTimer)
@@ -245,14 +259,59 @@ public class Player : MonoBehaviour
         }
     }
 
+    void ShootSquadronGun()
+    {
+        for(int i = 0; i < squadrons.Length; i++)
+        {
+
+            Squadron squadron = squadrons[i].GetComponent<Squadron>();
+            squadron.Attack();
+        }
+    }
+
+    public void SetNumberOfSquadrons(int number)
+    {
+        //Reset current squadron
+        for(int i = 0; i < squadrons.Length; i++)
+        {
+            Destroy(squadrons[i]);
+        }
+
+        //Spawn number of planes around player
+        squadrons = new GameObject[number];
+        float angleOffset = (360 / number) * Mathf.PI / 180;
+        float angle = 0;
+        for(int i = 0; i < number; i++)
+        {
+            Vector3 squadronPos = new Vector3(Mathf.Sin(angle), Mathf.Cos(angle), 0);
+            squadrons[i] = Instantiate(squadronPrefab, transform.position + squadronPos, Quaternion.identity);
+            squadrons[i].transform.parent = transform;
+            Squadron squadron = squadrons[i].GetComponent<Squadron>();
+            squadron.angle = angle;
+            angle += angleOffset;
+        }
+    }
+
     void ShootMissile()
     {
-        FireMissile();
+        switch (missileType)
+        {
+            case 0:
+                SingleMissile();
+                break;
+            case 1:
+                DoubleMissile();
+                break;
+            case 2:
+                TripleMissile();
+                break;
+        }
+        
     }
 
     public void Die()
     {
-        Menu.GameOverMenu();
+        Menu.GameOverMenu("Wow, you suck");
     }
 
     //Default shooting type
@@ -344,12 +403,40 @@ public class Player : MonoBehaviour
         bullet3.damage = 30;
     }
 
-    void FireMissile()
+    void SingleMissile()
     {
         Vector3 middleMissilePos = new Vector3(transform.position.x, transform.position.y + .5f, transform.position.z);
         GameObject go = Instantiate(playerMissilePrefab, middleMissilePos, Quaternion.identity);
         PlayerMissile playerMissile = go.GetComponent<PlayerMissile>();
         playerMissile.damage = 10;
+    }
+
+    void DoubleMissile()
+    {
+        Vector3 leftMissilePos = new Vector3(transform.position.x - .3f, transform.position.y, transform.position.z);
+        Vector3 rightMissilePos = new Vector3(transform.position.x + .3f, transform.position.y, transform.position.z);
+        GameObject go1 = Instantiate(playerMissilePrefab, leftMissilePos, Quaternion.identity);
+        GameObject go2 = Instantiate(playerMissilePrefab, rightMissilePos, Quaternion.identity);
+        PlayerMissile playerMissile1 = go1.GetComponent<PlayerMissile>();
+        PlayerMissile playerMissile2 = go2.GetComponent<PlayerMissile>();
+        playerMissile1.damage = 10;
+        playerMissile2.damage = 10;
+    }
+
+    void TripleMissile()
+    {
+        Vector3 middleMissilePos = new Vector3(transform.position.x, transform.position.y + .5f, transform.position.z);
+        Vector3 leftMissilePos = new Vector3(transform.position.x - .3f, transform.position.y, transform.position.z);
+        Vector3 rightMissilePos = new Vector3(transform.position.x + .3f, transform.position.y, transform.position.z);
+        GameObject go = Instantiate(playerMissilePrefab, middleMissilePos, Quaternion.identity);
+        GameObject go1 = Instantiate(playerMissilePrefab, leftMissilePos, Quaternion.identity);
+        GameObject go2 = Instantiate(playerMissilePrefab, rightMissilePos, Quaternion.identity);
+        PlayerMissile playerMissile = go.GetComponent<PlayerMissile>();
+        PlayerMissile playerMissile1 = go1.GetComponent<PlayerMissile>();
+        PlayerMissile playerMissile2 = go2.GetComponent<PlayerMissile>();
+        playerMissile.damage = 10;
+        playerMissile1.damage = 10;
+        playerMissile2.damage = 10;
     }
 
     void CreateDust()

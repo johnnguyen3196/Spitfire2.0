@@ -4,12 +4,14 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Debug = UnityEngine.Debug;
+using TMPro;
 
 public class Menu : MonoBehaviour
 {
     public static bool GameIsPaused = false;
     public GameObject PauseMenuUI;
     public GameObject GameOverMenuUI;
+    public TextMeshProUGUI GameOverText;
 
     public void Resume()
     {
@@ -31,11 +33,12 @@ public class Menu : MonoBehaviour
         SceneManager.LoadScene(0);
     }
 
-    public void GameOverMenu()
+    public void GameOverMenu(string text)
     {
         GameOverMenuUI.SetActive(true);
         Time.timeScale = 0f;
         GameIsPaused = true;
+        GameOverText.text = text;
     }
 
     public void Retry()

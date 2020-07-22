@@ -7,16 +7,23 @@ using Debug = UnityEngine.Debug;
 public class EnemyPlane : MonoBehaviour
 {
     private int nextUpdate = 0;
+
     public GameObject bulletPrefab;
     public GameObject missilePrefab;
+    public GameObject explosionPrefab;
+    private game game;
+
     public float speed;
     public int attackSpeed;
     public int currentHealth;
     public int type;
     public Vector3 targetVector;
-    public GameObject explosionPrefab;
+    public int points;
+    
     public GameObject player;
+
     private Rigidbody2D rb;
+
     private bool rotate;
     //false left, true right
     private bool rotateDirection;
@@ -35,6 +42,8 @@ public class EnemyPlane : MonoBehaviour
         // find our RigidBody
         rb = gameObject.GetComponent<Rigidbody2D>();
 
+        game = GameObject.Find("Game").GetComponent<game>();
+
         switch (type)
         {
             case 1:
@@ -49,7 +58,7 @@ public class EnemyPlane : MonoBehaviour
                 currentHealth = 20;
                 break;
             case 3:
-                speed = 3f;
+                speed = 3.5f;
                 attackSpeed = 2;
                 currentHealth = 50;
                 //Same movement as Enemy1 (downwards)
@@ -87,7 +96,7 @@ public class EnemyPlane : MonoBehaviour
             case 6:
                 speed = 1f;
                 attackSpeed = 2;
-                currentHealth = 75;
+                currentHealth = 200;
                 //Same movement as Enemy1 (downwards)
                 Enemy1MovementPattern();
                 break;
@@ -151,6 +160,7 @@ public class EnemyPlane : MonoBehaviour
     {
         Destroy(gameObject);
         GameObject go1 = Instantiate(explosionPrefab, gameObject.transform.position, Quaternion.identity);
+        game.notifyKill(points);
     }
 
     private void Move()
@@ -184,10 +194,10 @@ public class EnemyPlane : MonoBehaviour
         Vector3 velocity;
         if(player.transform.position.x < gameObject.transform.position.x)
         {
-            velocity = new Vector3(-1 / 3, -1, 0).normalized * speed;
+            velocity = new Vector3(-.33f, -1, 0) * speed;
         } else
         {
-            velocity = new Vector3(1 / 3, -1, 0).normalized * speed;
+            velocity = new Vector3(.33f, -1, 0) * speed;
         }
         rb.velocity = velocity;
     }
@@ -383,10 +393,23 @@ public class EnemyPlane : MonoBehaviour
         EnemyBullet bullet3 = go3.GetComponent<EnemyBullet>();
         EnemyBullet bullet4 = go4.GetComponent<EnemyBullet>();
 
-        bullet1.targetVector = new Vector3(-1, 0, 0);
-        bullet2.targetVector = new Vector3(1, 0, 0);
-        bullet3.targetVector = new Vector3(0, -1, 0);
-        bullet4.targetVector = new Vector3(0, -1, 0);
+        if(player.transform.position.x <= transform.position.x)
+        {
+            bullet1.targetVector = (player.transform.position - transform.position).normalized;
+        } else
+        {
+            bullet1.targetVector = new Vector3(-1, 0, 0);
+        }
+        if (player.transform.position.x >= transform.position.x)
+        {
+            bullet2.targetVector = (player.transform.position - transform.position).normalized;
+        }
+        else
+        {
+            bullet2.targetVector = new Vector3(-1, 0, 0);
+        }
+        bullet3.targetVector = (player.transform.position - transform.position).normalized;
+        bullet4.targetVector = (player.transform.position - transform.position).normalized;
 
         bullet1.speed = 200;
         bullet2.speed = 200;
