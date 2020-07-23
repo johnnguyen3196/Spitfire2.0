@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2715635476376256223}
   - component: {fileID: 3973844343051311503}
   - component: {fileID: 4456474257919382547}
-  - component: {fileID: 4826817834713312562}
+  - component: {fileID: 4105005371467573729}
   m_Layer: 0
   m_Name: EnemyPlane6
   m_TagString: Enemy
@@ -85,7 +85,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.7, y: 0.48}
   m_EdgeRadius: 0
---- !u!114 &4826817834713312562
+--- !u!114 &4105005371467573729
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -94,21 +94,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 552413255056779480}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cc9cae9444be3f5418d02f7668d7bf17, type: 3}
+  m_Script: {fileID: 11500000, guid: e4b8809ccdb95634eae18bd6b5c3c4f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 7286234926941710631, guid: dc1fd357c5414b042a5df98559a5a202,
     type: 3}
-  missilePrefab: {fileID: 7053869835973322727, guid: 0c0bc4f4de32cdd4fbffdf29537a2675,
-    type: 3}
-  speed: 0
-  attackSpeed: 0
-  currentHealth: 0
-  type: 0
-  targetVector: {x: 0, y: 0, z: 0}
   explosionPrefab: {fileID: 2423041736348177234, guid: 0b86143daed4231458ba42146e3b88d5,
     type: 3}
-  player: {fileID: 0}
 --- !u!1 &2850574321316599545
 GameObject:
   m_ObjectHideFlags: 0

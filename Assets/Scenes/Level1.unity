@@ -387,6 +387,8 @@ MonoBehaviour:
     type: 3}
   enemyPrefab8: {fileID: 3063647177519949101, guid: 7fc85e582ce61304ebcbf93f402349ef,
     type: 3}
+  ju88Prefab: {fileID: 7907299870903984852, guid: 8ced5e96a2218374bb302a5470443d6e,
+    type: 3}
   cloudPrefab: {fileID: 2887225732421820834, guid: ffdf28280a2b3d3498063a56426f7237,
     type: 3}
   pointsUI: {fileID: 128370229}

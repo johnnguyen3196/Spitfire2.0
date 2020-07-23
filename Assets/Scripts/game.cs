@@ -15,6 +15,7 @@ public class game : MonoBehaviour
     public GameObject enemyPrefab6;
     public GameObject enemyPrefab7;
     public GameObject enemyPrefab8;
+    public GameObject ju88Prefab;
     public GameObject cloudPrefab;
     public PointsUI pointsUI;
     public Menu Menu;
@@ -24,7 +25,7 @@ public class game : MonoBehaviour
 
     private int enemy;
     private int[] enemyTypes;
-    private int[] enemyPoints = new int[] {0, 10, 20, 50, 30, 30, 50, 30, 30};
+    private int[] enemyPoints = new int[] {0, 10, 20, 50, 30, 30, 50, 20, 30, 40};
     private int spawnIndex = 0;
 
     private bool spawnBoss = false;
@@ -46,7 +47,8 @@ public class game : MonoBehaviour
         enemyTypes = new int[numberOfEnemies];
         for(int i = 0; i < numberOfEnemies; i++)
         {
-            enemyTypes[i] = Random.Range(1, 9);
+            //enemyTypes[i] = Random.Range(1, 10);
+            enemyTypes[i] = 9;
         }
         for(int i = 0; i < numberOfEnemies; i++)
         {
@@ -100,51 +102,30 @@ public class game : MonoBehaviour
         {
             case 1:
                 GameObject go1 = Instantiate(enemyPrefab1, enemyPosition, Quaternion.identity);
-                EnemyPlane temp1 = go1.GetComponent<EnemyPlane>();
-                temp1.type = 1;
-                temp1.points = enemyPoints[enemy];
                 break;
             case 2:
                 GameObject go2 = Instantiate(enemyPrefab2, enemyPosition, Quaternion.identity);
-                EnemyPlane temp2 = go2.GetComponent<EnemyPlane>();
-                temp2.type = 2;
-                temp2.points = enemyPoints[enemy];
                 break;
             case 3:
                 GameObject go3 = Instantiate(enemyPrefab3, enemyPosition, Quaternion.identity);
-                EnemyPlane temp3 = go3.GetComponent<EnemyPlane>();
-                temp3.type = 3;
-                temp3.points = enemyPoints[enemy];
                 break;
             case 4:
                 GameObject go4 = Instantiate(enemyPrefab4, enemyPosition, Quaternion.identity);
-                EnemyPlane temp4 = go4.GetComponent<EnemyPlane>();
-                temp4.type = 4;
-                temp4.points = enemyPoints[enemy];
                 break;
             case 5:
                 GameObject go5 = Instantiate(enemyPrefab5, enemyPosition, Quaternion.identity);
-                EnemyPlane temp5 = go5.GetComponent<EnemyPlane>();
-                temp5.type = 5;
-                temp5.points = enemyPoints[enemy];
                 break;
             case 6:
                 GameObject go6 = Instantiate(enemyPrefab6, enemyPosition, Quaternion.identity);
-                EnemyPlane temp6 = go6.GetComponent<EnemyPlane>();
-                temp6.type = 6;
-                temp6.points = enemyPoints[enemy];
                 break;
             case 7:
                 GameObject go7 = Instantiate(enemyPrefab7, enemyPosition, Quaternion.identity);
-                EnemyPlane temp7 = go7.GetComponent<EnemyPlane>();
-                temp7.type = 7;
-                temp7.points = enemyPoints[enemy];
                 break;
             case 8:
                 GameObject go8 = Instantiate(enemyPrefab8, enemyPosition, Quaternion.identity);
-                EnemyPlane temp8 = go8.GetComponent<EnemyPlane>();
-                temp8.type = 8;
-                temp8.points = enemyPoints[enemy];
+                break;
+            case 9:
+                GameObject go9 = Instantiate(ju88Prefab, enemyPosition, Quaternion.identity);
                 break;
         }
     }

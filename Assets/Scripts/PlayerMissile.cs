@@ -51,11 +51,10 @@ public class PlayerMissile : MonoBehaviour
         if (collision.gameObject.tag == "Enemy")
         {
             Destroy(gameObject);
-            EnemyPlane enemy = collision.gameObject.GetComponent<EnemyPlane>();
-            enemy.currentHealth -= damage;
-            if (enemy.currentHealth <= 0)
+            
+            EnemyInterface enemy = collision.gameObject.GetComponent<EnemyInterface>();
+            if (enemy.TakeDamage(damage) <= 0)
             {
-                player.ResetMissileTarget();
                 enemy.Die();
             }
         }

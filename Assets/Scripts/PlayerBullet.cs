@@ -41,12 +41,9 @@ public class PlayerBullet : MonoBehaviour
         if (collision.gameObject.tag == "Enemy")
         {
             Destroy(gameObject);
-            //Destroy(collision.gameObject);
-            //GameObject go1 = Instantiate(explosionPrefab, collision.gameObject.transform.position, Quaternion.identity);
-            //collision.gameObject.currentHealth -= damage;
-            EnemyPlane enemy = collision.gameObject.GetComponent<EnemyPlane>();
-            enemy.currentHealth -= damage;
-            if(enemy.currentHealth <= 0)
+            
+            EnemyInterface enemy = collision.gameObject.GetComponent<EnemyInterface>();
+            if(enemy.TakeDamage(damage) <= 0)
             {
                 enemy.Die();
             }

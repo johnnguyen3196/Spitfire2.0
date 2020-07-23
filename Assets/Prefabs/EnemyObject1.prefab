@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4202016485494414913}
   - component: {fileID: 6808976975444550023}
-  - component: {fileID: 5437678459085981957}
   - component: {fileID: 4628019863852149739}
+  - component: {fileID: 1695681699926289198}
   m_Layer: 0
   m_Name: EnemyObject1
   m_TagString: Enemy
@@ -60,30 +60,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.6, y: 0.6}
   m_EdgeRadius: 0
---- !u!114 &5437678459085981957
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 488738260302698405}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cc9cae9444be3f5418d02f7668d7bf17, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bulletPrefab: {fileID: 7286234926941710631, guid: dc1fd357c5414b042a5df98559a5a202,
-    type: 3}
-  missilePrefab: {fileID: 7053869835973322727, guid: 0c0bc4f4de32cdd4fbffdf29537a2675,
-    type: 3}
-  speed: 50
-  attackSpeed: 0
-  currentHealth: 0
-  type: 0
-  targetVector: {x: 0, y: 0, z: 0}
-  explosionPrefab: {fileID: 2423041736348177234, guid: 0b86143daed4231458ba42146e3b88d5,
-    type: 3}
-  player: {fileID: 0}
 --- !u!50 &4628019863852149739
 Rigidbody2D:
   serializedVersion: 4
@@ -105,6 +81,27 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &1695681699926289198
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 488738260302698405}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c418929192abc944b88c1e3ad7944c1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bulletPrefab: {fileID: 7286234926941710631, guid: dc1fd357c5414b042a5df98559a5a202,
+    type: 3}
+  explosionPrefab: {fileID: 2423041736348177234, guid: 0b86143daed4231458ba42146e3b88d5,
+    type: 3}
+  speed: 2.5
+  attackSpeed: 2
+  currentHealth: 20
+  targetVector: {x: 0, y: 0, z: 0}
+  points: 0
 --- !u!1 &3634491614340621833
 GameObject:
   m_ObjectHideFlags: 0
