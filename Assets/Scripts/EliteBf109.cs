@@ -21,6 +21,7 @@ public class EliteBf109 : MonoBehaviour, EnemyInterface
     private Vector3 targetVector;
     private int points;
 
+    private Animation anim;
     private Rigidbody2D rb;
     // Start is called before the first frame update
     void Start()
@@ -28,6 +29,8 @@ public class EliteBf109 : MonoBehaviour, EnemyInterface
         rb = gameObject.GetComponent<Rigidbody2D>();
 
         game = GameObject.Find("Game").GetComponent<game>();
+
+        anim = gameObject.GetComponent<Animation>();
 
         player = GameObject.Find("plane");
 
@@ -97,6 +100,7 @@ public class EliteBf109 : MonoBehaviour, EnemyInterface
     public int TakeDamage(int damage)
     {
         currentHealth -= damage;
+        anim.Play("EnemyDamageAnimation");
         return currentHealth;
     }
 

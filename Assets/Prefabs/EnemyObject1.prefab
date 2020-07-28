@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6808976975444550023}
   - component: {fileID: 4628019863852149739}
   - component: {fileID: 1695681699926289198}
+  - component: {fileID: 35435146292527578}
   m_Layer: 0
   m_Name: EnemyObject1
   m_TagString: Enemy
@@ -68,7 +69,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 488738260302698405}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -97,11 +98,22 @@ MonoBehaviour:
     type: 3}
   explosionPrefab: {fileID: 2423041736348177234, guid: 0b86143daed4231458ba42146e3b88d5,
     type: 3}
-  speed: 2.5
-  attackSpeed: 2
-  currentHealth: 20
-  targetVector: {x: 0, y: 0, z: 0}
-  points: 0
+--- !u!111 &35435146292527578
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 488738260302698405}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: 9202cf3fbb4a9c540af93e5d40e376bd, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: 9202cf3fbb4a9c540af93e5d40e376bd, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!1 &3634491614340621833
 GameObject:
   m_ObjectHideFlags: 0
@@ -174,7 +186,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 5f2d9dc7216b4374391c07a79b02ecbf, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.9528302, g: 0.9528302, b: 0.9528302, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

@@ -502,7 +502,11 @@ public class Player : MonoBehaviour
             //taking damage on shield resets recharge cooldown
             shieldCoolDown = maxShieldCoolDown;
         }
-        currentHealth -= leftover;
+        if(leftover > 0)
+        {
+            Menu.TakeDamage();
+            currentHealth -= leftover;
+        }
     }
 
     private void SetStance(int stance)

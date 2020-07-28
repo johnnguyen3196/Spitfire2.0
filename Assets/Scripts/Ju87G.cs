@@ -19,12 +19,16 @@ public class Ju87G : MonoBehaviour, EnemyInterface
     private int points;
 
     private Rigidbody2D rb;
+    private Animation anim;
+
     // Start is called before the first frame update
     void Start()
     {
         rb = gameObject.GetComponent<Rigidbody2D>();
 
         game = GameObject.Find("Game").GetComponent<game>();
+
+        anim = gameObject.GetComponent<Animation>();
 
         player = GameObject.Find("plane");
 
@@ -95,6 +99,7 @@ public class Ju87G : MonoBehaviour, EnemyInterface
     public int TakeDamage(int damage)
     {
         currentHealth -= damage;
+        anim.Play("EnemyDamageAnimation");
         return currentHealth;
     }
 

@@ -12,6 +12,7 @@ public class Menu : MonoBehaviour
     public GameObject PauseMenuUI;
     public GameObject GameOverMenuUI;
     public TextMeshProUGUI GameOverText;
+    public Animation damageAnimator;
 
     public void Resume()
     {
@@ -47,5 +48,10 @@ public class Menu : MonoBehaviour
         Time.timeScale = 1f;
         GameIsPaused = false;
         SceneManager.LoadScene(1);
+    }
+
+    public void TakeDamage()
+    {
+        damageAnimator.Play("TakeDamageAnimation");
     }
 }

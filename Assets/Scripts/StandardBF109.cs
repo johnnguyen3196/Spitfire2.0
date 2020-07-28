@@ -16,6 +16,7 @@ public class StandardBF109 : MonoBehaviour, EnemyInterface
     private Vector3 targetVector;
     private int points;
 
+    private Animation anim;
     private Rigidbody2D rb;
     // Start is called before the first frame update
     void Start()
@@ -24,6 +25,8 @@ public class StandardBF109 : MonoBehaviour, EnemyInterface
         rb.velocity = new Vector3(0, -1, 0) * speed;
 
         game = GameObject.Find("Game").GetComponent<game>();
+
+        anim = gameObject.GetComponent<Animation>();
 
         points = 10;
     }
@@ -62,6 +65,7 @@ public class StandardBF109 : MonoBehaviour, EnemyInterface
     public int TakeDamage(int damage)
     {
         currentHealth -= damage;
+        anim.Play("EnemyDamageAnimation");
         return currentHealth;
     }
 

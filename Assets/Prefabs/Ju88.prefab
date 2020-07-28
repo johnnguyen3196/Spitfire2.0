@@ -106,6 +106,7 @@ GameObject:
   - component: {fileID: 7973438883979029500}
   - component: {fileID: 3875891456565907844}
   - component: {fileID: 1164786098962090254}
+  - component: {fileID: 498676572953263998}
   m_Layer: 0
   m_Name: Ju88
   m_TagString: Enemy
@@ -136,7 +137,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7907299870903984852}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -191,3 +192,19 @@ MonoBehaviour:
     type: 3}
   explosionPrefab: {fileID: 2423041736348177234, guid: 0b86143daed4231458ba42146e3b88d5,
     type: 3}
+--- !u!111 &498676572953263998
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7907299870903984852}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: 9202cf3fbb4a9c540af93e5d40e376bd, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: 9202cf3fbb4a9c540af93e5d40e376bd, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_CullingType: 0

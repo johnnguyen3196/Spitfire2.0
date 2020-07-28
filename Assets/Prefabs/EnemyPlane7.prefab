@@ -42,6 +42,7 @@ GameObject:
   - component: {fileID: 695144384079032248}
   - component: {fileID: 9079109143700229856}
   - component: {fileID: -8861329718793230832}
+  - component: {fileID: 5673937326655273317}
   m_Layer: 0
   m_Name: EnemyPlane7
   m_TagString: Enemy
@@ -74,7 +75,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5826956364054838915}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -129,6 +130,22 @@ MonoBehaviour:
     type: 3}
   explosionPrefab: {fileID: 2423041736348177234, guid: 0b86143daed4231458ba42146e3b88d5,
     type: 3}
+--- !u!111 &5673937326655273317
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5826956364054838915}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: 9202cf3fbb4a9c540af93e5d40e376bd, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: 9202cf3fbb4a9c540af93e5d40e376bd, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!1 &7624547221476194897
 GameObject:
   m_ObjectHideFlags: 0

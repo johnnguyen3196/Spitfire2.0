@@ -20,6 +20,7 @@ public class Me163 : MonoBehaviour, EnemyInterface
     private int points;
 
     private Rigidbody2D rb;
+    private Animation anim;
 
     private bool rotate;
     //false left, true right
@@ -31,6 +32,8 @@ public class Me163 : MonoBehaviour, EnemyInterface
     void Start()
     {
         rb = gameObject.GetComponent<Rigidbody2D>();
+
+        anim = gameObject.GetComponent<Animation>();
 
         game = GameObject.Find("Game").GetComponent<game>();
 
@@ -138,6 +141,7 @@ public class Me163 : MonoBehaviour, EnemyInterface
     public int TakeDamage(int damage)
     {
         currentHealth -= damage;
+        anim.Play("EnemyDamageAnimation");
         return currentHealth;
     }
 
