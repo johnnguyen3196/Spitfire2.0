@@ -10,6 +10,13 @@ using Debug = UnityEngine.Debug;
 
 public class Player : MonoBehaviour
 {
+    public Sprite Spitfire;
+    public Sprite Mustang;
+
+    public int level;
+    public string saveName;
+    public int plane;
+
     private int oneSecondUpdate = 1;
 
     private float shootTimer = 0;
@@ -68,6 +75,20 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        PlayerData data = SaveSystem.LoadPlayer();
+        level = data.level;
+        saveName = data.saveName;
+
+        switch (data.plane)
+        {
+            case 0:
+                gameObject.GetComponent<SpriteRenderer>().sprite = Spitfire;
+                break;
+            case 1:
+                gameObject.GetComponent<SpriteRenderer>().sprite = Mustang;
+                break;
+        }
+
         shootType = 0;
         missileType = 0;
 
