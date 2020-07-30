@@ -26,6 +26,8 @@ public class Menu : MonoBehaviour
         PauseMenuUI.SetActive(true);
         Time.timeScale = 0f;
         GameIsPaused = true;
+
+        FindObjectOfType<AudioManager>().Play("Pause");
     }
 
     public void Quit()

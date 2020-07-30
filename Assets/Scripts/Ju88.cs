@@ -13,7 +13,7 @@ public class Ju88 : MonoBehaviour, EnemyInterface
 
     private float speed = 1f;
     private int attackSpeed = 3;
-    private int currentHealth = 100;
+    public int currentHealth;
     private Vector3 targetVector;
     private int points;
 
@@ -49,7 +49,7 @@ public class Ju88 : MonoBehaviour, EnemyInterface
         GameObject go = Instantiate(bombPrefab, transform.position, Quaternion.identity);
         Bomb bomb = go.GetComponent<Bomb>();
         bomb.targetVector = new Vector3(0, -1, 0);
-        bomb.lifetime = 3f;
+        bomb.lifetime = 2f;
         bomb.speed = 2f;
         // spawn 6 - 10 projectiles
         bomb.numberOfBullets = Random.Range(6, 11);
@@ -69,5 +69,7 @@ public class Ju88 : MonoBehaviour, EnemyInterface
         GameObject go1 = Instantiate(explosionPrefab, gameObject.transform.position, Quaternion.identity);
         go1.transform.localScale = new Vector3(3, 3, 1);
         game.notifyKill(points);
+
+        FindObjectOfType<AudioManager>().Play("Explosion");
     }
 }

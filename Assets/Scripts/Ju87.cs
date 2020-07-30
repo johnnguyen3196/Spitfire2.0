@@ -13,7 +13,7 @@ public class Ju87 : MonoBehaviour, EnemyInterface
 
     private float speed = 2f;
     private int attackSpeed = 1;
-    private int currentHealth = 30;
+    public int currentHealth;
 
     private Vector3 targetVector;
     private int points;
@@ -95,5 +95,7 @@ public class Ju87 : MonoBehaviour, EnemyInterface
         Destroy(gameObject);
         GameObject go1 = Instantiate(explosionPrefab, gameObject.transform.position, Quaternion.identity);
         game.notifyKill(points);
+
+        FindObjectOfType<AudioManager>().Play("Explosion");
     }
 }

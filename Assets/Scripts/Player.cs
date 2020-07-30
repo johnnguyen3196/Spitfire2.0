@@ -257,6 +257,7 @@ public class Player : MonoBehaviour
                 UpgradeTripleShot();
                 break;
         }
+        FindObjectOfType<AudioManager>().Play("Shoot");
     }
 
     void ShootSquadronGun()
@@ -306,7 +307,7 @@ public class Player : MonoBehaviour
                 TripleMissile();
                 break;
         }
-        
+        FindObjectOfType<AudioManager>().Play("Missile");
     }
 
     public void Die()
@@ -501,11 +502,14 @@ public class Player : MonoBehaviour
             }
             //taking damage on shield resets recharge cooldown
             shieldCoolDown = maxShieldCoolDown;
+
+            FindObjectOfType<AudioManager>().Play("ShieldDamage");
         }
         if(leftover > 0)
         {
             Menu.TakeDamage();
             currentHealth -= leftover;
+            FindObjectOfType<AudioManager>().Play("PlayerDamage");
         }
     }
 

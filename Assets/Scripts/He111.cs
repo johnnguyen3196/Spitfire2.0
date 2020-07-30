@@ -17,7 +17,7 @@ public class He111 : MonoBehaviour, EnemyInterface
     private int burstAmount = 0;
     private float burstInterval = 0.25f;
 
-    private int currentHealth = 150;
+    public int currentHealth;
     private Vector3 targetVector;
     private int points;
 
@@ -127,5 +127,7 @@ public class He111 : MonoBehaviour, EnemyInterface
         GameObject go1 = Instantiate(explosionPrefab, gameObject.transform.position, Quaternion.identity);
         go1.transform.localScale = new Vector3(3, 3, 1);
         game.notifyKill(points);
+
+        FindObjectOfType<AudioManager>().Play("Explosion");
     }
 }

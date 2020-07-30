@@ -102,6 +102,7 @@ MonoBehaviour:
     type: 3}
   explosionPrefab: {fileID: 2423041736348177234, guid: 0b86143daed4231458ba42146e3b88d5,
     type: 3}
+  currentHealth: 75
 --- !u!111 &6138372674600708936
 Animation:
   m_ObjectHideFlags: 0

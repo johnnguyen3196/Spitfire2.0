@@ -149,9 +149,10 @@ public class game : MonoBehaviour
                 if (staggeredIndex < enemySquadron[EnemiesSpawn[spawnIndex].squadronIndex].planes.Length)
                 {
                     Vector3 spawnPosition = Camera.main.ScreenToWorldPoint(new Vector3(Random.Range(0, Screen.width), Screen.height, Camera.main.farClipPlane / 2));
+                    spawnPosition.z = 0;
                     SpawnOneEnemy(enemySquadron[EnemiesSpawn[spawnIndex].squadronIndex].planes[staggeredIndex], spawnPosition);
                     staggeredIndex++;
-                    enemyUpdate += Time.time + .5f;
+                    enemyUpdate = Time.time + .5f;
                 } else
                 {
                     spawnIndex++;

@@ -17,7 +17,7 @@ public class EliteBf109 : MonoBehaviour, EnemyInterface
     private int burstAmount = 0;
     private float burstInterval = 0.5f;
 
-    private int currentHealth = 40;
+    public int currentHealth;
     private Vector3 targetVector;
     private int points;
 
@@ -109,5 +109,7 @@ public class EliteBf109 : MonoBehaviour, EnemyInterface
         Destroy(gameObject);
         GameObject go1 = Instantiate(explosionPrefab, gameObject.transform.position, Quaternion.identity);
         game.notifyKill(points);
+
+        FindObjectOfType<AudioManager>().Play("Explosion");
     }
 }

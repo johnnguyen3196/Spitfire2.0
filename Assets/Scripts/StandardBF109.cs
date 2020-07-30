@@ -12,7 +12,7 @@ public class StandardBF109 : MonoBehaviour, EnemyInterface
 
     private float speed = 2.5f;
     private int attackSpeed = 2;
-    private int currentHealth = 20;
+    public int currentHealth;
     private Vector3 targetVector;
     private int points;
 
@@ -74,5 +74,7 @@ public class StandardBF109 : MonoBehaviour, EnemyInterface
         Destroy(gameObject);
         GameObject go1 = Instantiate(explosionPrefab, gameObject.transform.position, Quaternion.identity);
         game.notifyKill(points);
+
+        FindObjectOfType<AudioManager>().Play("Explosion");
     }
 }

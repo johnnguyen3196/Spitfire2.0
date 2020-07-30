@@ -10,6 +10,9 @@ public class EnemyBullet : MonoBehaviour
     public GameObject explosionPrefab;
     public Sprite upgradeBullet;
 
+    private float lifetime = 5f;
+    private float spawntime;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -20,6 +23,16 @@ public class EnemyBullet : MonoBehaviour
         if (damage > 10f)
         {
             gameObject.GetComponentInChildren<SpriteRenderer>().sprite = upgradeBullet;
+        }
+
+        spawntime = Time.time;
+    }
+
+    void Update()
+    {
+        if(spawntime + lifetime < Time.time)
+        {
+            Destroy(gameObject);
         }
     }
 

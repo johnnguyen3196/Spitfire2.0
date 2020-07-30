@@ -12,7 +12,7 @@ public class Do217 : MonoBehaviour, EnemyInterface
 
     public float speed = 3.5f;
     public int attackSpeed = 2;
-    public int currentHealth = 50;
+    public int currentHealth;
     public Vector3 targetVector;
     private int points;
 
@@ -80,5 +80,7 @@ public class Do217 : MonoBehaviour, EnemyInterface
         Destroy(gameObject);
         GameObject go1 = Instantiate(explosionPrefab, gameObject.transform.position, Quaternion.identity);
         game.notifyKill(points);
+
+        FindObjectOfType<AudioManager>().Play("Explosion");
     }
 }

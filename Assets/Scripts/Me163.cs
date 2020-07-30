@@ -15,7 +15,7 @@ public class Me163 : MonoBehaviour, EnemyInterface
     private int attackSpeed = 2;
     private int burstAmount = 0;
     private float burstInterval = 0.25f;
-    private int currentHealth = 40;
+    public int currentHealth = 30;
     private Vector3 targetVector;
     private int points;
 
@@ -150,5 +150,7 @@ public class Me163 : MonoBehaviour, EnemyInterface
         Destroy(gameObject);
         GameObject go1 = Instantiate(explosionPrefab, gameObject.transform.position, Quaternion.identity);
         game.notifyKill(points);
+
+        FindObjectOfType<AudioManager>().Play("Explosion");
     }
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 
 
-public class Turret : MonoBehaviour
+public class Turret : MonoBehaviour, BossWeaponInterface
 {
     public GameObject bulletPrefab;
 
@@ -12,6 +12,8 @@ public class Turret : MonoBehaviour
     private float attackWindowUpdate = 0;
     private float attackSpeed;
     private float attackUpdate = 0;
+
+    private bool disabled = false;
 
     public GameObject player;
 
@@ -29,7 +31,7 @@ public class Turret : MonoBehaviour
             attackWindowUpdate = Mathf.FloorToInt(Time.time) + attackWindow;
         }
 
-        if(Time.time > attackUpdate)
+        if(Time.time > attackUpdate && !disabled)
         {
             Attack();
             attackUpdate = Time.time + attackSpeed;
@@ -42,21 +44,15 @@ public class Turret : MonoBehaviour
     void Attack()
     {
         Vector3 leftBulletPos = gameObject.transform.GetChild(1).gameObject.transform.position;
-        Vector3 rightBulletPos = gameObject.transform.GetChild(2).gameObject.transform.position;
 
         GameObject go1 = Instantiate(bulletPrefab, leftBulletPos, Quaternion.identity);
-        GameObject go2 = Instantiate(bulletPrefab, rightBulletPos, Quaternion.identity);
 
         EnemyBullet bullet1 = go1.GetComponent<EnemyBullet>();
-        EnemyBullet bullet2 = go2.GetComponent<EnemyBullet>();
 
         bullet1.targetVector = (player.transform.position - transform.position).normalized;
-        bullet2.targetVector = (player.transform.position - transform.position).normalized;
 
         bullet1.speed = 150;
-        bullet2.speed = 150;
         bullet1.damage = 10;
-        bullet2.damage = 10;
     }
 
     void SetAttackPattern()
@@ -72,5 +68,10 @@ public class Turret : MonoBehaviour
                 attackWindow = 2;
                 break;
         }
+    }
+
+    public void DisableWeapon()
+    {
+        disabled = true;
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class MissilePod : MonoBehaviour
+public class MissilePod : MonoBehaviour, BossWeaponInterface
 {
     public GameObject missilePrefab;
 
@@ -12,6 +12,8 @@ public class MissilePod : MonoBehaviour
     private int attackSpeed;
     private float attackUpdate;
     private Vector3[] directions = {new Vector3(0, -1, 0), new Vector3(0, 1, 0), new Vector3(-1, 0, 0), new Vector3(1, 0, 0)};
+
+    private bool disabled = false;
 
     // Start is called before the first frame update
     void Start()
@@ -23,7 +25,7 @@ public class MissilePod : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Time.time > attackUpdate)
+        if(Time.time > attackUpdate && !disabled)
         {
             attackSpeed = Random.Range(0, 6);
             attackUpdate = Mathf.FloorToInt(Time.time) + attackSpeed;
@@ -40,5 +42,10 @@ public class MissilePod : MonoBehaviour
             Missile missile = go.GetComponent<Missile>();
             missile.targetVector = directions[i];
         }
+    }
+
+    public void DisableWeapon()
+    {
+        disabled = true;
     }
 }

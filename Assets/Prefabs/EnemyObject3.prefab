@@ -194,7 +194,7 @@ MonoBehaviour:
     type: 3}
   speed: 3.5
   attackSpeed: 2
-  currentHealth: 50
+  currentHealth: 40
   targetVector: {x: 0, y: 0, z: 0}
 --- !u!111 &4121149178822703665
 Animation:
