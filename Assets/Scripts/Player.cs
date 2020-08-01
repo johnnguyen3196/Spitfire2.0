@@ -75,7 +75,7 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        PlayerData data = SaveSystem.LoadPlayer();
+        PlayerData data = SaveSystem.LoadPlayer(PlayerPrefs.GetString("saveName"));
         level = data.level;
         saveName = data.saveName;
 

@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
+    public GameObject LoadMenu;
+
     public void PlayGame()
     {
         SceneManager.LoadScene("PlayerCreation");
@@ -17,6 +19,7 @@ public class MainMenu : MonoBehaviour
 
     public void Continue()
     {
-        SceneManager.LoadScene("Level1");
+        LoadMenu.SetActive(true);
+        gameObject.SetActive(false);
     }
 }

@@ -8,6 +8,7 @@ public class PlayerData
     public int level;
     public string saveName;
     public int plane;
+    public int slot;
 
     public PlayerData(Player player)
     {

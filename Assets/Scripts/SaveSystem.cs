@@ -4,23 +4,28 @@ using UnityEngine;
 
 public static class SaveSystem
 {
-    public static void SavePlayer(Player player)
+    public static PlayerData SavePlayer(Player player, string saveName, int slot)
     {
         BinaryFormatter formatter = new BinaryFormatter();
-        string path = Application.persistentDataPath + "player.save";
+        string path = Application.persistentDataPath + "/" + saveName + ".save";
         UnityEngine.Debug.Log(path);
         FileStream stream = new FileStream(path, FileMode.Create);
 
         PlayerData data = new PlayerData(player);
+        if(slot != -1)
+        {
+            data.slot = slot;
+        }
 
         formatter.Serialize(stream, data);
         stream.Close();
+
+        return data;
     }
 
-    public static PlayerData LoadPlayer()
+    public static PlayerData LoadPlayer(string saveName)
     {
-        string path = Application.persistentDataPath + "/player.save";
-        UnityEngine.Debug.Log(path);
+        string path = Application.persistentDataPath + "/" + saveName + ".save";
         if (File.Exists(path))
         {
             BinaryFormatter formatter = new BinaryFormatter();

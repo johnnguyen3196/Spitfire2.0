@@ -6,22 +6,14 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
 
-public class PlayerCreation : MonoBehaviour
+public class LoadMenu : MonoBehaviour
 {
-    public InputField mainInputField;
-    public Button playButton;
-
-    public GameObject[] saveSlots;
-    public GameObject saveMenu;
-    public GameObject creationMenu;
-
-    private string saveName;
-    //0. Spitfire
-    //1. Mustang
-    private int plane = -1;
+    public GameObject MainMenu;
 
     public Sprite spitfire;
     public Sprite mustang;
+
+    public GameObject[] loadSlots;
 
     List<PlayerData> dataList;
 
@@ -46,7 +38,7 @@ public class PlayerCreation : MonoBehaviour
         //show previous save information
         foreach (PlayerData data in dataList)
         {
-            foreach (Transform t in saveSlots[data.slot].transform.GetChild(0))
+            foreach (Transform t in loadSlots[data.slot].transform.GetChild(0))
             {
                 if (t.name == "SaveName")
                 {
@@ -70,86 +62,60 @@ public class PlayerCreation : MonoBehaviour
                             break;
                     }
                 }
+                loadSlots[data.slot].GetComponentInChildren<Button>().interactable = true;
             }
         }
     }
 
-    public void Cancel()
+    public void LoadButton0()
     {
-        SceneManager.LoadScene("Menu");
-    }
-
-    public void Play()
-    {
-        Player player = new Player();
-        player.saveName = saveName;
-        player.plane = plane;
-        player.level = 1;
-
-        PlayerData data = SaveSystem.SavePlayer(player, saveName, slot);
-
+        string saveName = null;
+        foreach(PlayerData data in dataList)
+        {
+            if (data.slot == 0)
+            {
+                saveName = data.saveName;
+            }
+        }
         PlayerPrefs.SetString("saveName", saveName);
 
         SceneManager.LoadScene("Level1");
     }
 
-    public void PickSpitfire()
+    public void LoadButton1()
     {
-        plane = 0;
-        enablePlay(mainInputField.text);
-    }
-
-    public void PickMustang()
-    {
-        plane = 1;
-        enablePlay(mainInputField.text);
-    }
-
-    public void TextChange()
-    {
-        saveName = mainInputField.text;
-        enablePlay(saveName);
-    }
-
-    private void enablePlay(string text)
-    {
-        if(text.Length > 0 && plane != -1)
-        {
-            playButton.interactable = true;
-        }
-    }
-
-    public void SaveSlot0()
-    {
-        foreach (PlayerData data in dataList)
-        {
-            if(data.slot == 0)
-                File.Delete(Application.persistentDataPath + "/" + data.saveName + ".save");
-        }
-        saveMenu.SetActive(false);
-        creationMenu.SetActive(true);
-        slot = 0;
-    }
-    public void SaveSlot1()
-    {
+        string saveName = null;
         foreach (PlayerData data in dataList)
         {
             if (data.slot == 1)
-                File.Delete(Application.persistentDataPath + "/" + data.saveName + ".save");
+            {
+                saveName = data.saveName;
+            }
         }
-        saveMenu.SetActive(false);
-        creationMenu.SetActive(true);
-        slot = 1;
+        PlayerPrefs.SetString("saveName", saveName);
+
+        SceneManager.LoadScene("Level1");
     }
-    public void SaveSlot2()
+
+    public void LoadButton2()
     {
+        string saveName = null;
         foreach (PlayerData data in dataList)
         {
             if (data.slot == 2)
-                File.Delete(Application.persistentDataPath + "/" + data.saveName + ".save");
+            {
+                saveName = data.saveName;
+            }
         }
-        saveMenu.SetActive(false);
-        creationMenu.SetActive(true);
-        slot = 2;
+        PlayerPrefs.SetString("saveName", saveName);
+
+        SceneManager.LoadScene("Level1");
     }
+
+    public void Back()
+    {
+        MainMenu.SetActive(true);
+        gameObject.SetActive(false);
+    }
+
 }
