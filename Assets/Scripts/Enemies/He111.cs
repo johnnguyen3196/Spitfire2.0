@@ -129,5 +129,6 @@ public class He111 : MonoBehaviour, EnemyInterface
         game.notifyKill(points);
 
         FindObjectOfType<AudioManager>().Play("Explosion");
+        FindObjectOfType<DialogueManager>().CreateEnemyDeathText(go1);
     }
 }

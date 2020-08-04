@@ -203,6 +203,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Spitfire: {fileID: 21300000, guid: 55a869050f1fbb8408ceefbdf6fe473c, type: 3}
   Mustang: {fileID: 21300000, guid: 6e27dab93add48d4fb5bbe02fc7b64f6, type: 3}
+  level: 0
+  saveName: 
+  plane: 0
   speed: 0
   missileTarget: {fileID: 0}
   maxHealth: 100
@@ -219,13 +222,13 @@ MonoBehaviour:
   Menu: {fileID: 1534176}
   bulletPrefab: {fileID: 2225351258445128224, guid: 6976b68e4633c39429b348de669c3635,
     type: 3}
-  powerUpPrefab: {fileID: 5859999481855736143, guid: c661cffbbeaa7454f8003a5ccb051d75,
-    type: 3}
   playerMissilePrefab: {fileID: 4661026417565301114, guid: b4c9e5feabaae0f40aee6b1b41806c21,
     type: 3}
   missileCrosshairPrefab: {fileID: 5815532182276852166, guid: 40345d096895c4b418dbc5bf288e2e6c,
     type: 3}
   squadronPrefab: {fileID: 1457433820443334949, guid: 0a468ac01b7bf5143be24c0a71044b72,
+    type: 3}
+  powerUpPrefab: {fileID: 5859999481855736143, guid: c661cffbbeaa7454f8003a5ccb051d75,
     type: 3}
   disableLeft: 0
   disableRight: 0
@@ -291,11 +294,11 @@ Transform:
   m_GameObject: {fileID: 430101347}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -3.5, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 1}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1}
   m_Children:
   - {fileID: 1263621327}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &430101351
 BoxCollider2D:
@@ -411,7 +414,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &502020043 stripped
 MonoBehaviour:
@@ -572,7 +575,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1263621326
 GameObject:
@@ -5328,6 +5331,89 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
+--- !u!1 &1313312684
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1313312686}
+  - component: {fileID: 1313312685}
+  m_Layer: 0
+  m_Name: DialogueManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1313312685
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1313312684}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35612d69e7cee9e48a5e2cf73f8aa0be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textBubblePrefab: {fileID: 7525464343366497298, guid: 678c97a68aaef6c4292ee775aff37de3,
+    type: 3}
+  spawnText:
+  - strings:
+    - Die
+    - Please don't hurt me
+    - Oh shit its him
+  - strings:
+    - I got this
+    - Engaging
+  - strings:
+    - Intercepting
+    - Zoomin
+  - strings:
+    - Fox 2
+    - Firing missile
+  - strings:
+    - Can't catch me
+    - Gotta go fast
+  - strings:
+    - Help! Fighter on my tail
+    - You are going to regret this
+  - strings:
+    - Going on divebombing run
+  - strings:
+    - Eat these 37mm guns
+  - strings:
+    - Dropping payload
+    - Enemy to the rear!
+  deathText:
+  - AAAAAAAAAAHHHHHHH!!!!!
+  - Ow
+  - Oof
+  - Well..... shit
+  - Crap
+  - NOOOOOOOOOOOOOOO
+  - Theres a hole in my left wing!
+  - Going down!
+  - I forgot my parachute
+  - HAFHAJWKWAFHWFGW
+--- !u!4 &1313312686
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1313312684}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 831.4827, y: 399.97308, z: -111.224205}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1700182840 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5488508091083747675, guid: 1ac77871d2f89c74ab953201b03766ba,
@@ -5481,6 +5567,41 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3914642199891398247, guid: 1ac77871d2f89c74ab953201b03766ba,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5212062337271150251, guid: 1ac77871d2f89c74ab953201b03766ba,
+        type: 3}
+      propertyPath: m_fontColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5212062337271150251, guid: 1ac77871d2f89c74ab953201b03766ba,
+        type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4278190335
+      objectReference: {fileID: 0}
+    - target: {fileID: 5212062337271150251, guid: 1ac77871d2f89c74ab953201b03766ba,
+        type: 3}
+      propertyPath: m_textInfo.characterCount
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 5212062337271150251, guid: 1ac77871d2f89c74ab953201b03766ba,
+        type: 3}
+      propertyPath: m_textInfo.wordCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5212062337271150251, guid: 1ac77871d2f89c74ab953201b03766ba,
+        type: 3}
+      propertyPath: m_textInfo.lineCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5212062337271150251, guid: 1ac77871d2f89c74ab953201b03766ba,
+        type: 3}
+      propertyPath: m_textInfo.pageCount
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5488508091100124944, guid: 1ac77871d2f89c74ab953201b03766ba,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -5519,7 +5640,7 @@ PrefabInstance:
     - target: {fileID: 5488508091100124944, guid: 1ac77871d2f89c74ab953201b03766ba,
         type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5488508091100124944, guid: 1ac77871d2f89c74ab953201b03766ba,
         type: 3}
@@ -5619,6 +5740,31 @@ PrefabInstance:
     - target: {fileID: 5488508091859127865, guid: 1ac77871d2f89c74ab953201b03766ba,
         type: 3}
       propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5488508092225517540, guid: 1ac77871d2f89c74ab953201b03766ba,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7440978984581687713, guid: 1ac77871d2f89c74ab953201b03766ba,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7440978984581687713, guid: 1ac77871d2f89c74ab953201b03766ba,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 62.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7440978984581687713, guid: 1ac77871d2f89c74ab953201b03766ba,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7875073000984959982, guid: 1ac77871d2f89c74ab953201b03766ba,
+        type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

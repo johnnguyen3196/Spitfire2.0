@@ -2,21 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Me262 : MonoBehaviour, EnemyInterface
+public class Me163 : MonoBehaviour, EnemyInterface
 {
     private int nextUpdate = 0;
+    private float burstUpdate = 0;
 
-    public GameObject missilePrefab;
+    public GameObject bulletPrefab;
     public GameObject explosionPrefab;
     private game game;
 
-    private float speed = 3.5f;
-    private int attackSpeed = 3;
-    public int currentHealth;
+    private float speed = 4f;
+    private int attackSpeed = 2;
+    private int burstAmount = 0;
+    private float burstInterval = 0.25f;
+    public int currentHealth = 30;
     private Vector3 targetVector;
     private int points;
-
-    private GameObject player;
 
     private Rigidbody2D rb;
     private Animation anim;
@@ -27,7 +28,6 @@ public class Me262 : MonoBehaviour, EnemyInterface
 
     private Vector3 bottomLeft;
     private Vector3 topRight;
-
     // Start is called before the first frame update
     void Start()
     {
@@ -36,11 +36,6 @@ public class Me262 : MonoBehaviour, EnemyInterface
         anim = gameObject.GetComponent<Animation>();
 
         game = GameObject.Find("Game").GetComponent<game>();
-
-        player = GameObject.Find("plane");
-
-        bottomLeft = Camera.main.ScreenToWorldPoint(new Vector3(0, 0, 0));
-        topRight = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0));
 
         transform.rotation = Quaternion.AngleAxis(-90, Vector3.forward);
         rotate = true;
@@ -53,56 +48,80 @@ public class Me262 : MonoBehaviour, EnemyInterface
             rotateDirection = true;
         }
 
+        bottomLeft = Camera.main.ScreenToWorldPoint(new Vector3(0, 0, 0));
+        topRight = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0));
+
         points = 30;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Time.time >= nextUpdate)
+        if (nextUpdate <= Time.time)
         {
             nextUpdate = Mathf.FloorToInt(Time.time) + attackSpeed;
+            burstAmount = 0;
+        }
+        //Attack pattern
+        //Attack ---0.25secs--- Attack ---0.25secs---Attack ---0.25secs--- Attack ---1.25secs---
+        if (burstAmount < 4 && burstUpdate <= Time.time)
+        {
             Attack();
+            burstUpdate = Time.time + burstInterval;
+            burstAmount++;
         }
         Move();
     }
 
     void Attack()
     {
-        Vector3 missilePos = new Vector3(transform.position.x, transform.position.y - .8f, transform.position.z);
-        GameObject go1 = Instantiate(missilePrefab, missilePos, Quaternion.identity);
-        Missile missile = go1.GetComponent<Missile>();
-        missile.targetVector = new Vector3(0, -1, 0);
+        //Get the position(location of the two empty gameObjects) of where the bullet will spawn.
+        Vector3 leftBulletPos = gameObject.transform.GetChild(1).gameObject.transform.position;
+        Vector3 rightBulletPos = gameObject.transform.GetChild(2).gameObject.transform.position;
+
+        GameObject go1 = Instantiate(bulletPrefab, leftBulletPos, Quaternion.identity);
+        GameObject go2 = Instantiate(bulletPrefab, rightBulletPos, Quaternion.identity);
+
+        EnemyBullet bullet1 = go1.GetComponent<EnemyBullet>();
+        EnemyBullet bullet2 = go2.GetComponent<EnemyBullet>();
+
+        bullet1.targetVector = transform.right;
+        bullet2.targetVector = transform.right;
+
+        bullet1.speed = 250;
+        bullet2.speed = 250;
+        bullet1.damage = 10;
+        bullet2.damage = 10;
     }
 
-    private void Move()
+    void Move()
     {
         if (rotate)
         {
             //left
             if (!rotateDirection)
             {
-                //stop left rotation past 210 degrees
+                //stop left rotation past 195 degrees
                 if (transform.eulerAngles.z < 195)
                 {
                     rotate = false;
                 }
                 else
                 {
-                    transform.rotation = Quaternion.AngleAxis(transform.eulerAngles.z - .3f, Vector3.forward);
+                    transform.rotation = Quaternion.AngleAxis(transform.eulerAngles.z - .5f, Vector3.forward);
                 }
             }
             else
             {
                 //right
-                //stop right rotation past 330 degrees
+                //stop right rotation past 345 degrees
                 if (transform.eulerAngles.z > 345)
                 {
                     rotate = false;
                 }
                 else
                 {
-                    transform.rotation = Quaternion.AngleAxis(transform.eulerAngles.z + .3f, Vector3.forward);
+                    transform.rotation = Quaternion.AngleAxis(transform.eulerAngles.z + .5f, Vector3.forward);
                 }
             }
         }
@@ -133,5 +152,6 @@ public class Me262 : MonoBehaviour, EnemyInterface
         game.notifyKill(points);
 
         FindObjectOfType<AudioManager>().Play("Explosion");
+        FindObjectOfType<DialogueManager>().CreateEnemyDeathText(go1);
     }
 }

@@ -55,10 +55,12 @@ public class Player : MonoBehaviour
     private GameObject[] squadrons = new GameObject[0];
 
     public GameObject bulletPrefab;
-    public GameObject powerUpPrefab;
     public GameObject playerMissilePrefab;
     public GameObject missileCrosshairPrefab;
     public GameObject squadronPrefab;
+
+    //temp
+    public GameObject powerUpPrefab;
     
     public bool disableLeft;
     public bool disableRight;
@@ -109,9 +111,11 @@ public class Player : MonoBehaviour
         SetNumberOfSquadrons(1);
 
         //temporary
-        GameObject test = Instantiate(powerUpPrefab, new Vector3(0, 3, 0), Quaternion.identity);
+        GameObject test = Instantiate(powerUpPrefab);
         PowerUpScript powerUp = test.GetComponent<PowerUpScript>();
         powerUp.type = 9003;
+
+        FindObjectOfType<DialogueManager>().Create(gameObject, "Hello World");
     }
 
     // Update is called once per frame

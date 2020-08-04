@@ -13,6 +13,8 @@ public class Menu : MonoBehaviour
     public GameObject GameOverMenuUI;
     public TextMeshProUGUI GameOverText;
     public Animation damageAnimator;
+    public Animation spawnBossAnimator;
+    public GameObject WarningMenuUI;
 
     public void Resume()
     {
@@ -55,5 +57,20 @@ public class Menu : MonoBehaviour
     public void TakeDamage()
     {
         damageAnimator.Play("TakeDamageAnimation");
+    }
+
+    public void Warning()
+    {
+        if (!WarningMenuUI.activeSelf)
+        {
+            WarningMenuUI.SetActive(true);
+            spawnBossAnimator.Play("WarningAnimation");
+        }
+    }
+
+    public void StopWarning()
+    {
+        WarningMenuUI.SetActive(false);
+        spawnBossAnimator.Stop("WarningAnimation");
     }
 }

@@ -93,6 +93,7 @@ public class game : MonoBehaviour
     private bool spawnBoss = false;
     //edge case. Only spawn the boss once
     private bool bossSpawned = false;
+    private float bossSpawnTime;
 
     public int totalPoints;
     public int currentPoints = 0;
@@ -108,9 +109,10 @@ public class game : MonoBehaviour
         //create a list of enemy spawns that add up to atleast 3000 pts
         while(totalPoints > 0)
         {
-            int spawnSquadron = Random.Range(0, 2);
+            //spawn 1 enemy 70% of the time, squadron 30%
+            int spawnSquadron = Random.Range(0, 10);
             //spawn only 1 enemy
-            if(spawnSquadron == 0)
+            if(spawnSquadron < 7)
             {
                 int enemy = Random.Range(0, enemyPoints.Length);
                 EnemiesSpawn.Add(new SpawnType(false, 0, enemy));
@@ -126,8 +128,8 @@ public class game : MonoBehaviour
                 }
             }
         }
-        //Player only needs to score only 80% of the enemies spawned
-        totalPoints = 2000;
+        //Player only needs to score only 66% of the enemies spawned
+        totalPoints = 10;
         pointsUI.setPointsText(0, totalPoints);
     }
 
@@ -141,8 +143,19 @@ public class game : MonoBehaviour
             UpdateCloudEverySecond();
         }
 
-        //spawn enemy at random time(2 - 4 seconds)
-        if (Time.time >= enemyUpdate && !bossSpawned)
+        if (spawnBoss)
+        {
+            Menu.Warning();
+            if(bossSpawnTime + 6 < Time.time)
+            {
+                Instantiate(bossPrefab, new Vector3(0, 3, 0), Quaternion.identity);
+                spawnBoss = false;
+                bossSpawned = true;
+                Menu.StopWarning();
+            }
+        }
+
+        if (Time.time >= enemyUpdate && !spawnBoss && !bossSpawned)
         {
             if (staggeredSpawn)
             {
@@ -194,14 +207,6 @@ public class game : MonoBehaviour
                 }
             }
         }
-        
-
-        if (spawnBoss)
-        {
-            Instantiate(bossPrefab, new Vector3(0, 3, 0), Quaternion.identity);
-            spawnBoss = false;
-            bossSpawned = true;
-        }
     }
 
     void UpdateCloudEverySecond()
@@ -212,36 +217,38 @@ public class game : MonoBehaviour
 
     void SpawnOneEnemy(int enemy, Vector3 spawnPosition)
     {
+        GameObject go = null;
         switch (enemy)
         {
             case 0:
-                GameObject go1 = Instantiate(enemyPrefab1, spawnPosition, Quaternion.identity);
+                go = Instantiate(enemyPrefab1, spawnPosition, Quaternion.identity);
                 break;
             case 1:
-                GameObject go2 = Instantiate(enemyPrefab2, spawnPosition, Quaternion.identity);
+                go = Instantiate(enemyPrefab2, spawnPosition, Quaternion.identity);
                 break;
             case 2:
-                GameObject go3 = Instantiate(enemyPrefab3, spawnPosition, Quaternion.identity);
+                go = Instantiate(enemyPrefab3, spawnPosition, Quaternion.identity);
                 break;
             case 3:
-                GameObject go4 = Instantiate(enemyPrefab4, spawnPosition, Quaternion.identity);
+                go = Instantiate(enemyPrefab4, spawnPosition, Quaternion.identity);
                 break;
             case 4:
-                GameObject go5 = Instantiate(enemyPrefab5, spawnPosition, Quaternion.identity);
+                go = Instantiate(enemyPrefab5, spawnPosition, Quaternion.identity);
                 break;
             case 5:
-                GameObject go6 = Instantiate(enemyPrefab6, spawnPosition, Quaternion.identity);
+                go = Instantiate(enemyPrefab6, spawnPosition, Quaternion.identity);
                 break;
             case 6:
-                GameObject go7 = Instantiate(enemyPrefab7, spawnPosition, Quaternion.identity);
+                go = Instantiate(enemyPrefab7, spawnPosition, Quaternion.identity);
                 break;
             case 7:
-                GameObject go8 = Instantiate(enemyPrefab8, spawnPosition, Quaternion.identity);
+                go = Instantiate(enemyPrefab8, spawnPosition, Quaternion.identity);
                 break;
             case 8:
-                GameObject go9 = Instantiate(ju88Prefab, spawnPosition, Quaternion.identity);
+                go = Instantiate(ju88Prefab, spawnPosition, Quaternion.identity);
                 break;
         }
+        FindObjectOfType<DialogueManager>().CreateRandomSpawnEnemyText(go, enemy);
     }
 
     void SpawnSquadron(int squadron)
@@ -291,6 +298,7 @@ public class game : MonoBehaviour
         if(currentPoints >= totalPoints && !bossSpawned)
         {
             spawnBoss = true;
+            bossSpawnTime = Time.time;
         }
         pointsUI.setPointsText(currentPoints, totalPoints);
     }

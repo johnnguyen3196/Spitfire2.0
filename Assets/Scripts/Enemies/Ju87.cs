@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Ju87G : MonoBehaviour, EnemyInterface
+public class Ju87 : MonoBehaviour, EnemyInterface
 {
     private int nextUpdate = 0;
 
@@ -11,10 +11,10 @@ public class Ju87G : MonoBehaviour, EnemyInterface
     private game game;
     private GameObject player;
 
-    private float speed = 2.5f;
-    private int attackSpeed = 2;
-
+    private float speed = 2f;
+    private int attackSpeed = 1;
     public int currentHealth;
+
     private Vector3 targetVector;
     private int points;
 
@@ -26,13 +26,15 @@ public class Ju87G : MonoBehaviour, EnemyInterface
     {
         rb = gameObject.GetComponent<Rigidbody2D>();
 
-        game = GameObject.Find("Game").GetComponent<game>();
-
         anim = gameObject.GetComponent<Animation>();
+
+        rb.velocity = new Vector3(0, -1, 0) * speed;
+
+        game = GameObject.Find("Game").GetComponent<game>();
 
         player = GameObject.Find("plane");
 
-        points = 30;
+        points = 20;
     }
 
     // Update is called once per frame
@@ -43,13 +45,12 @@ public class Ju87G : MonoBehaviour, EnemyInterface
             nextUpdate = Mathf.FloorToInt(Time.time) + attackSpeed;
             Attack();
         }
-        Move();
     }
 
     void Attack()
     {
         //player is behind GameObject
-        if (player.transform.position.y > transform.position.y)
+        if (player.transform.position.y < transform.position.y)
         {
             attackSpeed = 1;
             GameObject go = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
@@ -72,28 +73,14 @@ public class Ju87G : MonoBehaviour, EnemyInterface
             EnemyBullet bullet1 = go1.GetComponent<EnemyBullet>();
             EnemyBullet bullet2 = go2.GetComponent<EnemyBullet>();
 
-            bullet1.targetVector = new Vector3(0, -1, 0);
-            bullet2.targetVector = new Vector3(0, -1, 0);
+            bullet1.targetVector = new Vector3(0, 1, 0);
+            bullet2.targetVector = new Vector3(0, 1, 0);
 
             bullet1.speed = 150;
             bullet2.speed = 150;
-            bullet1.damage = 30;
-            bullet2.damage = 30;
+            bullet1.damage = 10;
+            bullet2.damage = 10;
         }
-    }
-
-    void Move()
-    {
-        Vector3 velocity;
-        if (player.transform.position.x < gameObject.transform.position.x)
-        {
-            velocity = new Vector3(-.33f, -1, 0) * speed;
-        }
-        else
-        {
-            velocity = new Vector3(.33f, -1, 0) * speed;
-        }
-        rb.velocity = velocity;
     }
 
     public int TakeDamage(int damage)
@@ -110,5 +97,6 @@ public class Ju87G : MonoBehaviour, EnemyInterface
         game.notifyKill(points);
 
         FindObjectOfType<AudioManager>().Play("Explosion");
+        FindObjectOfType<DialogueManager>().CreateEnemyDeathText(go1);
     }
 }

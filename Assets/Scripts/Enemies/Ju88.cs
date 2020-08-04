@@ -71,5 +71,6 @@ public class Ju88 : MonoBehaviour, EnemyInterface
         game.notifyKill(points);
 
         FindObjectOfType<AudioManager>().Play("Explosion");
+        FindObjectOfType<DialogueManager>().CreateEnemyDeathText(go1);
     }
 }

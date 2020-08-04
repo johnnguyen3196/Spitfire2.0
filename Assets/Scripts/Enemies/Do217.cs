@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StandardBF109 : MonoBehaviour, EnemyInterface
+public class Do217 : MonoBehaviour, EnemyInterface
 {
     private int nextUpdate = 0;
 
@@ -10,10 +10,10 @@ public class StandardBF109 : MonoBehaviour, EnemyInterface
     public GameObject explosionPrefab;
     private game game;
 
-    private float speed = 2.5f;
-    private int attackSpeed = 2;
+    public float speed = 3.5f;
+    public int attackSpeed = 2;
     public int currentHealth;
-    private Vector3 targetVector;
+    public Vector3 targetVector;
     private int points;
 
     private Animation anim;
@@ -28,7 +28,7 @@ public class StandardBF109 : MonoBehaviour, EnemyInterface
 
         anim = gameObject.GetComponent<Animation>();
 
-        points = 10;
+        points = 50;
     }
 
     // Update is called once per frame
@@ -43,23 +43,29 @@ public class StandardBF109 : MonoBehaviour, EnemyInterface
 
     void Attack()
     {
-        Vector3 leftBulletPos = new Vector3(transform.position.x - 0.233f, transform.position.y - .65f, transform.position.z);
-        Vector3 rightBulletPos = new Vector3(transform.position.x + 0.233f, transform.position.y - .65f, transform.position.z);
+        Vector3 leftBulletPos = new Vector3(transform.position.x - 0.15f, transform.position.y - .65f, transform.position.z);
+        Vector3 rightBulletPos = new Vector3(transform.position.x + 0.15f, transform.position.y - .65f, transform.position.z);
+        Vector3 middleBulletPos = new Vector3(transform.position.x, transform.position.y - .75f, transform.position.z);
 
         GameObject go1 = Instantiate(bulletPrefab, leftBulletPos, Quaternion.identity);
         GameObject go2 = Instantiate(bulletPrefab, rightBulletPos, Quaternion.identity);
+        GameObject go3 = Instantiate(bulletPrefab, middleBulletPos, Quaternion.identity);
 
         EnemyBullet bullet1 = go1.GetComponent<EnemyBullet>();
         EnemyBullet bullet2 = go2.GetComponent<EnemyBullet>();
+        EnemyBullet bullet3 = go3.GetComponent<EnemyBullet>();
 
         bullet1.targetVector = new Vector3(0, -1, 0);
         bullet2.targetVector = new Vector3(0, -1, 0);
+        bullet3.targetVector = new Vector3(0, -1, 0);
 
-        bullet1.speed = 150;
-        bullet2.speed = 150;
+        bullet1.speed = 200;
+        bullet2.speed = 200;
+        bullet3.speed = 200;
 
         bullet1.damage = 10;
         bullet2.damage = 10;
+        bullet3.damage = 10;
     }
 
     public int TakeDamage(int damage)
@@ -76,5 +82,6 @@ public class StandardBF109 : MonoBehaviour, EnemyInterface
         game.notifyKill(points);
 
         FindObjectOfType<AudioManager>().Play("Explosion");
+        FindObjectOfType<DialogueManager>().CreateEnemyDeathText(go1);
     }
 }
