@@ -9,6 +9,7 @@ public class PlayerMissile : MonoBehaviour
     public float speed;          // The speed our bullet travels
     public float lifetime = 10f;     // how long it lives before destroying itself
     public int damage;
+    public Vector3 targetVector;
     public GameObject target = null;
     private Player player;
     private Rigidbody2D rb;
@@ -20,7 +21,11 @@ public class PlayerMissile : MonoBehaviour
         player = GameObject.Find("plane").GetComponent<Player>();
         speed = 100f;
         //missile will initially go straight until 0.5 seconds
-        rb.AddForce(new Vector3(0, 1, 0) * speed);
+        if(targetVector == null)
+        {
+            targetVector = new Vector3(0, 1, 0);
+        }
+        rb.AddForce(targetVector * speed);
         spawnTime = Time.time;
         transform.rotation = Quaternion.AngleAxis(90, Vector3.forward);
     }

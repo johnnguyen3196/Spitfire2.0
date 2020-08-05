@@ -37,6 +37,7 @@ public class Player : MonoBehaviour
     public float currentShieldHealth;
     public int shootType;
     public int missileType;
+    public int escortType;
     public int stance;
 
     public HealthBar healthBar;
@@ -91,8 +92,9 @@ public class Player : MonoBehaviour
                 break;
         }
 
-        shootType = 0;
-        missileType = 0;
+        shootType = data.shootType;
+        missileType = data.missileType;
+        SetNumberOfSquadrons(data.escortType);
 
         stance = 1;
         SetStance(stance);
@@ -107,8 +109,6 @@ public class Player : MonoBehaviour
         topRight = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0));
 
         manualTarget = false;
-
-        SetNumberOfSquadrons(1);
 
         //temporary
         GameObject test = Instantiate(powerUpPrefab);
@@ -297,6 +297,7 @@ public class Player : MonoBehaviour
 
     public void SetNumberOfSquadrons(int number)
     {
+        escortType = number;
         //Reset current squadron
         for(int i = 0; i < squadrons.Length; i++)
         {
@@ -330,6 +331,9 @@ public class Player : MonoBehaviour
                 break;
             case 2:
                 TripleMissile();
+                break;
+            case 3:
+                SwarmerMissile();
                 break;
         }
         FindObjectOfType<AudioManager>().Play("Missile");
@@ -463,6 +467,19 @@ public class Player : MonoBehaviour
         playerMissile.damage = 10;
         playerMissile1.damage = 10;
         playerMissile2.damage = 10;
+    }
+
+    void SwarmerMissile()
+    {
+        Vector3[] directions = { new Vector3(1, 0, 0), new Vector3(-1, 0, 0), new Vector3(0, 1, 0), new Vector3(0, -1, 0), new Vector3(1, 1, 0), new Vector3(-1, 1, 0), new Vector3(1, -1, 0), new Vector3(-1, -1, 0)};
+        foreach(Vector3 direction in directions)
+        {
+            GameObject go = Instantiate(playerMissilePrefab, gameObject.transform.position, Quaternion.identity);
+            PlayerMissile playerMissile = go.GetComponent<PlayerMissile>();
+            playerMissile.damage = 5;
+            playerMissile.targetVector = direction;
+            go.transform.localScale = new Vector3(1.5f, 1.5f, 0);
+        }
     }
 
     void CreateDust()

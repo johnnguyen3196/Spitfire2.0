@@ -85,12 +85,17 @@ public class PlayerCreation : MonoBehaviour
         player.saveName = saveName;
         player.plane = plane;
         player.level = 1;
+        player.shootType = 0;
+        player.missileType = 0;
+        player.escortType = 1;
 
         PlayerData data = SaveSystem.SavePlayer(player, saveName, slot);
 
         PlayerPrefs.SetString("saveName", saveName);
 
-        SceneManager.LoadScene("Level1");
+        //SceneManager.LoadScene("Level1");
+        //Temp
+        SceneManager.LoadScene("Upgrade");
     }
 
     public void PickSpitfire()
