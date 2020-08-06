@@ -98,6 +98,8 @@ public class game : MonoBehaviour
     public int totalPoints;
     public int currentPoints = 0;
 
+    private string[] enemyNames = { "BF109E", "BF109F", "Do217", "Me262", "Me163", "He111", "Ju87", "Ju87G", "Ju88" };
+
     
     // Start is called before the first frame update
     void Start()
@@ -292,6 +294,11 @@ public class game : MonoBehaviour
         if(points > 9000)
         {
             Menu.GameOverMenu("Mission Complete");
+            return;
+        } else if(points < 0)
+        {
+            //Player death
+            Menu.GameOverMenu("Wow, you suck");
             return;
         }
         currentPoints += points;

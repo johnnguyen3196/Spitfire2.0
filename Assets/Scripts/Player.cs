@@ -341,7 +341,8 @@ public class Player : MonoBehaviour
 
     public void Die()
     {
-        Menu.GameOverMenu("Wow, you suck");
+        GameObject.Find("Game").GetComponent<game>().notifyKill(-1);
+        //Menu.GameOverMenu("Wow, you suck");
     }
 
     //Default shooting type

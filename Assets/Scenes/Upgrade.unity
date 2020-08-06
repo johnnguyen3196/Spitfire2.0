@@ -435,7 +435,18 @@ MonoBehaviour:
   m_Group: {fileID: 0}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1783986800}
+        m_MethodName: QuadShotSelect
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_IsOn: 1
 --- !u!1 &132556184
 GameObject:
@@ -1796,7 +1807,18 @@ MonoBehaviour:
   m_Group: {fileID: 0}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1783986800}
+        m_MethodName: QuadEscortSelect
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_IsOn: 1
 --- !u!1 &507815249
 GameObject:
@@ -1931,11 +1953,11 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 0.38431376, g: 0.54901963, b: 0.77647066, a: 0.2627451}
-    m_HighlightedColor: {r: 0.38431376, g: 0.54901963, b: 0.77647066, a: 0.5019608}
-    m_PressedColor: {r: 0.38431376, g: 0.54901963, b: 0.77647066, a: 0.83137256}
-    m_SelectedColor: {r: 0.38431376, g: 0.54901963, b: 0.77647066, a: 1}
-    m_DisabledColor: {r: 0.38431376, g: 0.54901963, b: 0.77647066, a: 0.5019608}
+    m_NormalColor: {r: 0.18431373, g: 0.34509805, b: 0.5647059, a: 0.2627451}
+    m_HighlightedColor: {r: 0.18422927, g: 0.34458888, b: 0.5660378, a: 0.6862745}
+    m_PressedColor: {r: 0.18431373, g: 0.34509805, b: 0.5647059, a: 0.83137256}
+    m_SelectedColor: {r: 0.18431373, g: 0.34509805, b: 0.5647059, a: 1}
+    m_DisabledColor: {r: 0.18431373, g: 0.34509805, b: 0.5647059, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -1953,7 +1975,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 521867974}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1783986800}
+        m_MethodName: Upgrade
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &521867974
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2536,7 +2569,18 @@ MonoBehaviour:
   m_Group: {fileID: 0}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1783986800}
+        m_MethodName: TripleMissileSelect
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_IsOn: 1
 --- !u!1 &819509739
 GameObject:
@@ -2778,7 +2822,18 @@ MonoBehaviour:
   m_Group: {fileID: 0}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1783986800}
+        m_MethodName: UpgradeTripleShotSelect
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_IsOn: 1
 --- !u!1 &844637916
 GameObject:
@@ -2863,7 +2918,18 @@ MonoBehaviour:
   m_Group: {fileID: 0}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1783986800}
+        m_MethodName: TripleEscortSelect
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_IsOn: 1
 --- !u!1 &939904549
 GameObject:
@@ -4511,7 +4577,18 @@ MonoBehaviour:
   m_Group: {fileID: 0}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1783986800}
+        m_MethodName: SwarmerMissileSelect
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_IsOn: 1
 --- !u!1 &1349214655
 GameObject:
@@ -4764,7 +4841,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1353685865}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1783986800}
+        m_MethodName: Quit
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1353685865
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4969,7 +5057,18 @@ MonoBehaviour:
   m_Group: {fileID: 0}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1783986800}
+        m_MethodName: DoubleMissileSelect
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_IsOn: 1
 --- !u!1 &1422036919
 GameObject:
@@ -5431,7 +5530,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1632845521}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1783986800}
+        m_MethodName: Play
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1632845521
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5552,7 +5662,18 @@ MonoBehaviour:
   m_Group: {fileID: 0}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1783986800}
+        m_MethodName: DoubleEscortSelect
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_IsOn: 1
 --- !u!1 &1702318031
 GameObject:
@@ -6871,11 +6992,11 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 0.38431376, g: 0.54901963, b: 0.77647066, a: 0.2627451}
-    m_HighlightedColor: {r: 0.38431376, g: 0.54901963, b: 0.77647066, a: 0.5019608}
-    m_PressedColor: {r: 0.38431376, g: 0.54901963, b: 0.77647066, a: 0.83137256}
-    m_SelectedColor: {r: 0.38431376, g: 0.54901963, b: 0.77647066, a: 1}
-    m_DisabledColor: {r: 0.38431376, g: 0.54901963, b: 0.77647066, a: 0.5019608}
+    m_NormalColor: {r: 0.18431373, g: 0.34509805, b: 0.5647059, a: 0.2627451}
+    m_HighlightedColor: {r: 0.18431373, g: 0.34509805, b: 0.5647059, a: 0.5882353}
+    m_PressedColor: {r: 0.18431373, g: 0.34509805, b: 0.5647059, a: 0.83137256}
+    m_SelectedColor: {r: 0.18431373, g: 0.34509805, b: 0.5647059, a: 1}
+    m_DisabledColor: {r: 0.18431373, g: 0.34509805, b: 0.5647059, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -6893,7 +7014,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1982606543}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1783986800}
+        m_MethodName: Cancel
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1982606543
 MonoBehaviour:
   m_ObjectHideFlags: 0

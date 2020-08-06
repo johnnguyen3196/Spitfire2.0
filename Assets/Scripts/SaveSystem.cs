@@ -8,11 +8,10 @@ public static class SaveSystem
     {
         BinaryFormatter formatter = new BinaryFormatter();
         string path = Application.persistentDataPath + "/" + saveName + ".save";
-        UnityEngine.Debug.Log(path);
         FileStream stream = new FileStream(path, FileMode.Create);
 
         PlayerData data = new PlayerData(player);
-        if(slot != -1)
+        if (slot != -1)
         {
             data.slot = slot;
         }
@@ -21,6 +20,18 @@ public static class SaveSystem
         stream.Close();
 
         return data;
+    }
+
+    //Takes in PlayerData class instead of Player class
+    //Used to modify save game data in Upgrade scene
+    public static void SavePlayerData(PlayerData player)
+    {
+        BinaryFormatter formatter = new BinaryFormatter();
+        string path = Application.persistentDataPath + "/" + player.saveName + ".save";
+        FileStream stream = new FileStream(path, FileMode.Create);
+
+        formatter.Serialize(stream, player);
+        stream.Close();
     }
 
     public static PlayerData LoadPlayer(string saveName)
