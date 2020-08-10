@@ -21,6 +21,7 @@ public class game : MonoBehaviour
 
     public PointsUI pointsUI;
     public Menu Menu;
+    public Scoreboard scoreboard;
 
     private float enemyUpdate;
     private int cloudUpdate;
@@ -131,7 +132,7 @@ public class game : MonoBehaviour
             }
         }
         //Player only needs to score only 66% of the enemies spawned
-        totalPoints = 10;
+        totalPoints = 1000;
         pointsUI.setPointsText(0, totalPoints);
     }
 
@@ -288,12 +289,13 @@ public class game : MonoBehaviour
 
     }
 
-    public void notifyKill(int points)
+    public void notifyKill(int points, string name)
     {
         //ITS OVER 9000!!!!
         if(points > 9000)
         {
-            Menu.GameOverMenu("Mission Complete");
+            Menu.GameOverMenu("Mission Complete"); 
+            scoreboard.UpdateList(name, 500);
             return;
         } else if(points < 0)
         {
@@ -308,5 +310,6 @@ public class game : MonoBehaviour
             bossSpawnTime = Time.time;
         }
         pointsUI.setPointsText(currentPoints, totalPoints);
+        scoreboard.UpdateList(name, points);
     }
 }

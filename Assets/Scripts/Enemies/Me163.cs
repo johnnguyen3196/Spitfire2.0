@@ -149,7 +149,7 @@ public class Me163 : MonoBehaviour, EnemyInterface
     {
         Destroy(gameObject);
         GameObject go1 = Instantiate(explosionPrefab, gameObject.transform.position, Quaternion.identity);
-        game.notifyKill(points);
+        game.notifyKill(points, "Me163");
 
         FindObjectOfType<AudioManager>().Play("Explosion");
         FindObjectOfType<DialogueManager>().CreateEnemyDeathText(go1);

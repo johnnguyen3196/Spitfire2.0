@@ -15,6 +15,7 @@ public class Menu : MonoBehaviour
     public Animation damageAnimator;
     public Animation spawnBossAnimator;
     public GameObject WarningMenuUI;
+    public Scoreboard scoreboard;
 
     public void Resume()
     {
@@ -44,6 +45,7 @@ public class Menu : MonoBehaviour
         Time.timeScale = 0f;
         GameIsPaused = true;
         GameOverText.text = text;
+        scoreboard.DisplayScoreboard();
     }
 
     public void Retry()

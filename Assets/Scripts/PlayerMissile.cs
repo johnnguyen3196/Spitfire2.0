@@ -21,10 +21,11 @@ public class PlayerMissile : MonoBehaviour
         player = GameObject.Find("plane").GetComponent<Player>();
         speed = 100f;
         //missile will initially go straight until 0.5 seconds
-        if(targetVector == null)
+        if(targetVector == Vector3.zero)
         {
             targetVector = new Vector3(0, 1, 0);
         }
+        transform.right = targetVector;
         rb.AddForce(targetVector * speed);
         spawnTime = Time.time;
         transform.rotation = Quaternion.AngleAxis(90, Vector3.forward);

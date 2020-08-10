@@ -12,6 +12,7 @@ public class PowerUpScript : MonoBehaviour
     public Sprite tripleShotSprite;
     public Sprite quadShotSprite;
     public Sprite upgradeTripleShotSprite;
+    public Sprite AutoCannonSprite;
 
     public Sprite doubleMissileSprite;
     public Sprite tripleMissileSprite;
@@ -33,6 +34,9 @@ public class PowerUpScript : MonoBehaviour
                 break;
             case 3:
                 gameObject.GetComponent<SpriteRenderer>().sprite = upgradeTripleShotSprite;
+                break;
+            case 4:
+                gameObject.GetComponent<SpriteRenderer>().sprite = AutoCannonSprite;
                 break;
             case -1:
                 gameObject.GetComponent<SpriteRenderer>().sprite = doubleMissileSprite;

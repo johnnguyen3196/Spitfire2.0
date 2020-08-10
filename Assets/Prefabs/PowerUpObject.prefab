@@ -101,6 +101,7 @@ MonoBehaviour:
   quadShotSprite: {fileID: 21300000, guid: 5385a27ff8fcf564ead1c282621b18d2, type: 3}
   upgradeTripleShotSprite: {fileID: 21300000, guid: 558afd24eaf2c8b47945c316cf761ecc,
     type: 3}
+  AutoCannonSprite: {fileID: 21300000, guid: 24cc0ca351430d947a5aaa27daccb437, type: 3}
   doubleMissileSprite: {fileID: 21300000, guid: 49b337e65460e634f9bbc8f7352436fd,
     type: 3}
   tripleMissileSprite: {fileID: 21300000, guid: 5f238f77be3b0cf4f86051f4221fac6c,

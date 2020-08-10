@@ -135,7 +135,7 @@ public class Boss : MonoBehaviour
             GameObject go = Instantiate(explosionPrefab, transform.position, Quaternion.identity);
             //BIG BOOM
             go.transform.localScale = new Vector3(7, 7, 1);
-            game.notifyKill(9001);
+            game.notifyKill(9001, "BV228");
         }
     }
 

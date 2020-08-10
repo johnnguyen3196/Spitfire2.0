@@ -113,7 +113,7 @@ public class Player : MonoBehaviour
         //temporary
         GameObject test = Instantiate(powerUpPrefab);
         PowerUpScript powerUp = test.GetComponent<PowerUpScript>();
-        powerUp.type = 9003;
+        powerUp.type = 4;
 
         FindObjectOfType<DialogueManager>().Create(gameObject, "Hello World");
     }
@@ -281,6 +281,12 @@ public class Player : MonoBehaviour
             case 3:
                 UpgradeTripleShot();
                 break;
+            case 4:
+                AutoCannonShot();
+                //TODO have powerup modify this value somewhere else
+                shootUpdate = .25f;
+                defaultShootUpdate = .25f;
+                break;
         }
         FindObjectOfType<AudioManager>().Play("Shoot");
     }
@@ -341,7 +347,7 @@ public class Player : MonoBehaviour
 
     public void Die()
     {
-        GameObject.Find("Game").GetComponent<game>().notifyKill(-1);
+        GameObject.Find("Game").GetComponent<game>().notifyKill(-1, "");
         //Menu.GameOverMenu("Wow, you suck");
     }
 
@@ -432,6 +438,16 @@ public class Player : MonoBehaviour
         bullet1.damage = 10;
         bullet2.damage = 10;
         bullet3.damage = 30;
+    }
+
+    void AutoCannonShot()
+    {
+        Vector3[] positions = { new Vector3(transform.position.x - .1f, transform.position.y + 0.5f, 0), new Vector3(transform.position.x, transform.position.y + 0.5f, 0), new Vector3(transform.position.x + .1f, transform.position.y + 0.5f, 0) };
+        GameObject go = Instantiate(bulletPrefab, positions[Random.Range(0, positions.Length)], Quaternion.identity);
+        PlayerBullet bullet1 = go.GetComponent<PlayerBullet>();
+        bullet1.targetVector = new Vector3(0, 1, 0);
+        bullet1.speed = 200;
+        bullet1.damage = 10;
     }
 
     void SingleMissile()

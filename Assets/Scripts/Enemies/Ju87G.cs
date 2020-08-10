@@ -107,7 +107,7 @@ public class Ju87G : MonoBehaviour, EnemyInterface
     {
         Destroy(gameObject);
         GameObject go1 = Instantiate(explosionPrefab, gameObject.transform.position, Quaternion.identity);
-        game.notifyKill(points);
+        game.notifyKill(points, "Ju87G");
 
         FindObjectOfType<AudioManager>().Play("Explosion");
         FindObjectOfType<DialogueManager>().CreateEnemyDeathText(go1);

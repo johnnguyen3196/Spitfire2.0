@@ -68,7 +68,7 @@ public class Ju88 : MonoBehaviour, EnemyInterface
         Destroy(gameObject);
         GameObject go1 = Instantiate(explosionPrefab, gameObject.transform.position, Quaternion.identity);
         go1.transform.localScale = new Vector3(3, 3, 1);
-        game.notifyKill(points);
+        game.notifyKill(points, "Ju88");
 
         FindObjectOfType<AudioManager>().Play("Explosion");
         FindObjectOfType<DialogueManager>().CreateEnemyDeathText(go1);
