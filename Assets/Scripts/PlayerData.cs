@@ -13,7 +13,11 @@ public class PlayerData
     public int missileType;
     public int escortType;
 
-    public int points = 1000;
+    public List<int> researchedGunUpgrades;
+    public List<int> researchedMissileUpgrades;
+    public List<int> researchedEscortUpgrades;
+
+    public int points = 3000;
 
     public int slot;
 
@@ -26,5 +30,10 @@ public class PlayerData
         shootType = player.shootType;
         missileType = player.missileType;
         escortType = player.escortType;
+    }
+
+    public PlayerData()
+    {
+
     }
 }

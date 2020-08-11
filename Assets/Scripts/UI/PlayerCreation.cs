@@ -81,15 +81,21 @@ public class PlayerCreation : MonoBehaviour
 
     public void Play()
     {
-        Player player = new Player();
-        player.saveName = saveName;
-        player.plane = plane;
-        player.level = 1;
-        player.shootType = 0;
-        player.missileType = 0;
-        player.escortType = 1;
-
-        PlayerData data = SaveSystem.SavePlayer(player, saveName, slot);
+        PlayerData data = new PlayerData();
+        data.saveName = saveName;
+        data.plane = plane;
+        data.level = 1;
+        data.shootType = 0;
+        data.missileType = 1;
+        data.escortType = 1;
+        data.researchedGunUpgrades = new List<int>();
+        data.researchedGunUpgrades.Add(0);
+        data.researchedMissileUpgrades = new List<int>();
+        data.researchedMissileUpgrades.Add(0);
+        data.researchedEscortUpgrades = new List<int>();
+        data.researchedEscortUpgrades.Add(0);
+        data.slot = slot;
+        SaveSystem.SavePlayerData(data);
 
         PlayerPrefs.SetString("saveName", saveName);
 

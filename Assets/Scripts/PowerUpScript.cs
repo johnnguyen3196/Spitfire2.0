@@ -9,54 +9,49 @@ public class PowerUpScript : MonoBehaviour
     //TODO random or assignable type
     public int type;
 
-    public Sprite tripleShotSprite;
-    public Sprite quadShotSprite;
-    public Sprite upgradeTripleShotSprite;
-    public Sprite AutoCannonSprite;
-
-    public Sprite doubleMissileSprite;
-    public Sprite tripleMissileSprite;
-    public Sprite swarmerMissileSprite;
-
-    public Sprite doubleSquadronSprite;
-    public Sprite tripleSquadronSprite;
-    public Sprite quadSquadronSprite;
+    public Sprite[] Sprites;
     // Start is called before the first frame update
     void Start()
     {
         switch (type)
         {
             case 1:
-                gameObject.GetComponent<SpriteRenderer>().sprite = tripleShotSprite;
+                gameObject.GetComponent<SpriteRenderer>().sprite = Sprites[0];
                 break;
             case 2:
-                gameObject.GetComponent<SpriteRenderer>().sprite = quadShotSprite;
+                gameObject.GetComponent<SpriteRenderer>().sprite = Sprites[1];
                 break;
             case 3:
-                gameObject.GetComponent<SpriteRenderer>().sprite = upgradeTripleShotSprite;
+                gameObject.GetComponent<SpriteRenderer>().sprite = Sprites[2];
                 break;
             case 4:
-                gameObject.GetComponent<SpriteRenderer>().sprite = AutoCannonSprite;
+                gameObject.GetComponent<SpriteRenderer>().sprite = Sprites[3];
                 break;
-            case -1:
-                gameObject.GetComponent<SpriteRenderer>().sprite = doubleMissileSprite;
+            case 5:
+                gameObject.GetComponent<SpriteRenderer>().sprite = Sprites[4];
+                break;
+            case 6:
+                gameObject.GetComponent<SpriteRenderer>().sprite = Sprites[11];
                 break;
             case -2:
-                gameObject.GetComponent<SpriteRenderer>().sprite = tripleMissileSprite;
+                gameObject.GetComponent<SpriteRenderer>().sprite = Sprites[5];
                 break;
             case -3:
-                gameObject.GetComponent<SpriteRenderer>().sprite = swarmerMissileSprite;
+                gameObject.GetComponent<SpriteRenderer>().sprite = Sprites[6];
+                break;
+            case -4:
+                gameObject.GetComponent<SpriteRenderer>().sprite = Sprites[7];
                 break;
             case 9002:
-                gameObject.GetComponent<SpriteRenderer>().sprite = doubleSquadronSprite;
+                gameObject.GetComponent<SpriteRenderer>().sprite = Sprites[8];
                 transform.localScale = new Vector3(1, 1, 1);
                 break;
             case 9003:
-                gameObject.GetComponent<SpriteRenderer>().sprite = tripleSquadronSprite;
+                gameObject.GetComponent<SpriteRenderer>().sprite = Sprites[9];
                 transform.localScale = new Vector3(1, 1, 1);
                 break;
             case 9004:
-                gameObject.GetComponent<SpriteRenderer>().sprite = quadSquadronSprite;
+                gameObject.GetComponent<SpriteRenderer>().sprite = Sprites[10];
                 transform.localScale = new Vector3(1, 1, 1);
                 break;
 

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -13,7 +14,8 @@ public class UpgradeMenu : MonoBehaviour
     public GameObject EscortTreeObject;
     public GameObject Info;
     public GameObject PointsInfo;
-    public GameObject Button;
+    public GameObject UpgradeButton;
+    public GameObject EquipButton;
     public GameObject EquippedObject;
 
     public Sprite[] gunSprites;
@@ -21,26 +23,30 @@ public class UpgradeMenu : MonoBehaviour
     public Sprite[] escortSprites;
 
     /*
-     * 0. Triple Shot 
-     * 1. Quad Shot
-     * 2. Upgrade Triple Shot
-     * 3. Double Missile
-     * 4. Triple Missile
-     * 5. Swarmer Missile
-     * 6. Double Escort
-     * 7. Triple Escort
-     * 8. Quad Escort
+     * 0. Double Shot
+     * 1. Triple Shot 
+     * 2. Quad Shot
+     * 3. Upgrade Triple Shot
+     * 4. Single Missile
+     * 5. Double Missile
+     * 6. Triple Missile
+     * 7. Swarmer Missile
+     * 8. Single Escort
+     * 9. Double Escort
+     * 10. Triple Escort
+     * 11. Quad Escort
+     * 12. AutoCannon
+     * 13. High Velocity Shot
     */
-    private bool[] toggles = new bool[9];
+    private bool[] toggles = new bool[15];
 
     private int powerupselect;
 
-    private int points;
+    private int upgradeCost;
 
     [System.Serializable]
     public struct Node {
         public int powerup;
-        public int tier;
         public int ObjectPos;
         public int[] Children;
     }
@@ -49,15 +55,19 @@ public class UpgradeMenu : MonoBehaviour
     public Node[] MissileTree;
     public Node[] EscortTree;
 
+    private PlayerData data;
+
     // Start is called before the first frame update
     void Start()
     {
-        PlayerData data = SaveSystem.LoadPlayer(PlayerPrefs.GetString("saveName"));
-        InitializeGunUpgrades(data.shootType);
-        InitializeMissileUpgrades(data.missileType);
-        InitializeEscortUpgrades(data.escortType - 1);
-        points = data.points;
-        SetPointsText(points);
+        data = SaveSystem.LoadPlayer(PlayerPrefs.GetString("saveName"));
+     
+        InitializeGunUpgrades(data.researchedGunUpgrades);
+        InitializeMissileUpgrades(data.researchedMissileUpgrades);
+        InitializeEscortUpgrades(data.researchedEscortUpgrades);
+
+        data.points = 100000;
+        SetPointsText(data.points);
         SetEquippedImage(data);
     }
 
@@ -69,74 +79,97 @@ public class UpgradeMenu : MonoBehaviour
     void SetEquippedImage(PlayerData data)
     {
         EquippedObject.transform.GetChild(0).GetComponent<Image>().sprite = gunSprites[data.shootType];
-        EquippedObject.transform.GetChild(1).GetComponent<Image>().sprite = missileSprites[data.missileType];
+        EquippedObject.transform.GetChild(1).GetComponent<Image>().sprite = missileSprites[data.missileType - 1];
         EquippedObject.transform.GetChild(2).GetComponent<Image>().sprite = escortSprites[data.escortType - 1];
     }
 
-    void InitializeGunUpgrades(int shootType)
+    void InitializeGunUpgrades(List<int> upgrades)
     {
-        //disable toggle for upgrades player already has
-        for (int i = 0; i < shootType + 1; i++)
+        foreach(int upgrade in upgrades)
         {
-            GameObject toggleObject = GunTreeObject.transform.GetChild(i).gameObject;
+            //enable toggle for upgrades the player researched 
+            GameObject toggleObject = GunTreeObject.transform.GetChild(GunTree[upgrade].ObjectPos).gameObject;
             Toggle toggle = toggleObject.GetComponent<Toggle>();
-            toggle.enabled = false;
+            toggle.interactable = true;
 
-            Image image = toggleObject.GetComponentInChildren<Image>();
-            Color color = image.color;
+            //enable toggle for children of current upgrade
+            foreach(int child in GunTree[upgrade].Children)
+            {
+                GameObject childToggleObject = GunTreeObject.transform.GetChild(GunTree[child].ObjectPos).gameObject;
+                Toggle childToggle = childToggleObject.GetComponent<Toggle>();
+                childToggle.interactable = true;
+            }
+
+            //Set color of researched upgrade image
+            ColorBlock cb = toggle.colors;
+            Color color = cb.normalColor;
             color.a = 1;
-            image.color = color;
+            cb.normalColor = color;
+            toggle.colors = cb;
         }
-        //enable toggle for next upgrade
-        if (shootType < 3)
-            GunTreeObject.transform.GetChild(shootType + 1).gameObject.GetComponent<Toggle>().interactable = true;
     }
 
-    void InitializeMissileUpgrades(int missileType)
+    void InitializeMissileUpgrades(List<int> upgrades)
     {
-        //disable toggle for upgrades player already has
-        for (int i = 0; i < missileType + 1; i++)
+        foreach (int upgrade in upgrades)
         {
-            GameObject toggleObject = MissileTreeObject.transform.GetChild(i).gameObject;
+            //enable toggle for upgrades the player researched 
+            GameObject toggleObject = MissileTreeObject.transform.GetChild(MissileTree[upgrade].ObjectPos).gameObject;
             Toggle toggle = toggleObject.GetComponent<Toggle>();
-            toggle.enabled = false;
+            toggle.interactable = true;
 
-            Image image = toggleObject.GetComponentInChildren<Image>();
-            Color color = image.color;
+            //enable toggle for children of current upgrade
+            foreach (int child in MissileTree[upgrade].Children)
+            {
+                GameObject childToggleObject = MissileTreeObject.transform.GetChild(MissileTree[child].ObjectPos).gameObject;
+                Toggle childToggle = childToggleObject.GetComponent<Toggle>();
+                childToggle.interactable = true;
+            }
+
+            //Set color of researched upgrade image
+            ColorBlock cb = toggle.colors;
+            Color color = cb.normalColor;
             color.a = 1;
-            image.color = color;
+            cb.normalColor = color;
+            toggle.colors = cb;
         }
-        //enable toggle for next upgrade
-        if (missileType < 3)
-            MissileTreeObject.transform.GetChild(missileType + 1).gameObject.GetComponent<Toggle>().interactable = true;
     }
 
-    void InitializeEscortUpgrades(int escortType)
+    void InitializeEscortUpgrades(List<int> upgrades)
     {
-        //disable toggle for upgrades player already has
-        for (int i = 0; i < escortType + 1; i++)
+        foreach (int upgrade in upgrades)
         {
-            GameObject toggleObject = EscortTreeObject.transform.GetChild(i).gameObject;
+            //enable toggle for upgrades the player researched 
+            GameObject toggleObject = EscortTreeObject.transform.GetChild(EscortTree[upgrade].ObjectPos).gameObject;
             Toggle toggle = toggleObject.GetComponent<Toggle>();
-            toggle.enabled = false;
+            toggle.interactable = true;
 
-            Image image = toggleObject.GetComponentInChildren<Image>();
-            Color color = image.color;
+            //enable toggle for children of current upgrade
+            foreach (int child in EscortTree[upgrade].Children)
+            {
+                GameObject childToggleObject = EscortTreeObject.transform.GetChild(EscortTree[child].ObjectPos).gameObject;
+                Toggle childToggle = childToggleObject.GetComponent<Toggle>();
+                childToggle.interactable = true;
+            }
+
+            //Set color of researched upgrade image
+            ColorBlock cb = toggle.colors;
+            Color color = cb.normalColor;
             color.a = 1;
-            image.color = color;
+            cb.normalColor = color;
+            toggle.colors = cb;
         }
-        //enable toggle for next upgrade
-        if (escortType < 3)
-            EscortTreeObject.transform.GetChild(escortType + 1).gameObject.GetComponent<Toggle>().interactable = true;
     }
 
     public void Play()
     {
+        SaveSystem.SavePlayerData(data);
         SceneManager.LoadScene("Level1");
     }
 
     public void Quit()
     {
+        SaveSystem.SavePlayerData(data);
         SceneManager.LoadScene("Menu");
     }
 
@@ -144,26 +177,53 @@ public class UpgradeMenu : MonoBehaviour
     public void Upgrade()
     {
         Info.SetActive(false);
-        PlayerData data = SaveSystem.LoadPlayer(PlayerPrefs.GetString("saveName"));
 
         //Figure out which powerup was selected, modify the save data, let the next upgrade be available
-        if(powerupselect > 0)
+        if(powerupselect >= 0)
         {
             if(powerupselect > 9000)
             {
                 data.escortType = powerupselect - 9000;
-                InitializeEscortUpgrades(data.escortType - 1);
+                data.researchedEscortUpgrades.Add(Array.FindIndex(EscortTree, escortUpgrade => escortUpgrade.powerup == powerupselect));
+                InitializeEscortUpgrades(data.researchedEscortUpgrades);
             } else
             {
                 data.shootType = powerupselect;
-                InitializeGunUpgrades(data.shootType);
+                data.researchedGunUpgrades.Add(Array.FindIndex(GunTree, gunUpgrade => gunUpgrade.powerup == powerupselect));
+                InitializeGunUpgrades(data.researchedGunUpgrades);
             }
         } else
         {
             data.missileType = Mathf.Abs(powerupselect);
-            InitializeMissileUpgrades(data.missileType);
+            data.researchedMissileUpgrades.Add(Array.FindIndex(MissileTree, missileUpgrade => missileUpgrade.powerup == powerupselect));
+            InitializeMissileUpgrades(data.researchedMissileUpgrades);
         }
-        SaveSystem.SavePlayerData(data);
+        data.points -= upgradeCost;
+        SetPointsText(data.points);
+        SetEquippedImage(data);
+    }
+
+    public void Equip()
+    {
+        Info.SetActive(false);
+
+        //Figure out which powerup was selected, modify the save data, let the next upgrade be available
+        if (powerupselect >= 0)
+        {
+            if (powerupselect > 9000)
+            {
+                data.escortType = powerupselect - 9000;
+            }
+            else
+            {
+                data.shootType = powerupselect;
+            }
+        }
+        else
+        {
+            data.missileType = Mathf.Abs(powerupselect);
+        }
+        SetEquippedImage(data);
     }
 
     public void Cancel()
@@ -185,20 +245,109 @@ public class UpgradeMenu : MonoBehaviour
 
     void DisableUpgradeButton(int cost)
     {
-        if(points >= cost)
+        
+        /*  Upgraded    Can Afford   |   Enable Button
+         * --------------------------|----------------
+         *      T           T        |         F
+         *      T           F        |         F
+         *      F           T        |         T
+         *      F           F        |         F
+        */
+        if(data.points >= cost && !CheckResearchedUpgrade(data))
         {
-            Button.GetComponent<Button>().interactable = true;
+            UpgradeButton.GetComponent<Button>().interactable = true;
         } else
         {
-            Button.GetComponent<Button>().interactable = false;
+            UpgradeButton.GetComponent<Button>().interactable = false;
         }
     }
 
-    public void TripleShotSelect()
+    void DisableEquippedButton(PlayerData data)
+    {
+        //check if player researched this upgrade
+        if(CheckResearchedUpgrade(data))
+        {
+            EquipButton.GetComponent<Button>().interactable = true;
+        } else
+        {
+            EquipButton.GetComponent<Button>().interactable = false;
+        }
+    }
+
+    bool CheckResearchedUpgrade(PlayerData data)
+    {
+        if(Array.FindIndex(GunTree, gunUpgrade => gunUpgrade.powerup == powerupselect) != -1)
+        {
+            if(data.researchedGunUpgrades.FindIndex(upgrade => upgrade == (Array.FindIndex(GunTree, gunUpgrade => gunUpgrade.powerup == powerupselect))) != -1)
+            {
+                return true;
+            }
+        }
+        if (Array.FindIndex(MissileTree, missileUpgrade => missileUpgrade.powerup == powerupselect) != -1)
+        {
+            if (data.researchedMissileUpgrades.FindIndex(upgrade => upgrade == (Array.FindIndex(MissileTree, missileUpgrade => missileUpgrade.powerup == powerupselect))) != -1)
+            {
+                return true;
+            }
+        }
+        if (Array.FindIndex(EscortTree, escortUpgrade => escortUpgrade.powerup == powerupselect) != -1)
+        {
+            if (data.researchedEscortUpgrades.FindIndex(upgrade => upgrade == (Array.FindIndex(EscortTree, escortUpgrade => escortUpgrade.powerup == powerupselect))) != -1)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void ShowGunTree()
+    {
+        GunTreeObject.SetActive(true);
+        MissileTreeObject.SetActive(false);
+        EscortTreeObject.SetActive(false);
+    }
+
+    public void ShowMissileTree()
+    {
+        GunTreeObject.SetActive(false);
+        MissileTreeObject.SetActive(true);
+        EscortTreeObject.SetActive(false);
+    }
+
+    public void ShowEscortTree()
+    {
+        GunTreeObject.SetActive(false);
+        MissileTreeObject.SetActive(false);
+        EscortTreeObject.SetActive(true);
+    }
+
+    public void DoubleShotSelect()
     {
         toggles[0] = toggles[0] ? false : true;
         SetAllSelectToFalse(0);
         if (toggles[0])
+        {
+            Info.SetActive(true);
+            Info.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "Double Shot";
+            Info.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = "Fire 2 bullets at a time";
+            Info.transform.GetChild(3).GetComponent<Image>().sprite = gunSprites[0];
+            Info.transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = "Cost: 0";
+            powerupselect = 0;
+        }
+        else
+        {
+            Info.SetActive(false);
+        }
+        DisableUpgradeButton(0);
+        upgradeCost = 0;
+        DisableEquippedButton(data);
+    }
+
+    public void TripleShotSelect()
+    {
+        toggles[1] = toggles[1] ? false : true;
+        SetAllSelectToFalse(1);
+        if (toggles[1])
         {
             Info.SetActive(true);
             Info.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "Triple Shot";
@@ -211,13 +360,15 @@ public class UpgradeMenu : MonoBehaviour
             Info.SetActive(false);
         }
         DisableUpgradeButton(1000);
+        upgradeCost = 1000;
+        DisableEquippedButton(data);
     }
 
     public void QuadShotSelect()
     {
-        toggles[1] = toggles[1] ? false : true;
-        SetAllSelectToFalse(1);
-        if (toggles[1])
+        toggles[2] = toggles[2] ? false : true;
+        SetAllSelectToFalse(2);
+        if (toggles[2])
         {
             Info.SetActive(true);
             Info.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "Quad Shot";
@@ -231,13 +382,15 @@ public class UpgradeMenu : MonoBehaviour
             Info.SetActive(false);
         }
         DisableUpgradeButton(1500);
+        upgradeCost = 1500;
+        DisableEquippedButton(data);
     }
 
     public void UpgradeTripleShotSelect()
     {
-        toggles[2] = toggles[2] ? false : true;
-        SetAllSelectToFalse(2);
-        if (toggles[2])
+        toggles[3] = toggles[3] ? false : true;
+        SetAllSelectToFalse(3);
+        if (toggles[3])
         {
             Info.SetActive(true);
             Info.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "Upgrade Triple Shot";
@@ -251,73 +404,125 @@ public class UpgradeMenu : MonoBehaviour
             Info.SetActive(false);
         }
         DisableUpgradeButton(2000);
+        upgradeCost = 2000;
+        DisableEquippedButton(data);
     }
 
-    public void DoubleMissileSelect()
-    {
-        toggles[3] = toggles[3] ? false : true;
-        SetAllSelectToFalse(3);
-        if (toggles[3])
-        {
-            Info.SetActive(true);
-            Info.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "Double Missile";
-            Info.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = "Fire 2 missiles at a time";
-            Info.transform.GetChild(3).GetComponent<Image>().sprite = missileSprites[1];
-            Info.transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = "Cost: 1000";
-            powerupselect = -1;
-        }
-        else
-        {
-            Info.SetActive(false);
-        }
-        DisableUpgradeButton(1000);
-    }
-
-    public void TripleMissileSelect()
+    public void SingleMissileSelect()
     {
         toggles[4] = toggles[4] ? false : true;
         SetAllSelectToFalse(4);
         if (toggles[4])
         {
             Info.SetActive(true);
-            Info.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "Triple Missile";
-            Info.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = "Fire 3 missiles at a time";
-            Info.transform.GetChild(3).GetComponent<Image>().sprite = missileSprites[2];
-            Info.transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = "Cost: 1500";
-            powerupselect = -2;
+            Info.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "Single Missile";
+            Info.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = "Fire 1 missiles at a time";
+            Info.transform.GetChild(3).GetComponent<Image>().sprite = missileSprites[0];
+            Info.transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = "Cost: 0";
+            powerupselect = -1;
         }
         else
         {
             Info.SetActive(false);
         }
-        DisableUpgradeButton(1500);
+        DisableUpgradeButton(0);
+        upgradeCost = 0;
+        DisableEquippedButton(data);
     }
 
-    public void SwarmerMissileSelect()
+    public void DoubleMissileSelect()
     {
         toggles[5] = toggles[5] ? false : true;
         SetAllSelectToFalse(5);
         if (toggles[5])
         {
             Info.SetActive(true);
-            Info.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "Swarmer Missile";
-            Info.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = "Fire 8 swarmer missiles at a time. Swarmer missiles do half damage of regular missiles";
-            Info.transform.GetChild(3).GetComponent<Image>().sprite = missileSprites[3];
-            Info.transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = "Cost: 2000";
+            Info.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "Double Missile";
+            Info.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = "Fire 2 missiles at a time";
+            Info.transform.GetChild(3).GetComponent<Image>().sprite = missileSprites[1];
+            Info.transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = "Cost: 1000";
+            powerupselect = -2;
+        }
+        else
+        {
+            Info.SetActive(false);
+        }
+        DisableUpgradeButton(1000);
+        upgradeCost = 1000;
+        DisableEquippedButton(data);
+    }
+
+    public void TripleMissileSelect()
+    {
+        toggles[6] = toggles[6] ? false : true;
+        SetAllSelectToFalse(6);
+        if (toggles[6])
+        {
+            Info.SetActive(true);
+            Info.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "Triple Missile";
+            Info.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = "Fire 3 missiles at a time";
+            Info.transform.GetChild(3).GetComponent<Image>().sprite = missileSprites[2];
+            Info.transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = "Cost: 1500";
             powerupselect = -3;
         }
         else
         {
             Info.SetActive(false);
         }
+        DisableUpgradeButton(1500);
+        upgradeCost = 1500;
+        DisableEquippedButton(data);
+    }
+
+    public void SwarmerMissileSelect()
+    {
+        toggles[7] = toggles[7] ? false : true;
+        SetAllSelectToFalse(7);
+        if (toggles[7])
+        {
+            Info.SetActive(true);
+            Info.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "Swarmer Missile";
+            Info.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = "Fire 8 swarmer missiles at a time. Swarmer missiles do half damage of regular missiles";
+            Info.transform.GetChild(3).GetComponent<Image>().sprite = missileSprites[3];
+            Info.transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = "Cost: 2000";
+            powerupselect = -4;
+        }
+        else
+        {
+            Info.SetActive(false);
+        }
         DisableUpgradeButton(2000);
+        upgradeCost = 2000;
+        DisableEquippedButton(data);
+    }
+
+    public void SingleEscortSelect()
+    {
+        toggles[8] = toggles[8] ? false : true;
+        SetAllSelectToFalse(8);
+        if (toggles[8])
+        {
+            Info.SetActive(true);
+            Info.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "Single Escort";
+            Info.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = "1 Escorts wil rotate around player";
+            Info.transform.GetChild(3).GetComponent<Image>().sprite = escortSprites[0];
+            Info.transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = "Cost: 0";
+            powerupselect = 9001;
+        }
+        else
+        {
+            Info.SetActive(false);
+        }
+        DisableUpgradeButton(0);
+        upgradeCost = 0;
+        DisableEquippedButton(data);
     }
 
     public void DoubleEscortSelect()
     {
-        toggles[6] = toggles[6] ? false : true;
-        SetAllSelectToFalse(6);
-        if (toggles[6])
+        toggles[9] = toggles[9] ? false : true;
+        SetAllSelectToFalse(9);
+        if (toggles[9])
         {
             Info.SetActive(true);
             Info.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "Double Escort";
@@ -331,13 +536,15 @@ public class UpgradeMenu : MonoBehaviour
             Info.SetActive(false);
         }
         DisableUpgradeButton(1000);
+        upgradeCost = 1000;
+        DisableEquippedButton(data);
     }
 
     public void TripleEscortSelect()
     {
-        toggles[7] = toggles[7] ? false : true;
-        SetAllSelectToFalse(7);
-        if (toggles[7])
+        toggles[10] = toggles[10] ? false : true;
+        SetAllSelectToFalse(10);
+        if (toggles[10])
         {
             Info.SetActive(true);
             Info.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "Triple Escort";
@@ -351,13 +558,15 @@ public class UpgradeMenu : MonoBehaviour
             Info.SetActive(false);
         }
         DisableUpgradeButton(1500);
+        upgradeCost = 1500;
+        DisableEquippedButton(data);
     }
 
     public void QuadEscortSelect()
     {
-        toggles[8] = toggles[8] ? false : true;
-        SetAllSelectToFalse(8);
-        if (toggles[8])
+        toggles[11] = toggles[11] ? false : true;
+        SetAllSelectToFalse(11);
+        if (toggles[11])
         {
             Info.SetActive(true);
             Info.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "Quad Escort";
@@ -371,5 +580,73 @@ public class UpgradeMenu : MonoBehaviour
             Info.SetActive(false);
         }
         DisableUpgradeButton(2000);
+        upgradeCost = 2000;
+        DisableEquippedButton(data);
+    }
+
+    public void AutoCannonSelect()
+    {
+        toggles[12] = toggles[12] ? false : true;
+        SetAllSelectToFalse(12);
+        if (toggles[12])
+        {
+            Info.SetActive(true);
+            Info.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "Auto Cannon";
+            Info.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = "Fires 5 bullets per second";
+            Info.transform.GetChild(3).GetComponent<Image>().sprite = gunSprites[4];
+            Info.transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = "Cost: 2000";
+            powerupselect = 4;
+        }
+        else
+        {
+            Info.SetActive(false);
+        }
+        DisableUpgradeButton(2000);
+        upgradeCost = 2000;
+        DisableEquippedButton(data);
+    }
+
+    public void HighVelocityShotSelect()
+    {
+        toggles[13] = toggles[13] ? false : true;
+        SetAllSelectToFalse(13);
+        if (toggles[13])
+        {
+            Info.SetActive(true);
+            Info.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "High Velocity Shot";
+            Info.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = "Fires 1 high velocity bullet that does TONS OF DAMAGE";
+            Info.transform.GetChild(3).GetComponent<Image>().sprite = gunSprites[5];
+            Info.transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = "Cost: 2000";
+            powerupselect = 5;
+        }
+        else
+        {
+            Info.SetActive(false);
+        }
+        DisableUpgradeButton(2000);
+        upgradeCost = 2000;
+        DisableEquippedButton(data);
+    }
+
+    public void UpgradeDoubleShotSelect()
+    {
+        toggles[14] = toggles[14] ? false : true;
+        SetAllSelectToFalse(14);
+        if (toggles[14])
+        {
+            Info.SetActive(true);
+            Info.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "Upgraded Double Shot";
+            Info.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = "Fires 2 bullets at a time with increased damage";
+            Info.transform.GetChild(3).GetComponent<Image>().sprite = gunSprites[6];
+            Info.transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = "Cost: 3000";
+            powerupselect = 6;
+        }
+        else
+        {
+            Info.SetActive(false);
+        }
+        DisableUpgradeButton(3000);
+        upgradeCost = 3000;
+        DisableEquippedButton(data);
     }
 }

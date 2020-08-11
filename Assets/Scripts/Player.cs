@@ -113,7 +113,7 @@ public class Player : MonoBehaviour
         //temporary
         GameObject test = Instantiate(powerUpPrefab);
         PowerUpScript powerUp = test.GetComponent<PowerUpScript>();
-        powerUp.type = 4;
+        powerUp.type = 5;
 
         FindObjectOfType<DialogueManager>().Create(gameObject, "Hello World");
     }
@@ -287,6 +287,12 @@ public class Player : MonoBehaviour
                 shootUpdate = .25f;
                 defaultShootUpdate = .25f;
                 break;
+            case 5:
+                HighVelocityShot();
+                break;
+            case 6:
+                UpgradeDoubleShot();
+                break;
         }
         FindObjectOfType<AudioManager>().Play("Shoot");
     }
@@ -329,16 +335,16 @@ public class Player : MonoBehaviour
     {
         switch (missileType)
         {
-            case 0:
+            case 1:
                 SingleMissile();
                 break;
-            case 1:
+            case 2:
                 DoubleMissile();
                 break;
-            case 2:
+            case 3:
                 TripleMissile();
                 break;
-            case 3:
+            case 4:
                 SwarmerMissile();
                 break;
         }
@@ -448,6 +454,32 @@ public class Player : MonoBehaviour
         bullet1.targetVector = new Vector3(0, 1, 0);
         bullet1.speed = 200;
         bullet1.damage = 10;
+    }
+
+    void HighVelocityShot()
+    {
+        Vector3 bulletPos = new Vector3(transform.position.x, transform.position.y + .5f, transform.position.z);
+        GameObject go = Instantiate(bulletPrefab, bulletPos, Quaternion.identity);
+        PlayerBullet bullet1 = go.GetComponent<PlayerBullet>();
+        bullet1.targetVector = new Vector3(0, 1, 0);
+        bullet1.speed = 400;
+        bullet1.damage = 75;
+    }
+
+    void UpgradeDoubleShot()
+    {
+        Vector3 leftBulletPos = new Vector3(transform.position.x - 0.233f, transform.position.y + 0.371f, transform.position.z);
+        Vector3 rightBulletPos = new Vector3(transform.position.x + 0.233f, transform.position.y + 0.371f, transform.position.z);
+        GameObject go1 = Instantiate(bulletPrefab, leftBulletPos, Quaternion.identity);
+        GameObject go2 = Instantiate(bulletPrefab, rightBulletPos, Quaternion.identity);
+        PlayerBullet bullet1 = go1.GetComponent<PlayerBullet>();
+        PlayerBullet bullet2 = go2.GetComponent<PlayerBullet>();
+        bullet1.targetVector = new Vector3(0, 1, 0);
+        bullet2.targetVector = new Vector3(0, 1, 0);
+        bullet1.speed = 200;
+        bullet2.speed = 200;
+        bullet1.damage = 50;
+        bullet2.damage = 50;
     }
 
     void SingleMissile()
