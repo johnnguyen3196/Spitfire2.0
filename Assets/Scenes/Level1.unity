@@ -299,7 +299,7 @@ Transform:
   m_Children:
   - {fileID: 1263621327}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &430101351
 BoxCollider2D:
@@ -416,7 +416,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!224 &450445188 stripped
 RectTransform:
@@ -583,7 +583,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1263621326
 GameObject:
@@ -5422,6 +5422,84 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1567859362
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1567859364}
+  - component: {fileID: 1567859363}
+  m_Layer: 0
+  m_Name: SpriteManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1567859363
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1567859362}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f77d5216fbbb72343915c1d1f3907695, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Sprites:
+  - name: UIDoubleShot
+    sprite: {fileID: 21300000, guid: 9d74bd7343557544aaf16bf818f134b2, type: 3}
+  - name: UITripleShot
+    sprite: {fileID: 21300000, guid: 06bc4ac577f9d1e4dbda42493b722fb8, type: 3}
+  - name: UIQuadShot
+    sprite: {fileID: 21300000, guid: 5385a27ff8fcf564ead1c282621b18d2, type: 3}
+  - name: UIUpgradedTripleShot
+    sprite: {fileID: 21300000, guid: 558afd24eaf2c8b47945c316cf761ecc, type: 3}
+  - name: UIAutoCannon
+    sprite: {fileID: 21300000, guid: 24cc0ca351430d947a5aaa27daccb437, type: 3}
+  - name: UIHighVelocityShot
+    sprite: {fileID: 21300000, guid: aef7944d6f0b32d4bac1ee2d124ba1a5, type: 3}
+  - name: UIUpgradedDoubleShot
+    sprite: {fileID: 21300000, guid: 4b441367e0dee2841bd37bfeea6e105e, type: 3}
+  - name: UISingleMissile
+    sprite: {fileID: 21300000, guid: 197f72b6625e61d4190c1aa7691f930d, type: 3}
+  - name: UIDoubleMissile
+    sprite: {fileID: 21300000, guid: 49b337e65460e634f9bbc8f7352436fd, type: 3}
+  - name: UITripleMissile
+    sprite: {fileID: 21300000, guid: 5f238f77be3b0cf4f86051f4221fac6c, type: 3}
+  - name: UISwarmerMissile
+    sprite: {fileID: 21300000, guid: 34e2afa01638762408c6c12d50742b5a, type: 3}
+  - name: UIStandardEscort1
+    sprite: {fileID: 21300000, guid: 6a89bf6eaefae9f4cb27d311cb859207, type: 3}
+  - name: UIStandardEscort2
+    sprite: {fileID: 21300000, guid: c4e2113ee54465342bb022a5e4fec989, type: 3}
+  - name: UIStandardEscort3
+    sprite: {fileID: 21300000, guid: 27dc9c9cabf2b5e409d87cdf89d78081, type: 3}
+  - name: UIStandardEscort4
+    sprite: {fileID: 21300000, guid: 543180c67987e654c9e8f1be3e8081eb, type: 3}
+  - name: DoubleAutoCannon
+    sprite: {fileID: 21300000, guid: 780776d31fa283f45b6f8c4727d5841a, type: 3}
+  - name: SmartHighVelocityShot
+    sprite: {fileID: 21300000, guid: 128b47dc8cd4f064cbc8b6e61504bbbe, type: 3}
+--- !u!4 &1567859364
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1567859362}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1700182840 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5488508091083747675, guid: 1ac77871d2f89c74ab953201b03766ba,
@@ -5718,7 +5796,7 @@ PrefabInstance:
     - target: {fileID: 5488508091100124944, guid: 1ac77871d2f89c74ab953201b03766ba,
         type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 5488508091100124944, guid: 1ac77871d2f89c74ab953201b03766ba,
         type: 3}

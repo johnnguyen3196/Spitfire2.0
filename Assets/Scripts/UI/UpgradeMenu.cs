@@ -38,7 +38,7 @@ public class UpgradeMenu : MonoBehaviour
      * 12. AutoCannon
      * 13. High Velocity Shot
     */
-    private bool[] toggles = new bool[15];
+    private bool[] toggles = new bool[17];
 
     private int powerupselect;
 
@@ -46,6 +46,7 @@ public class UpgradeMenu : MonoBehaviour
 
     [System.Serializable]
     public struct Node {
+        public string name;
         public int powerup;
         public int ObjectPos;
         public int[] Children;
@@ -649,4 +650,50 @@ public class UpgradeMenu : MonoBehaviour
         upgradeCost = 3000;
         DisableEquippedButton(data);
     }
+
+    public void DoubleAutoCannonSelect()
+    {
+        toggles[15] = toggles[15] ? false : true;
+        SetAllSelectToFalse(15);
+        if (toggles[15])
+        {
+            Info.SetActive(true);
+            Info.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "Double Auto Cannon";
+            Info.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = "Fires 10 bullets per second";
+            Info.transform.GetChild(3).GetComponent<Image>().sprite = gunSprites[7];
+            Info.transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = "Cost: 3000";
+            powerupselect = 7;
+        }
+        else
+        {
+            Info.SetActive(false);
+        }
+        DisableUpgradeButton(3000);
+        upgradeCost = 3000;
+        DisableEquippedButton(data);
+    }
+
+    public void SmartHighVelocityShotSelect()
+    {
+        toggles[16] = toggles[16] ? false : true;
+        SetAllSelectToFalse(16);
+        if (toggles[16])
+        {
+            Info.SetActive(true);
+            Info.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "Smart High Velocity Shot";
+            Info.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = "Fires 1 high velocity bullet that does TONS OF DAMAGE. Bullet moves towards mouse direction upon firing";
+            Info.transform.GetChild(3).GetComponent<Image>().sprite = gunSprites[8];
+            Info.transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = "Cost: 3000";
+            powerupselect = 8;
+        }
+        else
+        {
+            Info.SetActive(false);
+        }
+        DisableUpgradeButton(3000);
+        upgradeCost = 3000;
+        DisableEquippedButton(data);
+    }
+
+
 }

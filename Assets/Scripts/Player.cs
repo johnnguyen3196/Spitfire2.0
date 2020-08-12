@@ -74,6 +74,9 @@ public class Player : MonoBehaviour
     private bool manualTarget;
 
     public ParticleSystem teleportDust;
+
+    private PlayerAttack gunAttack;
+    private PlayerAttack missileAttack;
     
     // Start is called before the first frame update
     void Start()
@@ -91,10 +94,12 @@ public class Player : MonoBehaviour
                 gameObject.GetComponent<SpriteRenderer>().sprite = Mustang;
                 break;
         }
-
         shootType = data.shootType;
         missileType = data.missileType;
         SetNumberOfSquadrons(data.escortType);
+
+        SetGunType(8);
+        SetMissileType(missileType);
 
         stance = 1;
         SetStance(stance);
@@ -111,9 +116,9 @@ public class Player : MonoBehaviour
         manualTarget = false;
 
         //temporary
-        GameObject test = Instantiate(powerUpPrefab);
-        PowerUpScript powerUp = test.GetComponent<PowerUpScript>();
-        powerUp.type = 5;
+        //GameObject test = Instantiate(powerUpPrefab);
+        //PowerUpScript powerUp = test.GetComponent<PowerUpScript>();
+        //powerUp.type = 4;
 
         FindObjectOfType<DialogueManager>().Create(gameObject, "Hello World");
     }
@@ -267,33 +272,7 @@ public class Player : MonoBehaviour
 
     void ShootGun()
     {
-        switch (shootType)
-        {
-            case 0:
-                DoubleShot();
-                break;
-            case 1:
-                TripleShot();
-                break;
-            case 2:
-                QuadShot();
-                break;
-            case 3:
-                UpgradeTripleShot();
-                break;
-            case 4:
-                AutoCannonShot();
-                //TODO have powerup modify this value somewhere else
-                shootUpdate = .25f;
-                defaultShootUpdate = .25f;
-                break;
-            case 5:
-                HighVelocityShot();
-                break;
-            case 6:
-                UpgradeDoubleShot();
-                break;
-        }
+        gunAttack.Attack(transform);
         FindObjectOfType<AudioManager>().Play("Shoot");
     }
 
@@ -329,205 +308,81 @@ public class Player : MonoBehaviour
             squadron.angle = angle;
             angle += angleOffset;
         }
+        GameObject.Find("SquadronTypeUI").GetComponent<ShootTypeUI>().ChangeShootSprite(FindObjectOfType<UISpriteManager>().Find("UIStandardEscort" + number.ToString()));
     }
 
     void ShootMissile()
     {
-        switch (missileType)
-        {
-            case 1:
-                SingleMissile();
-                break;
-            case 2:
-                DoubleMissile();
-                break;
-            case 3:
-                TripleMissile();
-                break;
-            case 4:
-                SwarmerMissile();
-                break;
-        }
+        missileAttack.Attack(transform);
         FindObjectOfType<AudioManager>().Play("Missile");
     }
 
-    public void Die()
+    private void SetGunType(int shootType)
     {
-        GameObject.Find("Game").GetComponent<game>().notifyKill(-1, "");
-        //Menu.GameOverMenu("Wow, you suck");
-    }
-
-    //Default shooting type
-    void DoubleShot()
-    {
-        Vector3 leftBulletPos = new Vector3(transform.position.x - 0.233f, transform.position.y + 0.371f, transform.position.z);
-        Vector3 rightBulletPos = new Vector3(transform.position.x + 0.233f, transform.position.y + 0.371f, transform.position.z);
-        GameObject go1 = Instantiate(bulletPrefab, leftBulletPos, Quaternion.identity);
-        GameObject go2 = Instantiate(bulletPrefab, rightBulletPos, Quaternion.identity);
-        PlayerBullet bullet1 = go1.GetComponent<PlayerBullet>();
-        PlayerBullet bullet2 = go2.GetComponent<PlayerBullet>();
-        bullet1.targetVector = new Vector3(0, 1, 0);
-        bullet2.targetVector = new Vector3(0, 1, 0);
-        bullet1.speed = 200;
-        bullet2.speed = 200;
-        bullet1.damage = 10;
-        bullet2.damage = 10;
-    }
-
-    void TripleShot()
-    {
-        Vector3 leftBulletPos = new Vector3(transform.position.x - 0.233f, transform.position.y + 0.371f, transform.position.z);
-        Vector3 rightBulletPos = new Vector3(transform.position.x + 0.233f, transform.position.y + 0.371f, transform.position.z);
-        Vector3 middleBulletPos = new Vector3(transform.position.x, transform.position.y + .5f, transform.position.z);
-        GameObject go1 = Instantiate(bulletPrefab, leftBulletPos, Quaternion.identity);
-        GameObject go2 = Instantiate(bulletPrefab, rightBulletPos, Quaternion.identity);
-        GameObject go3 = Instantiate(bulletPrefab, middleBulletPos, Quaternion.identity);
-        PlayerBullet bullet1 = go1.GetComponent<PlayerBullet>();
-        PlayerBullet bullet2 = go2.GetComponent<PlayerBullet>();
-        PlayerBullet bullet3 = go3.GetComponent<PlayerBullet>();
-        bullet1.targetVector = new Vector3(0, 1, 0);
-        bullet2.targetVector = new Vector3(0, 1, 0);
-        bullet3.targetVector = new Vector3(0, 1, 0);
-        bullet1.speed = 200;
-        bullet2.speed = 200;
-        bullet3.speed = 200;
-        bullet1.damage = 10;
-        bullet2.damage = 10;
-        bullet3.damage = 10;
-    }
-
-    void QuadShot()
-    {
-        Vector3 leftLeftBulletPos = new Vector3(transform.position.x - 0.233f, transform.position.y + 0.371f, transform.position.z);
-        Vector3 rightRightBulletPos = new Vector3(transform.position.x + 0.233f, transform.position.y + 0.371f, transform.position.z);
-        Vector3 middleLeftBulletPos = new Vector3(transform.position.x - .1f, transform.position.y + .4f, transform.position.z);
-        Vector3 middleRightBulletPos = new Vector3(transform.position.x + .1f, transform.position.y + .4f, transform.position.z);
-        GameObject go1 = Instantiate(bulletPrefab, leftLeftBulletPos, Quaternion.identity);
-        GameObject go2 = Instantiate(bulletPrefab, rightRightBulletPos, Quaternion.identity);
-        GameObject go3 = Instantiate(bulletPrefab, middleLeftBulletPos, Quaternion.identity);
-        GameObject go4 = Instantiate(bulletPrefab, middleRightBulletPos, Quaternion.identity);
-        PlayerBullet bullet1 = go1.GetComponent<PlayerBullet>();
-        PlayerBullet bullet2 = go2.GetComponent<PlayerBullet>();
-        PlayerBullet bullet3 = go3.GetComponent<PlayerBullet>();
-        PlayerBullet bullet4 = go4.GetComponent<PlayerBullet>();
-        bullet1.targetVector = new Vector3(0, 1, 0);
-        bullet2.targetVector = new Vector3(0, 1, 0);
-        bullet3.targetVector = new Vector3(0, 1, 0);
-        bullet4.targetVector = new Vector3(0, 1, 0);
-        bullet1.speed = 200;
-        bullet2.speed = 200;
-        bullet3.speed = 200;
-        bullet4.speed = 200;
-        bullet1.damage = 10;
-        bullet2.damage = 10;
-        bullet3.damage = 10;
-        bullet4.damage = 10;
-    }
-
-    void UpgradeTripleShot()
-    {
-        Vector3 leftBulletPos = new Vector3(transform.position.x - 0.233f, transform.position.y + 0.371f, transform.position.z);
-        Vector3 rightBulletPos = new Vector3(transform.position.x + 0.233f, transform.position.y + 0.371f, transform.position.z);
-        Vector3 middleBulletPos = new Vector3(transform.position.x, transform.position.y + .5f, transform.position.z);
-        GameObject go1 = Instantiate(bulletPrefab, leftBulletPos, Quaternion.identity);
-        GameObject go2 = Instantiate(bulletPrefab, rightBulletPos, Quaternion.identity);
-        GameObject go3 = Instantiate(bulletPrefab, middleBulletPos, Quaternion.identity);
-        PlayerBullet bullet1 = go1.GetComponent<PlayerBullet>();
-        PlayerBullet bullet2 = go2.GetComponent<PlayerBullet>();
-        PlayerBullet bullet3 = go3.GetComponent<PlayerBullet>();
-        bullet1.targetVector = new Vector3(0, 1, 0);
-        bullet2.targetVector = new Vector3(0, 1, 0);
-        bullet3.targetVector = new Vector3(0, 1, 0);
-        bullet1.speed = 200;
-        bullet2.speed = 200;
-        bullet3.speed = 200;
-        bullet1.damage = 10;
-        bullet2.damage = 10;
-        bullet3.damage = 30;
-    }
-
-    void AutoCannonShot()
-    {
-        Vector3[] positions = { new Vector3(transform.position.x - .1f, transform.position.y + 0.5f, 0), new Vector3(transform.position.x, transform.position.y + 0.5f, 0), new Vector3(transform.position.x + .1f, transform.position.y + 0.5f, 0) };
-        GameObject go = Instantiate(bulletPrefab, positions[Random.Range(0, positions.Length)], Quaternion.identity);
-        PlayerBullet bullet1 = go.GetComponent<PlayerBullet>();
-        bullet1.targetVector = new Vector3(0, 1, 0);
-        bullet1.speed = 200;
-        bullet1.damage = 10;
-    }
-
-    void HighVelocityShot()
-    {
-        Vector3 bulletPos = new Vector3(transform.position.x, transform.position.y + .5f, transform.position.z);
-        GameObject go = Instantiate(bulletPrefab, bulletPos, Quaternion.identity);
-        PlayerBullet bullet1 = go.GetComponent<PlayerBullet>();
-        bullet1.targetVector = new Vector3(0, 1, 0);
-        bullet1.speed = 400;
-        bullet1.damage = 75;
-    }
-
-    void UpgradeDoubleShot()
-    {
-        Vector3 leftBulletPos = new Vector3(transform.position.x - 0.233f, transform.position.y + 0.371f, transform.position.z);
-        Vector3 rightBulletPos = new Vector3(transform.position.x + 0.233f, transform.position.y + 0.371f, transform.position.z);
-        GameObject go1 = Instantiate(bulletPrefab, leftBulletPos, Quaternion.identity);
-        GameObject go2 = Instantiate(bulletPrefab, rightBulletPos, Quaternion.identity);
-        PlayerBullet bullet1 = go1.GetComponent<PlayerBullet>();
-        PlayerBullet bullet2 = go2.GetComponent<PlayerBullet>();
-        bullet1.targetVector = new Vector3(0, 1, 0);
-        bullet2.targetVector = new Vector3(0, 1, 0);
-        bullet1.speed = 200;
-        bullet2.speed = 200;
-        bullet1.damage = 50;
-        bullet2.damage = 50;
-    }
-
-    void SingleMissile()
-    {
-        Vector3 middleMissilePos = new Vector3(transform.position.x, transform.position.y + .5f, transform.position.z);
-        GameObject go = Instantiate(playerMissilePrefab, middleMissilePos, Quaternion.identity);
-        PlayerMissile playerMissile = go.GetComponent<PlayerMissile>();
-        playerMissile.damage = 10;
-    }
-
-    void DoubleMissile()
-    {
-        Vector3 leftMissilePos = new Vector3(transform.position.x - .3f, transform.position.y, transform.position.z);
-        Vector3 rightMissilePos = new Vector3(transform.position.x + .3f, transform.position.y, transform.position.z);
-        GameObject go1 = Instantiate(playerMissilePrefab, leftMissilePos, Quaternion.identity);
-        GameObject go2 = Instantiate(playerMissilePrefab, rightMissilePos, Quaternion.identity);
-        PlayerMissile playerMissile1 = go1.GetComponent<PlayerMissile>();
-        PlayerMissile playerMissile2 = go2.GetComponent<PlayerMissile>();
-        playerMissile1.damage = 10;
-        playerMissile2.damage = 10;
-    }
-
-    void TripleMissile()
-    {
-        Vector3 middleMissilePos = new Vector3(transform.position.x, transform.position.y + .5f, transform.position.z);
-        Vector3 leftMissilePos = new Vector3(transform.position.x - .3f, transform.position.y, transform.position.z);
-        Vector3 rightMissilePos = new Vector3(transform.position.x + .3f, transform.position.y, transform.position.z);
-        GameObject go = Instantiate(playerMissilePrefab, middleMissilePos, Quaternion.identity);
-        GameObject go1 = Instantiate(playerMissilePrefab, leftMissilePos, Quaternion.identity);
-        GameObject go2 = Instantiate(playerMissilePrefab, rightMissilePos, Quaternion.identity);
-        PlayerMissile playerMissile = go.GetComponent<PlayerMissile>();
-        PlayerMissile playerMissile1 = go1.GetComponent<PlayerMissile>();
-        PlayerMissile playerMissile2 = go2.GetComponent<PlayerMissile>();
-        playerMissile.damage = 10;
-        playerMissile1.damage = 10;
-        playerMissile2.damage = 10;
-    }
-
-    void SwarmerMissile()
-    {
-        Vector3[] directions = { new Vector3(1, 0, 0), new Vector3(-1, 0, 0), new Vector3(0, 1, 0), new Vector3(0, -1, 0), new Vector3(1, 1, 0), new Vector3(-1, 1, 0), new Vector3(1, -1, 0), new Vector3(-1, -1, 0)};
-        foreach(Vector3 direction in directions)
+        switch (shootType)
         {
-            GameObject go = Instantiate(playerMissilePrefab, gameObject.transform.position, Quaternion.identity);
-            PlayerMissile playerMissile = go.GetComponent<PlayerMissile>();
-            playerMissile.damage = 5;
-            playerMissile.targetVector = direction;
-            go.transform.localScale = new Vector3(1.5f, 1.5f, 0);
+            case 0:
+                gunAttack = new DoubleShot(bulletPrefab);
+                //Change the Gun sprite in UI
+                GameObject.Find("ShootTypeUI").GetComponent<ShootTypeUI>().ChangeShootSprite(FindObjectOfType<UISpriteManager>().Find("UIDoubleShot"));
+                break;
+            case 1:
+                gunAttack = new TripleShot(bulletPrefab);
+                GameObject.Find("ShootTypeUI").GetComponent<ShootTypeUI>().ChangeShootSprite(FindObjectOfType<UISpriteManager>().Find("UITripleShot"));
+                break;
+            case 2:
+                gunAttack = new QuadShot(bulletPrefab);
+                GameObject.Find("ShootTypeUI").GetComponent<ShootTypeUI>().ChangeShootSprite(FindObjectOfType<UISpriteManager>().Find("UIQuadShot"));
+                break;
+            case 3:
+                gunAttack = new UpgradedTripleShot(bulletPrefab);
+                GameObject.Find("ShootTypeUI").GetComponent<ShootTypeUI>().ChangeShootSprite(FindObjectOfType<UISpriteManager>().Find("UIUpgradedTripleShot"));
+                break;
+            case 4:
+                gunAttack = new AutoCannon(bulletPrefab);
+                GameObject.Find("ShootTypeUI").GetComponent<ShootTypeUI>().ChangeShootSprite(FindObjectOfType<UISpriteManager>().Find("UIAutoCannon"));
+                shootUpdate = .25f;
+                defaultShootUpdate = .25f;
+                break;
+            case 5:
+                gunAttack = new HighVelocityShot(bulletPrefab);
+                GameObject.Find("ShootTypeUI").GetComponent<ShootTypeUI>().ChangeShootSprite(FindObjectOfType<UISpriteManager>().Find("UIHighVelocityShot"));
+                break;
+            case 6:
+                gunAttack = new UpgradedDoubleShot(bulletPrefab);
+                GameObject.Find("ShootTypeUI").GetComponent<ShootTypeUI>().ChangeShootSprite(FindObjectOfType<UISpriteManager>().Find("UIUpgradedDoubleShot"));
+                break;
+            case 7:
+                gunAttack = new DoubleAutoCannon(bulletPrefab);
+                GameObject.Find("ShootTypeUI").GetComponent<ShootTypeUI>().ChangeShootSprite(FindObjectOfType<UISpriteManager>().Find("UIDoubleAutoCannon"));
+                break;
+            case 8:
+                gunAttack = new SmartHighVelocityShot(bulletPrefab);
+                GameObject.Find("ShootTypeUI").GetComponent<ShootTypeUI>().ChangeShootSprite(FindObjectOfType<UISpriteManager>().Find("UISmartHighVelocityShot"));
+                break;
+        }
+    }
+
+    private void SetMissileType(int missileType)
+    {
+        switch (missileType)
+        {
+            case 1:
+                missileAttack = new SingleMissile(playerMissilePrefab);
+                GameObject.Find("MissileTypeUI").GetComponent<ShootTypeUI>().ChangeShootSprite(FindObjectOfType<UISpriteManager>().Find("UISingleMissile"));
+                break;
+            case 2:
+                missileAttack = new DoubleMissile(playerMissilePrefab);
+                GameObject.Find("MissileTypeUI").GetComponent<ShootTypeUI>().ChangeShootSprite(FindObjectOfType<UISpriteManager>().Find("UIDoubleMissile"));
+                break;
+            case 3:
+                missileAttack = new TripleMissile(playerMissilePrefab);
+                GameObject.Find("MissileTypeUI").GetComponent<ShootTypeUI>().ChangeShootSprite(FindObjectOfType<UISpriteManager>().Find("UITripleMissile"));
+                break;
+            case 4:
+                missileAttack = new SwarmerMissile(playerMissilePrefab);
+                GameObject.Find("MissileTypeUI").GetComponent<ShootTypeUI>().ChangeShootSprite(FindObjectOfType<UISpriteManager>().Find("UIQuadMissile"));
+                break;
         }
     }
 
@@ -602,6 +457,12 @@ public class Player : MonoBehaviour
             currentHealth -= leftover;
             FindObjectOfType<AudioManager>().Play("PlayerDamage");
         }
+    }
+
+    public void Die()
+    {
+        GameObject.Find("Game").GetComponent<game>().notifyKill(-1, "");
+        //Menu.GameOverMenu("Wow, you suck");
     }
 
     private void SetStance(int stance)
