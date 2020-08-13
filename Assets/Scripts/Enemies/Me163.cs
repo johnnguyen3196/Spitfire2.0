@@ -2,41 +2,24 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Me163 : MonoBehaviour, EnemyInterface
+public class Me163 : EnemyPlane
 {
-    private int nextUpdate = 0;
     private float burstUpdate = 0;
 
     public GameObject bulletPrefab;
-    public GameObject explosionPrefab;
-    private game game;
 
-    private float speed = 4f;
-    private int attackSpeed = 2;
     private int burstAmount = 0;
     private float burstInterval = 0.25f;
-    public int currentHealth = 30;
-    private Vector3 targetVector;
-    private int points;
-
-    private Rigidbody2D rb;
-    private Animation anim;
 
     private bool rotate;
-    //false left, true right
+    ////false left, true right
     private bool rotateDirection;
 
     private Vector3 bottomLeft;
     private Vector3 topRight;
-    // Start is called before the first frame update
-    void Start()
+
+    public override void InitializeEnemy()
     {
-        rb = gameObject.GetComponent<Rigidbody2D>();
-
-        anim = gameObject.GetComponent<Animation>();
-
-        game = GameObject.Find("Game").GetComponent<game>();
-
         transform.rotation = Quaternion.AngleAxis(-90, Vector3.forward);
         rotate = true;
         if (transform.position.x > 0)
@@ -50,16 +33,14 @@ public class Me163 : MonoBehaviour, EnemyInterface
 
         bottomLeft = Camera.main.ScreenToWorldPoint(new Vector3(0, 0, 0));
         topRight = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0));
-
-        points = 30;
     }
 
     // Update is called once per frame
-    void Update()
+    protected override void Update()
     {
-        if (nextUpdate <= Time.time)
+        if (attackUpdate <= Time.time)
         {
-            nextUpdate = Mathf.FloorToInt(Time.time) + attackSpeed;
+            attackUpdate = Mathf.FloorToInt(Time.time) + attackSpeed;
             burstAmount = 0;
         }
         //Attack pattern
@@ -73,7 +54,7 @@ public class Me163 : MonoBehaviour, EnemyInterface
         Move();
     }
 
-    void Attack()
+    public override void Attack()
     {
         //Get the position(location of the two empty gameObjects) of where the bullet will spawn.
         Vector3 leftBulletPos = gameObject.transform.GetChild(1).gameObject.transform.position;
@@ -94,7 +75,7 @@ public class Me163 : MonoBehaviour, EnemyInterface
         bullet2.damage = 10;
     }
 
-    void Move()
+    public override void Move()
     {
         if (rotate)
         {
@@ -136,22 +117,5 @@ public class Me163 : MonoBehaviour, EnemyInterface
             rotateDirection = false;
         }
         rb.velocity = transform.right.normalized * speed;
-    }
-
-    public int TakeDamage(int damage)
-    {
-        currentHealth -= damage;
-        anim.Play("EnemyDamageAnimation");
-        return currentHealth;
-    }
-
-    public void Die()
-    {
-        Destroy(gameObject);
-        GameObject go1 = Instantiate(explosionPrefab, gameObject.transform.position, Quaternion.identity);
-        game.notifyKill(points, "Me163");
-
-        FindObjectOfType<AudioManager>().Play("Explosion");
-        FindObjectOfType<DialogueManager>().CreateEnemyDeathText(go1);
     }
 }

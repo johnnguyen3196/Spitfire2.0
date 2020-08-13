@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
 
-//TODO Move circle collider to player object
 public class PlayerMissile : MonoBehaviour
 {
     public float speed;          // The speed our bullet travels
@@ -52,13 +51,13 @@ public class PlayerMissile : MonoBehaviour
         }
     }
 
-    void OnTriggerEnter2D(Collider2D collision)
+    protected virtual void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Enemy")
         {
             Destroy(gameObject);
             
-            EnemyInterface enemy = collision.gameObject.GetComponent<EnemyInterface>();
+            EnemyPlane enemy = collision.gameObject.GetComponent<EnemyPlane>();
             if (enemy.TakeDamage(damage) <= 0)
             {
                 enemy.Die();

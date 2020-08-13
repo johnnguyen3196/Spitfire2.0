@@ -99,7 +99,7 @@ public class PlayerCreation : MonoBehaviour
 
         PlayerPrefs.SetString("saveName", saveName);
 
-        SceneManager.LoadScene("Level1");
+        SceneManager.LoadScene("Upgrade");
     }
 
     public void PickSpitfire()

@@ -42,7 +42,7 @@ public class PlayerBullet : MonoBehaviour
         {
             Destroy(gameObject);
             
-            EnemyInterface enemy = collision.gameObject.GetComponent<EnemyInterface>();
+            EnemyPlane enemy = collision.gameObject.GetComponent<EnemyPlane>();
             if(enemy.TakeDamage(damage) <= 0)
             {
                 enemy.Die();

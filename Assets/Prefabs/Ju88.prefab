@@ -188,11 +188,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3de266d17ed94140a8c84d4f08524f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bombPrefab: {fileID: 4689629266783876508, guid: 69424a46adfd05444a0cbb8fd8a039ad,
-    type: 3}
   explosionPrefab: {fileID: 2423041736348177234, guid: 0b86143daed4231458ba42146e3b88d5,
     type: 3}
+  _name: Ju88
+  speed: 1
+  attackSpeed: 3
   currentHealth: 75
+  points: 40
+  bombPrefab: {fileID: 4689629266783876508, guid: 69424a46adfd05444a0cbb8fd8a039ad,
+    type: 3}
 --- !u!111 &498676572953263998
 Animation:
   m_ObjectHideFlags: 0

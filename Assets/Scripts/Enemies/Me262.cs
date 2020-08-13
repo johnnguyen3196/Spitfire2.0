@@ -2,41 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Me262 : MonoBehaviour, EnemyInterface
+public class Me262 : EnemyPlane
 {
-    private int nextUpdate = 0;
-
     public GameObject missilePrefab;
-    public GameObject explosionPrefab;
-    private game game;
-
-    private float speed = 3.5f;
-    private int attackSpeed = 3;
-    public int currentHealth;
-    private Vector3 targetVector;
-    private int points;
-
+   
     private GameObject player;
 
-    private Rigidbody2D rb;
-    private Animation anim;
-
     private bool rotate;
-    //false left, true right
+    ////false left, true right
     private bool rotateDirection;
 
     private Vector3 bottomLeft;
     private Vector3 topRight;
 
-    // Start is called before the first frame update
-    void Start()
+    // Update is called once per frame
+    public override void InitializeEnemy()
     {
-        rb = gameObject.GetComponent<Rigidbody2D>();
-
-        anim = gameObject.GetComponent<Animation>();
-
-        game = GameObject.Find("Game").GetComponent<game>();
-
         player = GameObject.Find("plane");
 
         bottomLeft = Camera.main.ScreenToWorldPoint(new Vector3(0, 0, 0));
@@ -52,22 +33,19 @@ public class Me262 : MonoBehaviour, EnemyInterface
         {
             rotateDirection = true;
         }
-
-        points = 30;
     }
 
-    // Update is called once per frame
-    void Update()
+    protected override void Update()
     {
-        if (Time.time >= nextUpdate)
+        if (Time.time >= attackUpdate)
         {
-            nextUpdate = Mathf.FloorToInt(Time.time) + attackSpeed;
+            attackUpdate = Mathf.FloorToInt(Time.time) + attackSpeed;
             Attack();
         }
         Move();
     }
 
-    void Attack()
+    public override void Attack()
     {
         Vector3 missilePos = new Vector3(transform.position.x, transform.position.y - .8f, transform.position.z);
         GameObject go1 = Instantiate(missilePrefab, missilePos, Quaternion.identity);
@@ -75,7 +53,7 @@ public class Me262 : MonoBehaviour, EnemyInterface
         missile.targetVector = new Vector3(0, -1, 0);
     }
 
-    private void Move()
+    public override void Move()
     {
         if (rotate)
         {
@@ -117,22 +95,5 @@ public class Me262 : MonoBehaviour, EnemyInterface
             rotateDirection = false;
         }
         rb.velocity = transform.right.normalized * speed;
-    }
-
-    public int TakeDamage(int damage)
-    {
-        currentHealth -= damage;
-        anim.Play("EnemyDamageAnimation");
-        return currentHealth;
-    }
-
-    public void Die()
-    {
-        Destroy(gameObject);
-        GameObject go1 = Instantiate(explosionPrefab, gameObject.transform.position, Quaternion.identity);
-        game.notifyKill(points, "Me262");
-
-        FindObjectOfType<AudioManager>().Play("Explosion");
-        FindObjectOfType<DialogueManager>().CreateEnemyDeathText(go1);
     }
 }

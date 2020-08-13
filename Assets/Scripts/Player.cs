@@ -57,6 +57,7 @@ public class Player : MonoBehaviour
 
     public GameObject bulletPrefab;
     public GameObject playerMissilePrefab;
+    public GameObject poisonMissilePrefab;
     public GameObject missileCrosshairPrefab;
     public GameObject squadronPrefab;
 
@@ -98,8 +99,10 @@ public class Player : MonoBehaviour
         missileType = data.missileType;
         SetNumberOfSquadrons(data.escortType);
 
-        SetGunType(8);
+        SetGunType(shootType);
         SetMissileType(missileType);
+        //SetGunType(4);
+        //SetMissileType(5);
 
         stance = 1;
         SetStance(stance);
@@ -355,6 +358,8 @@ public class Player : MonoBehaviour
             case 7:
                 gunAttack = new DoubleAutoCannon(bulletPrefab);
                 GameObject.Find("ShootTypeUI").GetComponent<ShootTypeUI>().ChangeShootSprite(FindObjectOfType<UISpriteManager>().Find("UIDoubleAutoCannon"));
+                shootUpdate = .25f;
+                defaultShootUpdate = .25f;
                 break;
             case 8:
                 gunAttack = new SmartHighVelocityShot(bulletPrefab);
@@ -381,7 +386,11 @@ public class Player : MonoBehaviour
                 break;
             case 4:
                 missileAttack = new SwarmerMissile(playerMissilePrefab);
-                GameObject.Find("MissileTypeUI").GetComponent<ShootTypeUI>().ChangeShootSprite(FindObjectOfType<UISpriteManager>().Find("UIQuadMissile"));
+                GameObject.Find("MissileTypeUI").GetComponent<ShootTypeUI>().ChangeShootSprite(FindObjectOfType<UISpriteManager>().Find("UISwarmerMissile"));
+                break;
+            case 5:
+                missileAttack = new SingleMissile(poisonMissilePrefab);
+                GameObject.Find("MissileTypeUI").GetComponent<ShootTypeUI>().ChangeShootSprite(FindObjectOfType<UISpriteManager>().Find("UISlowMissile"));
                 break;
         }
     }

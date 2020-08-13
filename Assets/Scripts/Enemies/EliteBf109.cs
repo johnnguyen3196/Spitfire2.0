@@ -2,47 +2,28 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EliteBf109 : MonoBehaviour, EnemyInterface
+public class EliteBf109 : EnemyPlane
 {
-    private int nextUpdate = 0;
     private float burstUpdate = 0;
 
-    public GameObject bulletPrefab;
-    public GameObject explosionPrefab;
-    private game game;
+    public int burstAmount = 0;
+    public float burstInterval = 0.5f;
+
     private GameObject player;
 
-    private float speed = 2.5f;
-    private int attackSpeed = 2;
-    private int burstAmount = 0;
-    private float burstInterval = 0.5f;
+    public GameObject bulletPrefab;
 
-    public int currentHealth;
-    private Vector3 targetVector;
-    private int points;
-
-    private Animation anim;
-    private Rigidbody2D rb;
-    // Start is called before the first frame update
-    void Start()
+    public override void InitializeEnemy()
     {
-        rb = gameObject.GetComponent<Rigidbody2D>();
-
-        game = GameObject.Find("Game").GetComponent<game>();
-
-        anim = gameObject.GetComponent<Animation>();
-
         player = GameObject.Find("plane");
-
-        points = 20;
     }
 
     // Update is called once per frame
-    void Update()
+    protected override void Update()
     {
-        if(nextUpdate <= Time.time)
+        if(attackUpdate <= Time.time)
         {
-            nextUpdate = Mathf.FloorToInt(Time.time) + attackSpeed;
+            attackUpdate = Mathf.FloorToInt(Time.time) + attackSpeed;
             burstAmount = 0;
         }
         //Attack pattern
@@ -56,7 +37,7 @@ public class EliteBf109 : MonoBehaviour, EnemyInterface
         Move();
     }
 
-    void Attack()
+    public override void Attack()
     {
         Vector3 leftBulletPos = new Vector3(transform.position.x - 0.233f, transform.position.y - .65f, transform.position.z);
         Vector3 rightBulletPos = new Vector3(transform.position.x + 0.233f, transform.position.y - .65f, transform.position.z);
@@ -83,7 +64,7 @@ public class EliteBf109 : MonoBehaviour, EnemyInterface
         bullet3.damage = 10;
     }
 
-    void Move()
+    public override void Move()
     {
         Vector3 velocity;
         if (player.transform.position.x < gameObject.transform.position.x)
@@ -95,22 +76,5 @@ public class EliteBf109 : MonoBehaviour, EnemyInterface
             velocity = new Vector3(.33f, -1, 0) * speed;
         }
         rb.velocity = velocity;
-    }
-
-    public int TakeDamage(int damage)
-    {
-        currentHealth -= damage;
-        anim.Play("EnemyDamageAnimation");
-        return currentHealth;
-    }
-
-    public void Die()
-    {
-        Destroy(gameObject);
-        GameObject go1 = Instantiate(explosionPrefab, gameObject.transform.position, Quaternion.identity);
-        game.notifyKill(points, "BF109F");
-
-        FindObjectOfType<AudioManager>().Play("Explosion");
-        FindObjectOfType<DialogueManager>().CreateEnemyDeathText(go1);
     }
 }

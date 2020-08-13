@@ -188,14 +188,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e5137cb03e51884e8cf91f5caedc54a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletPrefab: {fileID: 7286234926941710631, guid: dc1fd357c5414b042a5df98559a5a202,
-    type: 3}
   explosionPrefab: {fileID: 2423041736348177234, guid: 0b86143daed4231458ba42146e3b88d5,
     type: 3}
+  _name: Do217
   speed: 3.5
   attackSpeed: 2
   currentHealth: 40
-  targetVector: {x: 0, y: 0, z: 0}
+  points: 50
+  bulletPrefab: {fileID: 7286234926941710631, guid: dc1fd357c5414b042a5df98559a5a202,
+    type: 3}
 --- !u!111 &4121149178822703665
 Animation:
   m_ObjectHideFlags: 0

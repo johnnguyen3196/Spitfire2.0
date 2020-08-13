@@ -53,7 +53,7 @@ public class Menu : MonoBehaviour
         GameOverMenuUI.SetActive(false);
         Time.timeScale = 1f;
         GameIsPaused = false;
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene("Upgrade");
     }
 
     public void TakeDamage()

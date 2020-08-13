@@ -2,51 +2,28 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Ju87G : MonoBehaviour, EnemyInterface
+public class Ju87G : EnemyPlane
 {
-    private int nextUpdate = 0;
-
     public GameObject bulletPrefab;
-    public GameObject explosionPrefab;
-    private game game;
     private GameObject player;
 
-    private float speed = 2.5f;
-    private int attackSpeed = 2;
-
-    public int currentHealth;
-    private Vector3 targetVector;
-    private int points;
-
-    private Rigidbody2D rb;
-    private Animation anim;
-
-    // Start is called before the first frame update
-    void Start()
+    public override void InitializeEnemy()
     {
-        rb = gameObject.GetComponent<Rigidbody2D>();
-
-        game = GameObject.Find("Game").GetComponent<game>();
-
-        anim = gameObject.GetComponent<Animation>();
-
         player = GameObject.Find("plane");
-
-        points = 30;
     }
 
     // Update is called once per frame
-    void Update()
+    protected override void Update()
     {
-        if (Time.time >= nextUpdate)
+        if (Time.time >= attackUpdate)
         {
-            nextUpdate = Mathf.FloorToInt(Time.time) + attackSpeed;
+            attackUpdate = Mathf.FloorToInt(Time.time) + attackSpeed;
             Attack();
         }
         Move();
     }
 
-    void Attack()
+    public override void Attack()
     {
         //player is behind GameObject
         if (player.transform.position.y > transform.position.y)
@@ -82,7 +59,7 @@ public class Ju87G : MonoBehaviour, EnemyInterface
         }
     }
 
-    void Move()
+    public override void Move()
     {
         Vector3 velocity;
         if (player.transform.position.x < gameObject.transform.position.x)
@@ -94,22 +71,5 @@ public class Ju87G : MonoBehaviour, EnemyInterface
             velocity = new Vector3(.33f, -1, 0) * speed;
         }
         rb.velocity = velocity;
-    }
-
-    public int TakeDamage(int damage)
-    {
-        currentHealth -= damage;
-        anim.Play("EnemyDamageAnimation");
-        return currentHealth;
-    }
-
-    public void Die()
-    {
-        Destroy(gameObject);
-        GameObject go1 = Instantiate(explosionPrefab, gameObject.transform.position, Quaternion.identity);
-        game.notifyKill(points, "Ju87G");
-
-        FindObjectOfType<AudioManager>().Play("Explosion");
-        FindObjectOfType<DialogueManager>().CreateEnemyDeathText(go1);
     }
 }

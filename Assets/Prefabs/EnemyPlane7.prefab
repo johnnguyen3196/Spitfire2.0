@@ -126,11 +126,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4612f7b7dd850d84999aa4dad5356b2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletPrefab: {fileID: 7286234926941710631, guid: dc1fd357c5414b042a5df98559a5a202,
-    type: 3}
   explosionPrefab: {fileID: 2423041736348177234, guid: 0b86143daed4231458ba42146e3b88d5,
     type: 3}
+  _name: Ju87
+  speed: 2
+  attackSpeed: 1
   currentHealth: 30
+  points: 20
+  bulletPrefab: {fileID: 7286234926941710631, guid: dc1fd357c5414b042a5df98559a5a202,
+    type: 3}
 --- !u!111 &5673937326655273317
 Animation:
   m_ObjectHideFlags: 0

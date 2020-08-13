@@ -38,7 +38,7 @@ public class UpgradeMenu : MonoBehaviour
      * 12. AutoCannon
      * 13. High Velocity Shot
     */
-    private bool[] toggles = new bool[17];
+    private bool[] toggles = new bool[18];
 
     private int powerupselect;
 
@@ -695,5 +695,25 @@ public class UpgradeMenu : MonoBehaviour
         DisableEquippedButton(data);
     }
 
-
+    public void PoisonMissileSelect()
+    {
+        toggles[17] = toggles[17] ? false : true;
+        SetAllSelectToFalse(17);
+        if (toggles[17])
+        {
+            Info.SetActive(true);
+            Info.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "Poison Missile";
+            Info.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = "Fires a poison missile. Poison missiles slows all enemies in an area and does damage over time";
+            Info.transform.GetChild(3).GetComponent<Image>().sprite = missileSprites[4];
+            Info.transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = "Cost: 2000";
+            powerupselect = -5;
+        }
+        else
+        {
+            Info.SetActive(false);
+        }
+        DisableUpgradeButton(2000);
+        upgradeCost = 2000;
+        DisableEquippedButton(data);
+    }
 }
