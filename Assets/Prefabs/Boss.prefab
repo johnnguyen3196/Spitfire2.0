@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 2372727682022853304}
   m_Layer: 0
   m_Name: LeftWingHitbox
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -47,7 +47,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -75,6 +75,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48dcfea914beb4744873898125879dc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  explosionPrefab: {fileID: 0}
+  _name: 
+  speed: 0
+  attackSpeed: 0
+  currentHealth: 0
+  points: 0
   component: 1
   flames: {fileID: 5818332354079765715}
 --- !u!198 &5818332354079765715
@@ -5175,7 +5181,7 @@ GameObject:
   - component: {fileID: 4944312912284918765}
   m_Layer: 0
   m_Name: BodyHitBox
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5206,7 +5212,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -5234,6 +5240,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48dcfea914beb4744873898125879dc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  explosionPrefab: {fileID: 0}
+  _name: 
+  speed: 0
+  attackSpeed: 0
+  currentHealth: 0
+  points: 0
   component: 0
   flames: {fileID: 2251417794993589013}
 --- !u!198 &2251417794993589013
@@ -10020,7 +10032,7 @@ GameObject:
   - component: {fileID: 9005644234353711263}
   m_Layer: 0
   m_Name: RightWingHitBox
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -10052,7 +10064,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -10080,6 +10092,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48dcfea914beb4744873898125879dc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  explosionPrefab: {fileID: 0}
+  _name: 
+  speed: 0
+  attackSpeed: 0
+  currentHealth: 0
+  points: 0
   component: 2
   flames: {fileID: 7001380074369044040}
 --- !u!198 &7001380074369044040

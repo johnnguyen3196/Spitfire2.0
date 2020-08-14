@@ -54,9 +54,9 @@ public class Scoreboard : MonoBehaviour
             GameObject go = Instantiate(ScoreObjectPrefab, GameObject.Find("Scoreboard").transform, false);
             RectTransform rt = go.GetComponent<RectTransform>();
             rt.sizeDelta = new Vector2(rt.sizeDelta.x, scoreObjectHeight);
-            Vector3 pos = go.transform.position;
+            Vector3 pos = go.transform.localPosition;
             pos.y -= heightOffset;
-            go.transform.position = pos;
+            go.transform.localPosition = pos;
 
             heightOffset += scoreObjectHeight;
 

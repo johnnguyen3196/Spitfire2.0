@@ -32,7 +32,7 @@ public class Poisonfield : MonoBehaviour
 
     void DamageAllEnemies()
     {
-        foreach(GameObject enemyObject in enemies)
+        foreach(GameObject enemyObject in enemies.ToArray())
         {
             EnemyPlane enemy = enemyObject.GetComponent<EnemyPlane>();
             if (enemy.TakeDamage(10) <= 0)

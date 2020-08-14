@@ -44,7 +44,7 @@ public class EnemyPlane : MonoBehaviour
 
     public virtual void InitializeEnemy()
     {
-        Debug.LogError("Forgot to implement Initialization");
+
     }
 
     private void InitializeDefaults()
@@ -58,14 +58,14 @@ public class EnemyPlane : MonoBehaviour
 
     public virtual void Attack()
     {
-        Debug.LogError("Forgot to implement Attack");
+
     }
 
     public virtual void Move()
     {
     }
 
-    public int TakeDamage(int damage)
+    public virtual int TakeDamage(int damage)
     {
         currentHealth -= damage;
         anim.Play("EnemyDamageAnimation");
@@ -82,7 +82,7 @@ public class EnemyPlane : MonoBehaviour
         FindObjectOfType<DialogueManager>().CreateEnemyDeathText(go1);
     }
 
-    public void ModifySpeed(float percentage)
+    public virtual void ModifySpeed(float percentage)
     {
         if (!speedModified)
         {
@@ -102,7 +102,7 @@ public class EnemyPlane : MonoBehaviour
         }
     }
 
-    public void SetDefaultSpeed()
+    public virtual void SetDefaultSpeed()
     {
         speed = defaultSpeed;
         speedModified = false;

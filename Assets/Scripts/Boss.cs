@@ -15,7 +15,7 @@ public class Boss : MonoBehaviour
     public GameObject leftWingTurret;
     public GameObject rightWingTurret;
 
-    private float speed = .5f;
+    public float speed = .5f;
     public int maxHealth = 1000;
     //component 0
     private int bodyHealth = 600;
@@ -28,7 +28,7 @@ public class Boss : MonoBehaviour
     public HealthBar healthBar;
     private GameObject healthBarUI;
 
-    private Rigidbody2D rb;
+    public Rigidbody2D rb;
 
     private Vector3 bottomLeft;
     private Vector3 topRight;
@@ -44,9 +44,6 @@ public class Boss : MonoBehaviour
         bottomLeft = Camera.main.ScreenToWorldPoint(new Vector3(0, 0, 0));
         topRight = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0));
         currentHealth = maxHealth;
-
-        Player player = GameObject.Find("plane").GetComponent<Player>();
-        player.missileTarget = gameObject;
 
         game = GameObject.Find("Game").GetComponent<game>();
 

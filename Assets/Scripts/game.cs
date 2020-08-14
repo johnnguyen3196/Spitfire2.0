@@ -294,8 +294,8 @@ public class game : MonoBehaviour
         //ITS OVER 9000!!!!
         if(points > 9000)
         {
-            Menu.GameOverMenu("Mission Complete"); 
             scoreboard.UpdateList(name, 500);
+            Menu.GameOverMenu("Mission Complete");
             return;
         } else if(points < 0)
         {
