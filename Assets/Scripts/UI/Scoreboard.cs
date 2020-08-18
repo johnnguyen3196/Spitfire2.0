@@ -64,6 +64,23 @@ public class Scoreboard : MonoBehaviour
             go.transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>().text = "x" + EnemiesList[i].count.ToString();
             go.transform.GetChild(2).gameObject.GetComponent<TextMeshProUGUI>().text = EnemiesList[i].score.ToString();
         }
+        //Display Total points
+        GameObject go1 = Instantiate(ScoreObjectPrefab, GameObject.Find("Scoreboard").transform, false);
+        RectTransform rt1 = go1.GetComponent<RectTransform>();
+        rt1.sizeDelta = new Vector2(rt1.sizeDelta.x, scoreObjectHeight);
+        Vector3 pos1 = go1.transform.localPosition;
+        pos1.y -= heightOffset;
+        go1.transform.localPosition = pos1;
+
+
+        go1.transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>().text = "Total: ";
+        int total = 0;
+        foreach(Enemies enemy in EnemiesList)
+        {
+            total += enemy.score;
+        }
+        go1.transform.GetChild(2).gameObject.GetComponent<TextMeshProUGUI>().text = total.ToString();
+
         displayed = true;
     }
 }

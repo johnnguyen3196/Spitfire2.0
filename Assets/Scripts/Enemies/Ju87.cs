@@ -16,6 +16,8 @@ public class Ju87 : EnemyPlane
 
     public override void Attack()
     {
+        if (player == null)
+            return;
         //player is behind GameObject
         if (player.transform.position.y < transform.position.y)
         {

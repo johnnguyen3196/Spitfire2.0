@@ -111,6 +111,7 @@ public class FixedGun : MonoBehaviour, BossWeaponInterface
 
         EnemyBullet bullet1 = go1.GetComponent<EnemyBullet>();
 
+        //OK this is wrong but it works for some reason. IDK why
         Vector3 direction = new Vector3(Mathf.Sin(currentAngle), Mathf.Cos(currentAngle), 0);
         bullet1.targetVector = direction;
         currentAngle += angleOffset;
@@ -122,6 +123,8 @@ public class FixedGun : MonoBehaviour, BossWeaponInterface
     //burst fire 3 - 5 shots towards the player
     void AttackPattern2()
     {
+        if (player == null)
+            return;
         Vector3 leftBulletPos = gameObject.transform.GetChild(0).gameObject.transform.position;
 
         GameObject go1 = Instantiate(bulletPrefab, leftBulletPos, Quaternion.identity);

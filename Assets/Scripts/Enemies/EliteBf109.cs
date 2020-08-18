@@ -66,6 +66,8 @@ public class EliteBf109 : EnemyPlane
 
     public override void Move()
     {
+        if (player == null)
+            return;
         Vector3 velocity;
         if (player.transform.position.x < gameObject.transform.position.x)
         {

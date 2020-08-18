@@ -25,6 +25,8 @@ public class Ju87G : EnemyPlane
 
     public override void Attack()
     {
+        if (player == null)
+            return;
         //player is behind GameObject
         if (player.transform.position.y > transform.position.y)
         {
@@ -61,6 +63,8 @@ public class Ju87G : EnemyPlane
 
     public override void Move()
     {
+        if (player == null)
+            return;
         Vector3 velocity;
         if (player.transform.position.x < gameObject.transform.position.x)
         {

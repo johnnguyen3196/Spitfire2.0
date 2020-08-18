@@ -50,6 +50,7 @@ public class Boss : MonoBehaviour
         healthBarUI = Instantiate(UIPrefab);
         healthBar = healthBarUI.transform.GetChild(0).gameObject.transform.GetChild(0).gameObject.GetComponent<HealthBar>();
         healthBar.SetMaxHealth(maxHealth);
+        healthBar.SetName("BV228");
     }
 
     // Update is called once per frame
@@ -63,7 +64,6 @@ public class Boss : MonoBehaviour
         {
             rb.velocity = new Vector3(-1, 0, 0) * speed;
         }
-        healthBar.SetHealth(currentHealth);
     }
 
     public void TakeDamage(int damage, int component)
@@ -134,6 +134,7 @@ public class Boss : MonoBehaviour
             go.transform.localScale = new Vector3(7, 7, 1);
             game.notifyKill(9001, "BV228");
         }
+        healthBar.SetHealth(currentHealth);
     }
 
     void DisableComponentWeapons(GameObject component)

@@ -60,6 +60,7 @@ public class Player : MonoBehaviour
     public GameObject poisonMissilePrefab;
     public GameObject missileCrosshairPrefab;
     public GameObject squadronPrefab;
+    public GameObject explosionPrefab;
 
     //temp
     public GameObject powerUpPrefab;
@@ -268,8 +269,6 @@ public class Player : MonoBehaviour
         transform.position = new Vector3(xPosition, yPosition, 0);
 
         //UI updates
-        healthBar.SetHealth(currentHealth);
-        shieldBar.SetShield(currentShieldHealth);
         teleportBar.SetTele(1 - Mathf.Lerp(0, 1, teleCoolDown / 5));
     }
 
@@ -465,6 +464,13 @@ public class Player : MonoBehaviour
             Menu.TakeDamage();
             currentHealth -= leftover;
             FindObjectOfType<AudioManager>().Play("PlayerDamage");
+        }
+        healthBar.SetHealth(currentHealth);
+        shieldBar.SetShield(currentShieldHealth);
+        if (currentHealth < 0)
+        {
+            Instantiate(explosionPrefab, transform.position, Quaternion.identity);
+            Destroy(gameObject);
         }
     }
 

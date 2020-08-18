@@ -30,6 +30,8 @@ public class Missile : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (target == null)
+            return;
         //missile starts tracking after 0.5 seconds
         if(Time.time >= spawnTime + nextUpdate)
         {

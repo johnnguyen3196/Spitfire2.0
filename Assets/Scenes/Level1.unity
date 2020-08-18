@@ -231,6 +231,8 @@ MonoBehaviour:
     type: 3}
   squadronPrefab: {fileID: 1457433820443334949, guid: 0a468ac01b7bf5143be24c0a71044b72,
     type: 3}
+  explosionPrefab: {fileID: 2423041736348177234, guid: 0b86143daed4231458ba42146e3b88d5,
+    type: 3}
   powerUpPrefab: {fileID: 5859999481855736143, guid: c661cffbbeaa7454f8003a5ccb051d75,
     type: 3}
   disableLeft: 0
@@ -399,12 +401,14 @@ MonoBehaviour:
     type: 3}
   cloudPrefab: {fileID: 2887225732421820834, guid: ffdf28280a2b3d3498063a56426f7237,
     type: 3}
-  bossPrefab: {fileID: 7573545205385313420, guid: 90ed25b3212e52f40bdaed6d34cecf3e,
+  bossPrefab: {fileID: 4479060573339291730, guid: 0d5d67453a49b994da218d8b014db762,
     type: 3}
   pointsUI: {fileID: 128370229}
   Menu: {fileID: 1534176}
   scoreboard: {fileID: 1761853457}
-  totalPoints: 3000
+  EnemiesSpawn: []
+  totalPoints: 500
+  requiredPoints: 50
   currentPoints: 0
 --- !u!4 &443594165
 Transform:
@@ -6386,7 +6390,7 @@ PrefabInstance:
     - target: {fileID: 5488508091602314957, guid: 1ac77871d2f89c74ab953201b03766ba,
         type: 3}
       propertyPath: m_textInfo.lineCount
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5488508091602314957, guid: 1ac77871d2f89c74ab953201b03766ba,
         type: 3}
@@ -6406,7 +6410,22 @@ PrefabInstance:
     - target: {fileID: 5488508091602314957, guid: 1ac77871d2f89c74ab953201b03766ba,
         type: 3}
       propertyPath: m_textInfo.spaceCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5488508091602314957, guid: 1ac77871d2f89c74ab953201b03766ba,
+        type: 3}
+      propertyPath: m_enableAutoSizing
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5488508091602314957, guid: 1ac77871d2f89c74ab953201b03766ba,
+        type: 3}
+      propertyPath: m_firstOverflowCharacterIndex
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5488508091602314957, guid: 1ac77871d2f89c74ab953201b03766ba,
+        type: 3}
+      propertyPath: m_fontSizeBase
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 5488508091602314959, guid: 1ac77871d2f89c74ab953201b03766ba,
         type: 3}
@@ -6471,22 +6490,42 @@ PrefabInstance:
     - target: {fileID: 5488508092974862642, guid: 1ac77871d2f89c74ab953201b03766ba,
         type: 3}
       propertyPath: m_textInfo.characterCount
-      value: 0
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 5488508092974862642, guid: 1ac77871d2f89c74ab953201b03766ba,
         type: 3}
       propertyPath: m_textInfo.wordCount
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5488508092974862642, guid: 1ac77871d2f89c74ab953201b03766ba,
         type: 3}
       propertyPath: m_textInfo.lineCount
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5488508092974862642, guid: 1ac77871d2f89c74ab953201b03766ba,
         type: 3}
       propertyPath: m_textInfo.pageCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5488508092974862642, guid: 1ac77871d2f89c74ab953201b03766ba,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 23.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5488508092974862642, guid: 1ac77871d2f89c74ab953201b03766ba,
+        type: 3}
+      propertyPath: m_enableAutoSizing
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5488508092974862642, guid: 1ac77871d2f89c74ab953201b03766ba,
+        type: 3}
+      propertyPath: m_firstOverflowCharacterIndex
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5488508092974862642, guid: 1ac77871d2f89c74ab953201b03766ba,
+        type: 3}
+      propertyPath: m_fontSizeBase
+      value: 23.5
       objectReference: {fileID: 0}
     - target: {fileID: 6079161376527866012, guid: 1ac77871d2f89c74ab953201b03766ba,
         type: 3}

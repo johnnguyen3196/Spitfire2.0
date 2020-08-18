@@ -10,6 +10,7 @@ public class HealthBar : MonoBehaviour
     public Gradient gradient;
     public Image fill;
     public TextMeshProUGUI healthText;
+    public TextMeshProUGUI nameText;
     
     public void SetMaxHealth(float health)
     {
@@ -29,5 +30,10 @@ public class HealthBar : MonoBehaviour
             health = 0;
         }
         healthText.text = health.ToString();
+    }
+
+    public void SetName(string name)
+    {
+        nameText.text = " " + name;
     }
 }

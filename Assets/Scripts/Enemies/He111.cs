@@ -40,6 +40,8 @@ public class He111 : EnemyPlane
 
     void BodyAttack()
     {
+        if (player == null)
+            return;
         Vector3 leftBodyBulletPos = gameObject.transform.GetChild(1).gameObject.transform.position;
         Vector3 rightBodyBulletPos = gameObject.transform.GetChild(2).gameObject.transform.position;
 
@@ -75,6 +77,8 @@ public class He111 : EnemyPlane
 
     void TailAttack()
     {
+        if (player == null)
+            return;
         Vector3 leftTailBulletPos = gameObject.transform.GetChild(3).gameObject.transform.position;
         Vector3 rightTailBulletPos = gameObject.transform.GetChild(4).gameObject.transform.position;
 
