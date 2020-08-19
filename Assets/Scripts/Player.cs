@@ -16,10 +16,10 @@ public class Player : MonoBehaviour
 
     private int oneSecondUpdate = 1;
 
-    private float shootTimer = 0;
+    private float shootTimer = 1;
     private float defaultShootUpdate = 1;
     private float shootUpdate;
-    private float missileTimer = 0;
+    private float missileTimer = 1;
     private float defaultMissileUpdate = 2;
     private float missileUpdate = 2;
     private float defaultSpeed = 5;
@@ -80,7 +80,7 @@ public class Player : MonoBehaviour
     public PlayerData data;
     
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         data = SaveSystem.LoadPlayer(PlayerPrefs.GetString("saveName"));
         level = data.level;
@@ -176,7 +176,7 @@ public class Player : MonoBehaviour
         }
 
         //Teleport updates
-        if (Input.GetKeyDown("z") && teleCoolDown == 0)
+        if (Input.GetKeyDown("space") && teleCoolDown == 0 && Time.timeScale != 0)
         {
             transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             teleCoolDown = maxTeleCoolDown;
@@ -209,7 +209,7 @@ public class Player : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.Alpha1))
+        if (Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Keypad1))
         {
             if(stance != 1)
             {
@@ -218,7 +218,7 @@ public class Player : MonoBehaviour
                 stanceUI.SelectAgility();
             }
         }
-        if (Input.GetKeyDown(KeyCode.Alpha2))
+        if (Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Keypad2))
         {
             if (stance != 2)
             {
@@ -227,7 +227,7 @@ public class Player : MonoBehaviour
                 stanceUI.SelectGun();
             }
         }
-        if (Input.GetKeyDown(KeyCode.Alpha3))
+        if (Input.GetKeyDown(KeyCode.Alpha3) || Input.GetKeyDown(KeyCode.Keypad3))
         {
             if (stance != 3)
             {
@@ -236,7 +236,7 @@ public class Player : MonoBehaviour
                 stanceUI.SelectMissile();
             }
         }
-        if (Input.GetKeyDown(KeyCode.Alpha4))
+        if (Input.GetKeyDown(KeyCode.Alpha4) || Input.GetKeyDown(KeyCode.Keypad4))
         {
             if (stance != 4)
             {

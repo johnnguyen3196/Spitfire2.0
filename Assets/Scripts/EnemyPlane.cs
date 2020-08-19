@@ -19,6 +19,9 @@ public class EnemyPlane : MonoBehaviour
     protected Vector3 targetVector;
     public int points;
 
+    //prevents object from dieing more than once.
+    private bool dieing = false;
+
     private bool speedModified = false;
 
     protected Animation anim;
@@ -75,12 +78,16 @@ public class EnemyPlane : MonoBehaviour
 
     public void Die()
     {
-        Destroy(gameObject);
-        GameObject go1 = Instantiate(explosionPrefab, gameObject.transform.position, Quaternion.identity);
-        game.notifyKill(points, _name);
+        if (!dieing)
+        {
+            dieing = true;
+            Destroy(gameObject);
+            GameObject go1 = Instantiate(explosionPrefab, gameObject.transform.position, Quaternion.identity);
+            game.notifyKill(points, _name);
 
-        FindObjectOfType<AudioManager>().Play("Explosion");
-        FindObjectOfType<DialogueManager>().CreateEnemyDeathText(go1);
+            FindObjectOfType<AudioManager>().Play("Explosion");
+            FindObjectOfType<DialogueManager>().CreateEnemyDeathText(go1);
+        }
     }
 
     public virtual void ModifySpeed(float percentage)

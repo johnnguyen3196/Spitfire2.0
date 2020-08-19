@@ -56,7 +56,8 @@ public class game : MonoBehaviour
         
 
     //Helps spawn different types of enemies and squadrons for the game
-    private struct SpawnType
+    [System.Serializable]
+    public struct SpawnType
     {
         //do we need to spawn a squadron or just 1 enemy?
         public bool squadron;
@@ -75,7 +76,7 @@ public class game : MonoBehaviour
         }
     }
 
-    private List<SpawnType> EnemiesSpawn = new List<SpawnType>();
+    public List<SpawnType> EnemiesSpawn = new List<SpawnType>();
 
     public int spawnIndex = 0;
 
@@ -89,6 +90,9 @@ public class game : MonoBehaviour
     private float endTime;
     private bool fail;
 
+    private bool endSpawnDelay = false;
+    private float endSpawnDelayTime;
+
     public int totalPoints;
     public int requiredPoints;
     public int currentPoints = 0;
@@ -96,11 +100,8 @@ public class game : MonoBehaviour
     public int level;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-        //for some stupid reason, when the player retries a mission, the timescale is set to 0. idk why
-        Time.timeScale = 1;
-
         enemyUpdate = Random.Range(3, 6);
         cloudUpdate = Random.Range(0, 3);
 
@@ -206,6 +207,11 @@ public class game : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Menu.AlternatePause();
+        }
+
         if (endGame)
         {
             if(Time.time > endTime)
@@ -224,6 +230,20 @@ public class game : MonoBehaviour
 
         if (spawnIndex == EnemiesSpawn.Count)
         {
+            //Give the player the opportunity to kill last enemies before points check and boss spawn
+            if (!endSpawnDelay)
+            {
+                endSpawnDelay = true;
+                endSpawnDelayTime = Time.time + 5;
+                return;
+            } else
+            {
+                if(Time.time < endSpawnDelayTime)
+                {
+                    return;
+                }
+            }
+
             if(currentPoints < requiredPoints)
             {
                 endGame = true;
@@ -354,6 +374,8 @@ public class game : MonoBehaviour
         //ITS OVER 9000!!!!
         if(points > 9000)
         {
+            currentPoints += 500;
+            pointsUI.setPointsText(currentPoints, requiredPoints);
             scoreboard.UpdateList(name, 500);
             endGame = true;
             fail = false;

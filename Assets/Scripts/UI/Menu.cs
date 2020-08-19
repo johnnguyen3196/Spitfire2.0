@@ -31,11 +31,23 @@ public class Menu : MonoBehaviour
 
     public void Pause()
     {
+         
         PauseMenuUI.SetActive(true);
         Time.timeScale = 0f;
         GameIsPaused = true;
 
         FindObjectOfType<AudioManager>().Play("Pause");
+    }
+
+    public void AlternatePause()
+    {
+        if (GameIsPaused)
+        {
+            Resume();
+        } else
+        {
+            Pause();
+        }
     }
 
     public void Quit()
