@@ -4942,8 +4942,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ada2a61bdeb05e04c84cc7592d34f81a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0.1
-  targetVector: {x: 0, y: 0, z: 0}
+  speed: 5
   lifetime: 10
   damage: 10
   target: {fileID: 0}
+  targetVector: {x: 0, y: 0, z: 0}

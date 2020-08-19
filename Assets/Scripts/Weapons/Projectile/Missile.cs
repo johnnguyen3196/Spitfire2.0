@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Missile : MonoBehaviour
 {
-    private float nextUpdate = .5f;
+    private float nextUpdate;
     public float speed;          // The speed our bullet travels
     public float lifetime = 10f;     // how long it lives before destroying itself
     public float damage = 10;       // how much damage this projectile causes
@@ -13,7 +13,6 @@ public class Missile : MonoBehaviour
     public Vector3 targetVector;
     private Rigidbody2D rb;
     private float distance;     // distance between missile and player
-    private float spawnTime;
     // Start is called before the first frame update
     void Start()
     {
@@ -23,7 +22,7 @@ public class Missile : MonoBehaviour
         speed = 100f;
         //missile will initially go straight until 0.5 seconds
         rb.AddForce(targetVector * speed);
-        spawnTime = Time.time;
+        nextUpdate = Time.time + 0.5f;
         transform.rotation = Quaternion.AngleAxis(-90, Vector3.forward);
     }
 
@@ -33,9 +32,9 @@ public class Missile : MonoBehaviour
         if (target == null)
             return;
         //missile starts tracking after 0.5 seconds
-        if(Time.time >= spawnTime + nextUpdate)
+        if(Time.time >= nextUpdate)
         {
-            speed = 1f;
+            speed = 20f;
             //missile will continue in current direction if it overshoots the player
             float currentDistance = Vector3.Distance(gameObject.transform.position, target.gameObject.transform.position);
             if (currentDistance <= distance + .2f)
@@ -45,6 +44,7 @@ public class Missile : MonoBehaviour
 
                 distance = currentDistance;
             }
+            nextUpdate = Time.time + .1f;
         }
     }
 
