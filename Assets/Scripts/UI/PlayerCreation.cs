@@ -55,7 +55,7 @@ public class PlayerCreation : MonoBehaviour
                 else if (t.name == "Mission")
                 {
                     //temp
-                    t.GetComponent<TextMeshProUGUI>().text = "Mission: 1";
+                    t.GetComponent<TextMeshProUGUI>().text = "Mission: " + data.level;
                     t.gameObject.SetActive(true);
                 }
                 else if (t.name == "PlaneImage")
@@ -85,6 +85,7 @@ public class PlayerCreation : MonoBehaviour
         data.saveName = saveName;
         data.plane = plane;
         data.level = 1;
+        data.points = 1000;
         data.shootType = 0;
         data.missileType = 1;
         data.escortType = 1;

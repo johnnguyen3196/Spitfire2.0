@@ -12,10 +12,15 @@ public class Menu : MonoBehaviour
     public GameObject PauseMenuUI;
     public GameObject GameOverMenuUI;
     public TextMeshProUGUI GameOverText;
+    public TextMeshProUGUI RetryText;
     public Animation damageAnimator;
     public Animation spawnBossAnimator;
     public GameObject WarningMenuUI;
     public Scoreboard scoreboard;
+
+    private bool fail;
+
+    public PlayerData data;
 
     public void Resume()
     {
@@ -39,12 +44,37 @@ public class Menu : MonoBehaviour
         SceneManager.LoadScene(0);
     }
 
-    public void GameOverMenu(string text)
+    public void GameOverMenu(string text, bool fail, int points)
     {
         GameOverMenuUI.SetActive(true);
         Time.timeScale = 0f;
         GameIsPaused = true;
         GameOverText.text = text;
+        this.fail = fail;
+        if (fail)
+        {
+            RetryText.text = "Retry";
+        } else
+        {
+            data = SaveSystem.LoadPlayer(PlayerPrefs.GetString("saveName"));
+
+            RetryText.text = "Continue";
+            
+            data.points += points;
+
+            int level = GameObject.Find("Game").GetComponent<game>().level + 1;
+            if (data.level < level)
+            {
+                data.level = level;
+            }
+            //////////////////////TEMP//////////////////////////
+            if(data.level > 2)
+            {
+                data.level = 2;
+            }
+            /////////////////////
+            SaveSystem.SavePlayerData(data);
+        }
         scoreboard.DisplayScoreboard();
     }
 
@@ -53,7 +83,13 @@ public class Menu : MonoBehaviour
         GameOverMenuUI.SetActive(false);
         Time.timeScale = 1f;
         GameIsPaused = false;
-        SceneManager.LoadScene("Upgrade");
+        if (fail)
+        {
+            SceneManager.LoadScene("Level" + data.level);
+        } else
+        {
+            SceneManager.LoadScene("Upgrade");
+        }
     }
 
     public void TakeDamage()

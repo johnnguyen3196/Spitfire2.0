@@ -47,7 +47,7 @@ public class LoadMenu : MonoBehaviour
                 else if (t.name == "Mission")
                 {
                     //temp
-                    t.GetComponent<TextMeshProUGUI>().text = "Mission: 1";
+                    t.GetComponent<TextMeshProUGUI>().text = "Mission: " + data.level;
                     t.gameObject.SetActive(true);
                 }
                 else if (t.name == "PlaneImage")
@@ -67,6 +67,11 @@ public class LoadMenu : MonoBehaviour
         }
     }
 
+    private void LoadLevel(int index)
+    {
+        SceneManager.LoadScene("Level" + dataList[index].level.ToString());
+    }
+
     public void LoadButton0()
     {
         string saveName = null;
@@ -79,7 +84,7 @@ public class LoadMenu : MonoBehaviour
         }
         PlayerPrefs.SetString("saveName", saveName);
 
-        SceneManager.LoadScene("Level1");
+        LoadLevel(0);
     }
 
     public void LoadButton1()
@@ -94,7 +99,7 @@ public class LoadMenu : MonoBehaviour
         }
         PlayerPrefs.SetString("saveName", saveName);
 
-        SceneManager.LoadScene("Level1");
+        LoadLevel(1);
     }
 
     public void LoadButton2()
@@ -109,7 +114,7 @@ public class LoadMenu : MonoBehaviour
         }
         PlayerPrefs.SetString("saveName", saveName);
 
-        SceneManager.LoadScene("Level1");
+        LoadLevel(2);
     }
 
     public void Back()

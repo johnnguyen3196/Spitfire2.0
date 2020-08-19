@@ -17,7 +17,7 @@ public class PlayerData
     public List<int> researchedMissileUpgrades;
     public List<int> researchedEscortUpgrades;
 
-    public int points = 3000;
+    public int points;
 
     public int slot;
 

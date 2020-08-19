@@ -23,6 +23,7 @@ public class EnemyPlane : MonoBehaviour
 
     protected Animation anim;
     protected Rigidbody2D rb;
+
     // Start is called before the first frame update
     void Start()
     {

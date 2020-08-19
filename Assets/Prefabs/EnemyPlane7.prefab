@@ -133,6 +133,7 @@ MonoBehaviour:
   attackSpeed: 1
   currentHealth: 30
   points: 20
+  id: 7
   bulletPrefab: {fileID: 7286234926941710631, guid: dc1fd357c5414b042a5df98559a5a202,
     type: 3}
 --- !u!111 &5673937326655273317

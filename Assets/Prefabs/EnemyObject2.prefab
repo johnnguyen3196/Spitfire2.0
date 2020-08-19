@@ -195,6 +195,7 @@ MonoBehaviour:
   attackSpeed: 2
   currentHealth: 30
   points: 20
+  id: 2
   burstAmount: 0
   burstInterval: 0.5
   bulletPrefab: {fileID: 7286234926941710631, guid: dc1fd357c5414b042a5df98559a5a202,

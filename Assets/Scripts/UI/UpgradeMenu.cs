@@ -67,7 +67,6 @@ public class UpgradeMenu : MonoBehaviour
         InitializeMissileUpgrades(data.researchedMissileUpgrades);
         InitializeEscortUpgrades(data.researchedEscortUpgrades);
 
-        data.points = 100000;
         SetPointsText(data.points);
         SetEquippedImage(data);
     }
@@ -165,7 +164,7 @@ public class UpgradeMenu : MonoBehaviour
     public void Play()
     {
         SaveSystem.SavePlayerData(data);
-        SceneManager.LoadScene("Level1");
+        SceneManager.LoadScene("Level" + data.level);
     }
 
     public void Quit()

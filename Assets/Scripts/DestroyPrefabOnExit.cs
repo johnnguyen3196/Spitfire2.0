@@ -12,7 +12,6 @@ public class DestroyPrefabOnExit : MonoBehaviour
 
     void OnBecameInvisible()
     {
-        if(gameObject.transform.parent.position.y < bottom.y)
-            Destroy(this.transform.parent.gameObject);
+        Destroy(this.transform.parent.gameObject);
     }
 }

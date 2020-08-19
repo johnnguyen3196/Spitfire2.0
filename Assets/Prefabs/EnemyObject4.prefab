@@ -101,6 +101,7 @@ MonoBehaviour:
   attackSpeed: 3
   currentHealth: 30
   points: 30
+  id: 4
   missilePrefab: {fileID: 7053869835973322727, guid: 0c0bc4f4de32cdd4fbffdf29537a2675,
     type: 3}
 --- !u!111 &2547030446022516681

@@ -23,7 +23,7 @@ public static class SaveSystem
     }
 
     //Takes in PlayerData class instead of Player class
-    //Used to modify save game data in Upgrade scene
+    //Used to modify save game data in Upgrade scene and end of Level scenes
     public static void SavePlayerData(PlayerData player)
     {
         BinaryFormatter formatter = new BinaryFormatter();

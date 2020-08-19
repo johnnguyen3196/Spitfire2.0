@@ -106,12 +106,12 @@ public class Me163 : EnemyPlane
                 }
             }
         }
-        if (transform.position.x < bottomLeft.x + 2)
+        if (transform.position.x < bottomLeft.x + 3)
         {
             rotate = true;
             rotateDirection = true;
         }
-        if (transform.position.x > topRight.x - 2)
+        if (transform.position.x > topRight.x - 3)
         {
             rotate = true;
             rotateDirection = false;

@@ -195,6 +195,7 @@ MonoBehaviour:
   attackSpeed: 3
   currentHealth: 75
   points: 40
+  id: 9
   bombPrefab: {fileID: 4689629266783876508, guid: 69424a46adfd05444a0cbb8fd8a039ad,
     type: 3}
 --- !u!111 &498676572953263998

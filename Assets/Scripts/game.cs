@@ -4,19 +4,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 using Debug = UnityEngine.Debug;
+using System.Reflection;
+using System.Linq;
 
 public class game : MonoBehaviour
 {
-    public GameObject enemyPrefab1;
-    public GameObject enemyPrefab2;
-    public GameObject enemyPrefab3;
-    public GameObject enemyPrefab4;
-    public GameObject enemyPrefab5;
-    public GameObject enemyPrefab6;
-    public GameObject enemyPrefab7;
-    public GameObject enemyPrefab8;
-    public GameObject ju88Prefab;
+    public GameObject[] enemyPrefabs;
+    
     public GameObject cloudPrefab;
+
     public GameObject bossPrefab;
 
     public PointsUI pointsUI;
@@ -37,10 +33,14 @@ public class game : MonoBehaviour
      * 7. Ju87G
      * 8. Ju88
     **/
-    private static int[] enemyPoints = new int[] { 10, 20, 50, 30, 30, 50, 20, 30, 40 };
+    public int[] enemyPoints;
+
+    //only these enemies will spawn in this level
+    public int[] singleEnemies;
 
     //Stores information on how to spawn groups of enemies
-    private struct Squadron
+    [System.Serializable]
+    public struct Squadron
     {
         public int[] planes;
         public bool staggered;
@@ -52,23 +52,11 @@ public class game : MonoBehaviour
         }
     }
 
-    private Squadron[] enemySquadron =
-        new Squadron[] {
-            new Squadron{planes = new int[] {0, 0, 0}, staggered = false},
-            new Squadron{planes = new int[] {0, 0, 0, 0}, staggered = false},
-            new Squadron{planes = new int[] {0, 1, 0}, staggered = false},
-            new Squadron{planes = new int[] { 3, 3, 3, 3, 3 }, staggered = true},
-            new Squadron{planes = new int[] {3, 3}, staggered = false},
-            new Squadron{planes = new int[] {4, 4}, staggered = false},
-            new Squadron{planes = new int[] {4, 4, 4, 4}, staggered = true},
-            new Squadron{planes = new int[] { 0, 0, 5, 0, 0 }, staggered = false},
-            new Squadron{planes = new int[] { 1, 5, 1 }, staggered = false},
-            new Squadron{planes = new int[] {0, 0, 0, 5, 5, 0, 0, 0}, staggered = false}
-        };
+    public Squadron[] enemySquadron;
+        
 
-    [System.Serializable]
     //Helps spawn different types of enemies and squadrons for the game
-    public struct SpawnType
+    private struct SpawnType
     {
         //do we need to spawn a squadron or just 1 enemy?
         public bool squadron;
@@ -87,9 +75,9 @@ public class game : MonoBehaviour
         }
     }
 
-    public List<SpawnType> EnemiesSpawn = new List<SpawnType>();
+    private List<SpawnType> EnemiesSpawn = new List<SpawnType>();
 
-    private int spawnIndex = 0;
+    public int spawnIndex = 0;
 
     private bool staggeredSpawn;
     private int staggeredIndex;
@@ -99,17 +87,20 @@ public class game : MonoBehaviour
     private bool endGame = false;
     private string endMessage;
     private float endTime;
+    private bool fail;
 
     public int totalPoints;
     public int requiredPoints;
     public int currentPoints = 0;
 
-    private string[] enemyNames = { "BF109E", "BF109F", "Do217", "Me262", "Me163", "He111", "Ju87", "Ju87G", "Ju88" };
+    public int level;
 
-    
     // Start is called before the first frame update
     void Start()
     {
+        //for some stupid reason, when the player retries a mission, the timescale is set to 0. idk why
+        Time.timeScale = 1;
+
         enemyUpdate = Random.Range(3, 6);
         cloudUpdate = Random.Range(0, 3);
 
@@ -121,7 +112,7 @@ public class game : MonoBehaviour
             //spawn only 1 enemy
             if(spawnSquadron < 7)
             {
-                int enemy = Random.Range(0, enemyPoints.Length);
+                int enemy = singleEnemies[Random.Range(0, singleEnemies.Length)];
                 if(enemyPoints[enemy] > totalPoints)
                 {
                     break;
@@ -219,7 +210,8 @@ public class game : MonoBehaviour
         {
             if(Time.time > endTime)
             {
-                Menu.GameOverMenu(endMessage);
+                Menu.GameOverMenu(endMessage, fail, currentPoints);
+                endGame = false;
             }
         }
 
@@ -236,7 +228,9 @@ public class game : MonoBehaviour
             {
                 endGame = true;
                 endTime = Time.time + 3;
-                endMessage = "You To Get Enough Points!";
+                fail = true;
+                endMessage = "Mission Failed: Not Enough Points";
+                spawnIndex++;
             } else
             {
                 if (bossSpawnTime == 0)
@@ -263,7 +257,7 @@ public class game : MonoBehaviour
                     spawnPosition.z = 0;
                     SpawnOneEnemy(enemySquadron[EnemiesSpawn[spawnIndex].squadronIndex].planes[staggeredIndex], spawnPosition);
                     staggeredIndex++;
-                    enemyUpdate = Time.time + .5f;
+                    enemyUpdate = Time.time + 1f;
                 } else
                 {
                     spawnIndex++;
@@ -316,36 +310,7 @@ public class game : MonoBehaviour
     void SpawnOneEnemy(int enemy, Vector3 spawnPosition)
     {
         GameObject go = null;
-        switch (enemy)
-        {
-            case 0:
-                go = Instantiate(enemyPrefab1, spawnPosition, Quaternion.identity);
-                break;
-            case 1:
-                go = Instantiate(enemyPrefab2, spawnPosition, Quaternion.identity);
-                break;
-            case 2:
-                go = Instantiate(enemyPrefab3, spawnPosition, Quaternion.identity);
-                break;
-            case 3:
-                go = Instantiate(enemyPrefab4, spawnPosition, Quaternion.identity);
-                break;
-            case 4:
-                go = Instantiate(enemyPrefab5, spawnPosition, Quaternion.identity);
-                break;
-            case 5:
-                go = Instantiate(enemyPrefab6, spawnPosition, Quaternion.identity);
-                break;
-            case 6:
-                go = Instantiate(enemyPrefab7, spawnPosition, Quaternion.identity);
-                break;
-            case 7:
-                go = Instantiate(enemyPrefab8, spawnPosition, Quaternion.identity);
-                break;
-            case 8:
-                go = Instantiate(ju88Prefab, spawnPosition, Quaternion.identity);
-                break;
-        }
+        go = Instantiate(enemyPrefabs[enemy], spawnPosition, Quaternion.identity);
         FindObjectOfType<DialogueManager>().CreateRandomSpawnEnemyText(go, enemy);
     }
 
@@ -391,6 +356,7 @@ public class game : MonoBehaviour
         {
             scoreboard.UpdateList(name, 500);
             endGame = true;
+            fail = false;
             endMessage = "Mission Complete";
             endTime = Time.time + 5;
             return;
@@ -398,6 +364,7 @@ public class game : MonoBehaviour
         {
             //Player death
             endGame = true;
+            fail = true;
             endMessage = "Wow, you suck";
             endTime = Time.time + 3;
             return;

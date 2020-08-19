@@ -10,9 +10,6 @@ using Debug = UnityEngine.Debug;
 
 public class Player : MonoBehaviour
 {
-    public Sprite Spitfire;
-    public Sprite Mustang;
-
     public int level;
     public string saveName;
     public int plane;
@@ -65,10 +62,10 @@ public class Player : MonoBehaviour
     //temp
     public GameObject powerUpPrefab;
     
-    public bool disableLeft;
-    public bool disableRight;
-    public bool disableUp;
-    public bool disableDown;
+    private bool disableLeft;
+    private bool disableRight;
+    private bool disableUp;
+    private bool disableDown;
     private Vector3 bottomLeft;
     private Vector3 topRight;
 
@@ -79,31 +76,33 @@ public class Player : MonoBehaviour
 
     private PlayerAttack gunAttack;
     private PlayerAttack missileAttack;
+
+    public PlayerData data;
     
     // Start is called before the first frame update
     void Start()
     {
-        PlayerData data = SaveSystem.LoadPlayer(PlayerPrefs.GetString("saveName"));
+        data = SaveSystem.LoadPlayer(PlayerPrefs.GetString("saveName"));
         level = data.level;
         saveName = data.saveName;
 
         switch (data.plane)
         {
             case 0:
-                gameObject.GetComponent<SpriteRenderer>().sprite = Spitfire;
+                gameObject.GetComponent<SpriteRenderer>().sprite = FindObjectOfType<UISpriteManager>().Find("Spitfire");
                 break;
             case 1:
-                gameObject.GetComponent<SpriteRenderer>().sprite = Mustang;
+                gameObject.GetComponent<SpriteRenderer>().sprite = FindObjectOfType<UISpriteManager>().Find("Mustang");
                 break;
         }
         shootType = data.shootType;
         missileType = data.missileType;
         SetNumberOfSquadrons(data.escortType);
 
+        SetPlayerUI();
+
         SetGunType(shootType);
         SetMissileType(missileType);
-        //SetGunType(4);
-        //SetMissileType(5);
 
         stance = 1;
         SetStance(stance);
@@ -119,12 +118,16 @@ public class Player : MonoBehaviour
 
         manualTarget = false;
 
-        //temporary
-        //GameObject test = Instantiate(powerUpPrefab);
-        //PowerUpScript powerUp = test.GetComponent<PowerUpScript>();
-        //powerUp.type = 4;
-
         FindObjectOfType<DialogueManager>().Create(gameObject, "Hello World");
+    }
+
+    void SetPlayerUI()
+    {
+        healthBar = GameObject.Find("HealthBar").GetComponent<HealthBar>();
+        teleportBar = GameObject.Find("TeleBar").GetComponent<TeleportBar>();
+        shieldBar = GameObject.Find("ShieldBar").GetComponent<ShieldBar>();
+        stanceUI = GameObject.Find("StanceUI").GetComponent<StanceUI>();
+        Menu = GameObject.Find("Canvas").GetComponent<Menu>();
     }
 
     // Update is called once per frame
@@ -270,6 +273,7 @@ public class Player : MonoBehaviour
 
         //UI updates
         teleportBar.SetTele(1 - Mathf.Lerp(0, 1, teleCoolDown / 5));
+        shieldBar.SetShield(currentShieldHealth);
     }
 
     void ShootGun()
@@ -466,7 +470,6 @@ public class Player : MonoBehaviour
             FindObjectOfType<AudioManager>().Play("PlayerDamage");
         }
         healthBar.SetHealth(currentHealth);
-        shieldBar.SetShield(currentShieldHealth);
         if (currentHealth < 0)
         {
             Instantiate(explosionPrefab, transform.position, Quaternion.identity);
@@ -477,7 +480,9 @@ public class Player : MonoBehaviour
     public void Die()
     {
         GameObject.Find("Game").GetComponent<game>().notifyKill(-1, "");
-        //Menu.GameOverMenu("Wow, you suck");
+
+        GameObject go1 = Instantiate(explosionPrefab, gameObject.transform.position, Quaternion.identity);
+        FindObjectOfType<AudioManager>().Play("Explosion");
     }
 
     private void SetStance(int stance)
