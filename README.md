@@ -4,10 +4,10 @@ PC successor of game I made in EE319K, made using Unity Engine.
 ## Installation
 
 1. Download the zip file from 
-https://gofile.io/d/lYcMVK
+https://gofile.io/d/nZhHpL
 2. Extract zip
-3. Run Spitfire2.exe
-(If the link doesn't work, just download the Spitfire_2 folder and run the game)
+3. Run Spitfire2.exe<br/>
+(If the link doesn't work, just download the Spitfire_2 folder and run the game. Downloading directly from GitHub will guarantee the most recent version of the game)
 
 ## System Requirements
 A computer that runs better than a potato.
@@ -21,7 +21,7 @@ C:\Users\Name\AppData\LocalLow\DefaultCompany\Spitfire 2<br/>
 No idea, will update Readme later.<br/>
 
 ## Features
-* Cool handrawn sprites
+* Cool hand drawn sprites
 * TWO levels
 * Three unique upgrade trees
 * Hard and engaging boss battles
