@@ -4,25 +4,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 using Debug = UnityEngine.Debug;
-using System.Reflection;
-using System.Linq;
 
+
+/* Usage: Use in every Level created in Unity by attatching this script to an empty GameObject
+ * Purpose: Instantiate EnemyPlanes, instantiate a boss at the end, manage number of points player has.
+ * 
+ */
 public class game : MonoBehaviour
 {
-    public GameObject[] enemyPrefabs;
-    
-    public GameObject cloudPrefab;
-
-    public GameObject bossPrefab;
-
-    public PointsUI pointsUI;
-    public Menu Menu;
-    public Scoreboard scoreboard;
-
-    private float enemyUpdate;
-    private int cloudUpdate;
-
-    private int[] enemyTypes;
+    #region Variables set in Unity Inspector
+    //Enemies that can be instantiated during a Scene.
     /**0. BF109E
      * 1. BF109F
      * 2. Do217
@@ -33,11 +24,39 @@ public class game : MonoBehaviour
      * 7. Ju87G
      * 8. Ju88
     **/
-    public int[] enemyPoints;
+    [System.Serializable]
+    public struct EnemyDetails
+    {
+        public GameObject prefab;
+        public int cost;
+    }
+
+    //********Player must edit this array in Unity inspector in order to spawn enemies in Level*************
+    public EnemyDetails[] EnemyData;
 
     //only these enemies will spawn in this level
     public int[] singleEnemies;
 
+    public GameObject cloudPrefab;
+
+    public GameObject bossPrefab;
+
+    public PointsUI pointsUI;
+    public Menu Menu;
+    public Scoreboard scoreboard;
+
+    public int totalPoints;
+    public int requiredPoints;
+    public int currentPoints = 0;
+
+    public int level;
+ 
+    #endregion
+
+    private float enemyUpdate;
+    private int cloudUpdate;
+
+    #region Enemy spawning data
     //Stores information on how to spawn groups of enemies
     [System.Serializable]
     public struct Squadron
@@ -65,6 +84,7 @@ public class game : MonoBehaviour
         public int squadronIndex;
         //what type of SINGLE enemy do we spawn?
         public int enemyType;
+        //total amount of points this squadron is made of
         public int cost;
 
         public SpawnType(bool squadron, int squadronIndex, int enemyType, int cost)
@@ -76,7 +96,7 @@ public class game : MonoBehaviour
         }
     }
 
-    public List<SpawnType> EnemiesSpawn = new List<SpawnType>();
+    private List<SpawnType> EnemiesSpawn = new List<SpawnType>();
 
     public int spawnIndex = 0;
 
@@ -92,13 +112,9 @@ public class game : MonoBehaviour
 
     private bool endSpawnDelay = false;
     private float endSpawnDelayTime;
+    #endregion
 
-    public int totalPoints;
-    public int requiredPoints;
-    public int currentPoints = 0;
-
-    public int level;
-
+    #region Level Initialization
     // Start is called before the first frame update
     void Awake()
     {
@@ -114,12 +130,12 @@ public class game : MonoBehaviour
             if(spawnSquadron < 7)
             {
                 int enemy = singleEnemies[Random.Range(0, singleEnemies.Length)];
-                if(enemyPoints[enemy] > totalPoints)
+                if(EnemyData[enemy].cost > totalPoints)
                 {
                     break;
                 }
-                EnemiesSpawn.Add(new SpawnType(false, 0, enemy, enemyPoints[enemy]));
-                totalPoints -= enemyPoints[enemy];
+                EnemiesSpawn.Add(new SpawnType(false, 0, enemy, EnemyData[enemy].cost));
+                totalPoints -= EnemyData[enemy].cost;
             } else
             {
                 //spawn a squadron of enemies
@@ -132,17 +148,26 @@ public class game : MonoBehaviour
                 totalPoints -= TotalCostOfSquadron(enemySquadron[squadron].planes);
             }
         }
+
         if(totalPoints > 0)
         {
             fillRemainingPoints();
         }
+
         pointsUI.setPointsText(0, requiredPoints);
     }
 
+    /* Description: Recursively generate the remaining enemies needed to spawn in this level
+     * Precondition: totalpoints > 0
+     * Postcondition: totalpoints = 0, all enemies in List<SpawnType> have a total cost == totalpoints
+     */
     private void fillRemainingPoints()
     {
+        // No need to add more spawns
         if (totalPoints <= 0)
             return;
+
+        // Try generating a squadron
         int largestSquadronIndex = -1;
         for(int i = 0; i < enemySquadron.Length; i++)
         {
@@ -150,6 +175,7 @@ public class game : MonoBehaviour
             {
                 if (largestSquadronIndex != -1)
                 {
+                    // Get the squadron with the highest cost
                     if (TotalCostOfSquadron(enemySquadron[i].planes) > TotalCostOfSquadron(enemySquadron[largestSquadronIndex].planes))
                         largestSquadronIndex = i;
                 } else
@@ -159,6 +185,7 @@ public class game : MonoBehaviour
             }
         }
 
+        // Generating a squadron failed, try spawning a single enemy
         if (largestSquadronIndex != -1)
         {
             EnemiesSpawn.Add(new SpawnType(true, largestSquadronIndex, 0, TotalCostOfSquadron(enemySquadron[largestSquadronIndex].planes)));
@@ -166,13 +193,14 @@ public class game : MonoBehaviour
         } else
         {
             int largestPlaneIndex = -1;
-            for (int i = 0; i < enemyPoints.Length; i++)
+            for (int i = 0; i < EnemyData.Length; i++)
             {
-                if (enemyPoints[i] <= totalPoints)
+                if (EnemyData[i].cost <= totalPoints)
                 {
                     if (largestPlaneIndex != -1)
                     {
-                        if (enemyPoints[i] > enemyPoints[largestPlaneIndex])
+                        // Get the enemy with the highest cost
+                        if (EnemyData[i].cost > EnemyData[largestPlaneIndex].cost)
                             largestPlaneIndex = i;
                     }
                     else
@@ -183,35 +211,45 @@ public class game : MonoBehaviour
             }
             if (largestPlaneIndex != -1)
             {
-                EnemiesSpawn.Add(new SpawnType(false, 0, largestPlaneIndex, enemyPoints[largestPlaneIndex]));
-                totalPoints -= enemyPoints[largestPlaneIndex];
+                EnemiesSpawn.Add(new SpawnType(false, 0, largestPlaneIndex, EnemyData[largestPlaneIndex].cost));
+                totalPoints -= EnemyData[largestPlaneIndex].cost;
             } else
             {
                 //This shouldn't happen. But if it does, we will be in an infinite loop
                 totalPoints = 0;
             }
         }
+
         fillRemainingPoints();
     }
 
+    /* Description: Calculate the total cost of a squadron
+     * Precondition: Each plane in the squadon must an assigned points in enemyPoints
+     */
     private int TotalCostOfSquadron(int[] planes)
     {
         int totalCost = 0;
         foreach(int plane in planes)
         {
-            totalCost += enemyPoints[plane];
+            if(plane < EnemyData.Length)
+            {
+                totalCost += EnemyData[plane].cost;
+            }
         }
         return totalCost;
     }
+    #endregion
 
     // Update is called once per frame
     void Update()
     {
+        //Pause the game when the player presses Esc key
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             Menu.AlternatePause();
         }
 
+        //Prepare to end the game
         if (endGame)
         {
             if(Time.time > endTime)
@@ -244,6 +282,7 @@ public class game : MonoBehaviour
                 }
             }
 
+            //Player does not have enough points, prepare to end the game
             if(currentPoints < requiredPoints)
             {
                 endGame = true;
@@ -251,7 +290,9 @@ public class game : MonoBehaviour
                 fail = true;
                 endMessage = "Mission Failed: Not Enough Points";
                 spawnIndex++;
-            } else
+            }
+            //Player has enough points, prepare to spawn the boss
+            else
             {
                 if (bossSpawnTime == 0)
                 {
@@ -267,6 +308,7 @@ public class game : MonoBehaviour
             }
         }
 
+        #region Enemy spawner
         if (Time.time >= enemyUpdate && spawnIndex < EnemiesSpawn.Count)
         {
             if (staggeredSpawn)
@@ -319,21 +361,37 @@ public class game : MonoBehaviour
                 }
             }
         }
+        #endregion
     }
 
+    //Instantiate a cloud object at a random area on top of screen
     void UpdateCloudEverySecond()
     {
         Vector3 cloudPosition = Camera.main.ScreenToWorldPoint(new Vector3(Random.Range(0, Screen.width), Screen.height, Camera.main.farClipPlane / 2));
         GameObject go1 = Instantiate(cloudPrefab, cloudPosition, Quaternion.identity);
     }
 
+    //Spawn a single enemy object at a random area on top of screen
     void SpawnOneEnemy(int enemy, Vector3 spawnPosition)
     {
         GameObject go = null;
-        go = Instantiate(enemyPrefabs[enemy], spawnPosition, Quaternion.identity);
+        go = Instantiate(EnemyData[enemy].prefab, spawnPosition, Quaternion.identity);
         FindObjectOfType<DialogueManager>().CreateRandomSpawnEnemyText(go, enemy);
     }
 
+    /*Spawn a group of enemies at a random area on top of screen in a V formation
+     * How it works by example: 
+     * int[] planes.Length == 3
+     * 
+     *      2
+     * 1        3
+     * 
+     * int[] planes.Length == 6
+     *           3
+     *      2        4
+     * 1                  5
+     *                         6
+     */
     void SpawnSquadron(int squadron)
     {
         Vector3 centerPosition = Camera.main.ScreenToWorldPoint(new Vector3(Random.Range(200, Screen.width-200), Screen.height, Camera.main.farClipPlane / 2));
@@ -369,9 +427,11 @@ public class game : MonoBehaviour
 
     }
 
+    // Description: Function called by EnemyPlane class on enemy death. Increment current points and update scoreboard information
     public void notifyKill(int points, string name)
     {
         //ITS OVER 9000!!!!
+        //Player kills the boss, prepare to end the game
         if(points > 9000)
         {
             currentPoints += 500;
@@ -384,7 +444,7 @@ public class game : MonoBehaviour
             return;
         } else if(points < 0)
         {
-            //Player death
+            //Player death, prepare to end the game
             endGame = true;
             fail = true;
             endMessage = "Wow, you suck";

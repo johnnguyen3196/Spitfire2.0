@@ -4,31 +4,15 @@ using UnityEngine;
 
 public class CloudScript : MonoBehaviour
 {
-    public Sprite cloud1;
-    public Sprite cloud2;
-    public Sprite cloud3;
-    public Sprite cloud4;
+    public Sprite[] clouds;
     private int speed;
     // Start is called before the first frame update
     void Start()
     {
         speed = Random.Range(40, 76);
-        int random = Random.Range(0, 4);
-        switch (random)
-        {
-            case 0:
-                this.GetComponent<SpriteRenderer>().sprite = cloud1;
-                break;
-            case 1:
-                this.GetComponent<SpriteRenderer>().sprite = cloud2;
-                break;
-            case 2:
-                this.GetComponent<SpriteRenderer>().sprite = cloud3;
-                break;
-            case 3:
-                this.GetComponent<SpriteRenderer>().sprite = cloud4;
-                break;
-        }
+        //get a random cloud
+        int random = Random.Range(0, clouds.Length);
+        this.GetComponent<SpriteRenderer>().sprite = clouds[random];
         // find our RigidBody
         Rigidbody2D rb = gameObject.GetComponentInChildren<Rigidbody2D>();
         // add force 

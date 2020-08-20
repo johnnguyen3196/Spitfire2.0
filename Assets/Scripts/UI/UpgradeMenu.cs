@@ -7,6 +7,7 @@ using UnityEngine.UI;
 using Debug = UnityEngine.Debug;
 using TMPro;
 
+// Manages all UI elements in the Upgrade Scene
 public class UpgradeMenu : MonoBehaviour
 {
     public GameObject GunTreeObject;
@@ -38,7 +39,7 @@ public class UpgradeMenu : MonoBehaviour
      * 12. AutoCannon
      * 13. High Velocity Shot
     */
-    private bool[] toggles = new bool[18];
+    private bool[] toggles = new bool[50];
 
     private int powerupselect;
 
@@ -61,6 +62,7 @@ public class UpgradeMenu : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // load the player's save and initialize the upgrades
         data = SaveSystem.LoadPlayer(PlayerPrefs.GetString("saveName"));
      
         InitializeGunUpgrades(data.researchedGunUpgrades);
@@ -71,6 +73,7 @@ public class UpgradeMenu : MonoBehaviour
         SetEquippedImage(data);
     }
 
+    #region Set Texts and Images
     void SetPointsText(int points)
     {
         PointsInfo.GetComponent<TextMeshProUGUI>().text = "Pts: " + points.ToString();
@@ -82,7 +85,9 @@ public class UpgradeMenu : MonoBehaviour
         EquippedObject.transform.GetChild(1).GetComponent<Image>().sprite = missileSprites[data.missileType - 1];
         EquippedObject.transform.GetChild(2).GetComponent<Image>().sprite = escortSprites[data.escortType - 1];
     }
+    #endregion
 
+    #region Initialize all tree upgrades
     void InitializeGunUpgrades(List<int> upgrades)
     {
         foreach(int upgrade in upgrades)
@@ -160,6 +165,7 @@ public class UpgradeMenu : MonoBehaviour
             toggle.colors = cb;
         }
     }
+    #endregion
 
     public void Play()
     {
@@ -173,7 +179,7 @@ public class UpgradeMenu : MonoBehaviour
         SceneManager.LoadScene("Menu");
     }
 
-    //TODO check if player has enough money(pts) to get upgrade
+    #region Info buttons
     public void Upgrade()
     {
         Info.SetActive(false);
@@ -230,6 +236,7 @@ public class UpgradeMenu : MonoBehaviour
     {
         Info.SetActive(false);
     }
+    #endregion
 
     //Set all booleans in toggles to false except index
     void SetAllSelectToFalse(int index)
@@ -300,6 +307,7 @@ public class UpgradeMenu : MonoBehaviour
         return false;
     }
 
+    #region Tree buttons
     public void ShowGunTree()
     {
         GunTreeObject.SetActive(true);
@@ -715,4 +723,5 @@ public class UpgradeMenu : MonoBehaviour
         upgradeCost = 2000;
         DisableEquippedButton(data);
     }
+    #endregion
 }

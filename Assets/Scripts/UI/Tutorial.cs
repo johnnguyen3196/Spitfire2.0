@@ -3,7 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+/*
+ * Controls all UI elements for the tutorial section of Level 1
+ */
 public class Tutorial : MonoBehaviour
 {
     public GameObject keyText;
@@ -27,7 +29,6 @@ public class Tutorial : MonoBehaviour
 
     public void SetNextHighlight()
     {
-        Debug.Log(highlightIndex);
         if(highlightIndex != 0 || highlightIndex != highlights.Length - 1)
         {
             keyText.SetActive(true);
@@ -40,6 +41,7 @@ public class Tutorial : MonoBehaviour
         }
     }
 
+    //Start the game
     public void Continue()
     {
         highlights[highlightIndex].SetActive(false);
@@ -47,6 +49,7 @@ public class Tutorial : MonoBehaviour
         Time.timeScale = 1;
     }
 
+    //Replay the tutorial
     public void Again()
     {
         highlights[highlightIndex].SetActive(false);
@@ -54,6 +57,7 @@ public class Tutorial : MonoBehaviour
         highlights[highlightIndex].SetActive(true);
     }
 
+    //Start the tutorial
     public void No()
     {
         SetNextHighlight();

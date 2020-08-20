@@ -95,10 +95,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cbe36bb3d8a3b5438d69a8a435cf9b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cloud1: {fileID: 21300000, guid: 066f7ac793b6e314ab65a6661357b7f9, type: 3}
-  cloud2: {fileID: 21300000, guid: e30302e7141ff7b40aee55cd0229d00a, type: 3}
-  cloud3: {fileID: 21300000, guid: 699d168e2fbdec247b6f32df54987111, type: 3}
-  cloud4: {fileID: 21300000, guid: 3d41916cb9f4bcc49ab635d956e419c8, type: 3}
+  clouds:
+  - {fileID: 21300000, guid: 066f7ac793b6e314ab65a6661357b7f9, type: 3}
+  - {fileID: 21300000, guid: e30302e7141ff7b40aee55cd0229d00a, type: 3}
+  - {fileID: 21300000, guid: 699d168e2fbdec247b6f32df54987111, type: 3}
+  - {fileID: 21300000, guid: 3d41916cb9f4bcc49ab635d956e419c8, type: 3}
 --- !u!50 &8922722235526478935
 Rigidbody2D:
   serializedVersion: 4

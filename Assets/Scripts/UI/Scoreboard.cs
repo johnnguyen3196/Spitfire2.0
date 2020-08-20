@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
+// Keeps track of all enemies the player destroys during a level and displays results in GameOverMenu
 public class Scoreboard : MonoBehaviour
 {
     public GameObject ScoreObjectPrefab;
@@ -24,31 +25,40 @@ public class Scoreboard : MonoBehaviour
 
     public List<Enemies> EnemiesList = new List<Enemies>();
 
+    // Used in notifyKill() in game.cs to update list of Enemies destroyed during a level.
     public void UpdateList(string name, int score)
     {
         int index = EnemiesList.FindIndex(enemy => enemy.name == name);
+        //Enemy not on list, add it
         if(index == -1)
         {
             EnemiesList.Add(new Enemies(name, score, 1));
-        } else
+        }
+        //Enemy list on list, increment count
+        else
         {
             EnemiesList[index] = new Enemies(name, EnemiesList[index].score + score, EnemiesList[index].count + 1);
         }
     }
 
+    // Used in Menu.cs when the GameOverMenu object is set active
+    // Instantiates UI ScoreObjectPrefab and displays all information in struct Enemies
     public void DisplayScoreboard()
     {
+        //Don't display if the scoreboard is already displayed
         if (displayed)
             return;
 
+        //Get the size of the scoreboard and divide it up
         float scoreObjectHeight = gameObject.GetComponent<RectTransform>().sizeDelta.y / EnemiesList.Count;
-        //Default height of UI object
+        //Default height of UI object. Don't want massive UI object if there are fiew enemies killed
         if(scoreObjectHeight > 25)
         {
             scoreObjectHeight = 25;
         }
 
         float heightOffset = 0;
+        //For each enemy, display info on the scoreboard from top to bottom
         for(int i = 0; i < EnemiesList.Count; i++)
         {
             GameObject go = Instantiate(ScoreObjectPrefab, GameObject.Find("Scoreboard").transform, false);
@@ -74,6 +84,7 @@ public class Scoreboard : MonoBehaviour
 
 
         go1.transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>().text = "Total: ";
+        //Calculate total points and display
         int total = 0;
         foreach(Enemies enemy in EnemiesList)
         {

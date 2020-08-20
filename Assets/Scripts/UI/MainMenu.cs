@@ -4,6 +4,9 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+/*
+ * Controls UI elements in the Main Menu
+ */
 public class MainMenu : MonoBehaviour
 {
     public GameObject LoadMenu;
@@ -14,16 +17,20 @@ public class MainMenu : MonoBehaviour
     private PlayerData data = null;
     void Start()
     {
+        //Disable level select button if player does not have a save loaded
         if(PlayerPrefs.GetString("saveName", "") == "")
         {
             GameObject.Find("LevelSelectButton").GetComponent<Button>().interactable = false;
-        } else
+        }
+        //Enable level select button
+        else
         {
             data = SaveSystem.LoadPlayer(PlayerPrefs.GetString("saveName"));
-        }
-        DisableLevelSelectButtons(data.level);
+            DisableLevelSelectButtons(data.level);
+        } 
     }
     
+    //Disables buttons for levels player has not completed yet
     private void DisableLevelSelectButtons(int level)
     {
         for(int i = level; i < LevelSelectButtons.Length; i++)
@@ -32,6 +39,7 @@ public class MainMenu : MonoBehaviour
         }
     }
 
+    #region Button functions
     public void PlayGame()
     {
         SceneManager.LoadScene("PlayerCreation");
@@ -70,4 +78,5 @@ public class MainMenu : MonoBehaviour
     {
         SceneManager.LoadScene("Level2");
     }
+    #endregion
 }

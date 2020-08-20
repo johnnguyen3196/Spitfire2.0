@@ -369,6 +369,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef1d89c6d4554a84c98107a4ee43b51e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  EnemyData:
+  - prefab: {fileID: 488738260302698405, guid: a09d1605c81ea0f46807cd9437bd8dc2, type: 3}
+    cost: 10
+  - prefab: {fileID: 7269171257198975377, guid: 678267402b9331441aef88e5144245d2,
+      type: 3}
+    cost: 20
+  - prefab: {fileID: 7844246237508104822, guid: e5cf5ad58159c424d93e92edc2ebd8b9,
+      type: 3}
+    cost: 50
+  - prefab: {fileID: 2354535777333345427, guid: ea8591ccdb1996040b628cf0e3d5ff6c,
+      type: 3}
+    cost: 30
+  - prefab: {fileID: 1439657489087819145, guid: cfe3d7abdf516de48a9b6b50182cfe4d,
+      type: 3}
+    cost: 30
+  - prefab: {fileID: 552413255056779480, guid: 4f8aee3ddf49def47a9363fa48630ca0, type: 3}
+    cost: 50
+  - prefab: {fileID: 5826956364054838915, guid: fd99343281859cf4696e2d3a8e626d44,
+      type: 3}
+    cost: 20
+  - prefab: {fileID: 5826956364054838915, guid: fd99343281859cf4696e2d3a8e626d44,
+      type: 3}
+    cost: 30
+  - prefab: {fileID: 7907299870903984852, guid: 8ced5e96a2218374bb302a5470443d6e,
+      type: 3}
+    cost: 40
   enemyPrefabs:
   - {fileID: 488738260302698405, guid: a09d1605c81ea0f46807cd9437bd8dc2, type: 3}
   - {fileID: 7269171257198975377, guid: 678267402b9331441aef88e5144245d2, type: 3}
@@ -379,6 +405,7 @@ MonoBehaviour:
   - {fileID: 5826956364054838915, guid: fd99343281859cf4696e2d3a8e626d44, type: 3}
   - {fileID: 3063647177519949101, guid: 7fc85e582ce61304ebcbf93f402349ef, type: 3}
   - {fileID: 7907299870903984852, guid: 8ced5e96a2218374bb302a5470443d6e, type: 3}
+  singleEnemies: 000000000100000002000000030000000400000005000000060000000700000008000000
   cloudPrefab: {fileID: 2887225732421820834, guid: ffdf28280a2b3d3498063a56426f7237,
     type: 3}
   bossPrefab: {fileID: 7573545205385313420, guid: 90ed25b3212e52f40bdaed6d34cecf3e,
@@ -386,8 +413,10 @@ MonoBehaviour:
   pointsUI: {fileID: 1158523756}
   Menu: {fileID: 693404785}
   scoreboard: {fileID: 1100196176}
-  enemyPoints: 0a00000014000000320000001e0000001e00000032000000140000001e00000028000000
-  singleEnemies: 000000000100000002000000030000000400000005000000060000000700000008000000
+  totalPoints: 3000
+  requiredPoints: 2000
+  currentPoints: 0
+  level: 2
   enemySquadron:
   - planes: 000000000000000000000000
     staggered: 0
@@ -410,10 +439,6 @@ MonoBehaviour:
   - planes: 0000000000000000000000000500000005000000000000000000000000000000
     staggered: 0
   spawnIndex: 0
-  totalPoints: 3000
-  requiredPoints: 2000
-  currentPoints: 0
-  level: 2
 --- !u!4 &1007588850
 Transform:
   m_ObjectHideFlags: 0

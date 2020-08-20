@@ -6,6 +6,9 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
 
+/*
+ * Controls UI elements in the PlayerCreation scene
+ */
 public class PlayerCreation : MonoBehaviour
 {
     public InputField mainInputField;
@@ -29,6 +32,7 @@ public class PlayerCreation : MonoBehaviour
 
     void Start()
     {
+        // Search save director and find .save files
         string[] files = Directory.GetFiles(Application.persistentDataPath + "/");
         dataList = new List<PlayerData>();
 
@@ -79,6 +83,7 @@ public class PlayerCreation : MonoBehaviour
         SceneManager.LoadScene("Menu");
     }
 
+    //Create a new save, write onto disk, start the game
     public void Play()
     {
         PlayerData data = new PlayerData();
@@ -103,6 +108,16 @@ public class PlayerCreation : MonoBehaviour
         SceneManager.LoadScene("Upgrade");
     }
 
+    //Enable the play button if player inputs name for save file and chooses a sprite
+    private void enablePlay(string text)
+    {
+        if (text.Length > 0 && plane != -1)
+        {
+            playButton.interactable = true;
+        }
+    }
+
+    #region Toggle and Sprite buttons
     public void PickSpitfire()
     {
         plane = 0;
@@ -119,14 +134,6 @@ public class PlayerCreation : MonoBehaviour
     {
         saveName = mainInputField.text;
         enablePlay(saveName);
-    }
-
-    private void enablePlay(string text)
-    {
-        if(text.Length > 0 && plane != -1)
-        {
-            playButton.interactable = true;
-        }
     }
 
     public void SaveSlot0()
@@ -162,4 +169,5 @@ public class PlayerCreation : MonoBehaviour
         creationMenu.SetActive(true);
         slot = 2;
     }
+    #endregion
 }
