@@ -336,7 +336,7 @@ public class game : MonoBehaviour
 
     void SpawnSquadron(int squadron)
     {
-        Vector3 centerPosition = Camera.main.ScreenToWorldPoint(new Vector3(Random.Range(50, Screen.width-50), Screen.height, Camera.main.farClipPlane / 2));
+        Vector3 centerPosition = Camera.main.ScreenToWorldPoint(new Vector3(Random.Range(200, Screen.width-200), Screen.height, Camera.main.farClipPlane / 2));
         centerPosition.z = 0;
 
         int[] planes = enemySquadron[squadron].planes;

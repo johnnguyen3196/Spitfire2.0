@@ -63,13 +63,12 @@ public class Menu : MonoBehaviour
         GameIsPaused = true;
         GameOverText.text = text;
         this.fail = fail;
+        data = SaveSystem.LoadPlayer(PlayerPrefs.GetString("saveName"));
         if (fail)
         {
             RetryText.text = "Retry";
         } else
         {
-            data = SaveSystem.LoadPlayer(PlayerPrefs.GetString("saveName"));
-
             RetryText.text = "Continue";
             
             data.points += points;
