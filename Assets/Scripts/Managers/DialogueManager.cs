@@ -23,9 +23,6 @@ public class DialogueManager : MonoBehaviour
 
     public void CreateRandomSpawnEnemyText(GameObject target, int enemy)
     {
-        if (enemy >= spawnText.Length)
-            return;
-
         //Enemy will spawn with dialogue 10% of the time
         if(Random.Range(0, 10) == 0)
             Create(target, spawnText[enemy].strings[Random.Range(0, spawnText[enemy].strings.Length)]);
