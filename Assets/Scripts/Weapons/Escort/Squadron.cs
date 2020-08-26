@@ -2,32 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Squadron : MonoBehaviour
+public class Squadron : Escort
 {
     public GameObject bulletPrefab;
 
-    private float RotateSpeed = 2f;
-    private float Radius = 1f;
-
-    public float angle;
-
-
-    // Start is called before the first frame update
-    void Start()
+    public Squadron()
     {
         
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        angle += RotateSpeed * Time.deltaTime;
-
-        Vector3 offset = new Vector3(Mathf.Sin(angle), Mathf.Cos(angle), 0) * Radius;
-        transform.position = transform.parent.position + offset;
-    }
-
-    public void Attack()
+    public override void Attack()
     {
         Vector3 bulletPos = new Vector3(transform.position.x, transform.position.y + .1f, transform.position.z);
         GameObject go = Instantiate(bulletPrefab, bulletPos, Quaternion.identity);

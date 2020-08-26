@@ -11,15 +11,11 @@ public class AutoCannon : PlayerAttack
         this.UISpriteName = "UIAutoCannon";
         this.type = Type.Gun;
         this.id = 5;
+        bulletPrefab = Resources.Load("PlayerBulletObject") as GameObject;
     }
 
     public override void Attack(Transform transform)
     {
-        if (bulletPrefab == null)
-        {
-            bulletPrefab = Resources.Load("PlayerBulletObject") as GameObject;
-        }
-
         Vector3[] positions = { new Vector3(transform.position.x - .1f, transform.position.y + 0.5f, 0), new Vector3(transform.position.x, transform.position.y + 0.5f, 0), new Vector3(transform.position.x + .1f, transform.position.y + 0.5f, 0) };
         GameObject go = GameObject.Instantiate(bulletPrefab, positions[Random.Range(0, positions.Length)], Quaternion.identity);
         PlayerBullet bullet1 = go.GetComponent<PlayerBullet>();

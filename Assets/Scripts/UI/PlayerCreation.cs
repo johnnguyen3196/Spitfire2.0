@@ -94,18 +94,19 @@ public class PlayerCreation : MonoBehaviour
 
         data.shootType = 1;
         data.missileType = 1;
-        data.escortType = 1;
+        data.escortType = "Squadron1";
 
-        data.researchedGunUpgrades = new List<int>();
-        data.researchedGunUpgrades.Add(0);
-        data.researchedGunUpgrades.Add(1);
+        data.researchedGunUpgrades = new List<string>();
+        data.researchedGunUpgrades.Add("DisableGun");
+        data.researchedGunUpgrades.Add("DoubleShot");
 
-        data.researchedMissileUpgrades = new List<int>();
-        data.researchedMissileUpgrades.Add(0);
-        data.researchedMissileUpgrades.Add(1);
+        data.researchedMissileUpgrades = new List<string>();
+        data.researchedMissileUpgrades.Add("DisableMissile");
+        data.researchedMissileUpgrades.Add("SingleMissile");
 
-        data.researchedEscortUpgrades = new List<int>();
-        data.researchedEscortUpgrades.Add(0);
+        data.researchedEscortUpgrades = new List<string>();
+        data.researchedEscortUpgrades.Add("DisableEscort");
+        data.researchedEscortUpgrades.Add("Squadron1");
 
         data.slot = slot;
         SaveSystem.SavePlayerData(data);

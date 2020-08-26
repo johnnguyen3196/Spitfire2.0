@@ -11,15 +11,11 @@ public class QuadShot : PlayerAttack
         this.UISpriteName = "UIQuadShot";
         this.type = Type.Gun;
         this.id = 3;
+        bulletPrefab = Resources.Load("PlayerBulletObject") as GameObject;
     }
 
     public override void Attack(Transform transform)
     {
-        if (bulletPrefab == null)
-        {
-            bulletPrefab = Resources.Load("PlayerBulletObject") as GameObject;
-        }
-
         Vector3 leftLeftBulletPos = new Vector3(transform.position.x - 0.233f, transform.position.y + 0.371f, transform.position.z);
         Vector3 rightRightBulletPos = new Vector3(transform.position.x + 0.233f, transform.position.y + 0.371f, transform.position.z);
         Vector3 middleLeftBulletPos = new Vector3(transform.position.x - .1f, transform.position.y + .4f, transform.position.z);

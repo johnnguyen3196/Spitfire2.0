@@ -11,15 +11,11 @@ public class SinglePoisonMissile : PlayerAttack
         this.UISpriteName = "UISlowMissile";
         this.type = Type.Missile;
         this.id = 5;
+        missilePrefab = Resources.Load("PoisonMissileObject") as GameObject;
     }
 
     public override void Attack(Transform transform)
     {
-        if (missilePrefab == null)
-        {
-            missilePrefab = Resources.Load("PoisonMissileObject") as GameObject;
-        }
-
         Vector3 middleMissilePos = new Vector3(transform.position.x, transform.position.y + .5f, transform.position.z);
         GameObject go = GameObject.Instantiate(missilePrefab, middleMissilePos, Quaternion.identity);
         PlayerMissile playerMissile = go.GetComponent<PlayerMissile>();

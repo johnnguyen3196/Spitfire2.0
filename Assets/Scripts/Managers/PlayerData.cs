@@ -11,11 +11,11 @@ public class PlayerData
 
     public int shootType;
     public int missileType;
-    public int escortType;
+    public string escortType;
 
-    public List<int> researchedGunUpgrades;
-    public List<int> researchedMissileUpgrades;
-    public List<int> researchedEscortUpgrades;
+    public List<string> researchedGunUpgrades;
+    public List<string> researchedMissileUpgrades;
+    public List<string> researchedEscortUpgrades;
 
     public int points;
 

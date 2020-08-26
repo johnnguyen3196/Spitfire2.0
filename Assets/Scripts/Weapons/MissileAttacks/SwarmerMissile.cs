@@ -11,15 +11,11 @@ public class SwarmerMissile : PlayerAttack
         this.UISpriteName = "UISwarmerMissile";
         this.type = Type.Missile;
         this.id = 4;
+        missilePrefab = Resources.Load("PlayerMissileObject") as GameObject;
     }
 
     public override void Attack(Transform transform)
     {
-        if (missilePrefab == null)
-        {
-            missilePrefab = Resources.Load("PlayerMissileObject") as GameObject;
-        }
-
         Vector3[] directions = { new Vector3(1, 0, 0), new Vector3(-1, 0, 0), new Vector3(0, 1, 0), new Vector3(0, -1, 0), new Vector3(1, 1, 0), new Vector3(-1, 1, 0), new Vector3(1, -1, 0), new Vector3(-1, -1, 0) };
         foreach (Vector3 direction in directions)
         {

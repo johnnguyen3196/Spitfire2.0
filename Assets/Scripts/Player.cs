@@ -45,14 +45,14 @@ public class Player : MonoBehaviour
     public float currentShieldHealth;
     public int shootType;
     public int missileType;
-    public int escortType;
+    public string escortType;
     public int stance;
     #endregion
 
     #region Player attacks
     public PlayerAttack gunAttack;
     public PlayerAttack missileAttack;
-    private GameObject[] squadrons = new GameObject[0];
+    private GameObject[] escorts = new GameObject[0];
     #endregion
 
     #region Player UI
@@ -68,7 +68,6 @@ public class Player : MonoBehaviour
     public GameObject playerMissilePrefab;
     public GameObject poisonMissilePrefab;
     public GameObject missileCrosshairPrefab;
-    public GameObject squadronPrefab;
     public GameObject explosionPrefab;
     #endregion
 
@@ -112,7 +111,8 @@ public class Player : MonoBehaviour
 
         shootType = data.shootType;
         missileType = data.missileType;
-        SetNumberOfSquadrons(data.escortType);
+        escortType = data.escortType;
+        SetNumberOfEscorts();
 
         SetPlayerUI();
 
@@ -120,7 +120,6 @@ public class Player : MonoBehaviour
         GameObject.Find("ShootTypeUI").GetComponent<ShootTypeUI>().ChangeShootSprite(gunAttack.GetSprite());
         missileAttack = FindObjectOfType<WeaponManager>().FindMissile(missileType);
         GameObject.Find("MissileTypeUI").GetComponent<ShootTypeUI>().ChangeShootSprite(missileAttack.GetSprite());
-        //SetMissileType(missileType);
 
         //Set default stance as Agility
         stance = 1;
@@ -160,7 +159,7 @@ public class Player : MonoBehaviour
         {
             shootTimer = Time.time + shootUpdate;
             ShootGun();
-            ShootSquadronGun();
+            ShootEscortGun();
         }
         //Missile updates
         if(Time.time >= missileTimer)
@@ -319,118 +318,42 @@ public class Player : MonoBehaviour
     }
 
     // Have all escorts around player attack
-    void ShootSquadronGun()
+    void ShootEscortGun()
     {
-        for(int i = 0; i < squadrons.Length; i++)
+        for(int i = 0; i < escorts.Length; i++)
         {
-            Squadron squadron = squadrons[i].GetComponent<Squadron>();
-            squadron.Attack();
+            Escort escort = escorts[i].GetComponent<Escort>();
+            escort.Attack();
         }
     }
 
+    //TODO CHANGE last line
     //Instantiates the number of escorts around the player
-    public void SetNumberOfSquadrons(int number)
+    public void SetNumberOfEscorts()
     {
-        escortType = number;
-        //Reset current squadron
-        for(int i = 0; i < squadrons.Length; i++)
+        GameObject prefab = FindObjectOfType<WeaponManager>().FindEscort(escortType.Remove(escortType.Length - 1));
+        //Reset current escorts
+        for (int i = 0; i < escorts.Length; i++)
         {
-            Destroy(squadrons[i]);
+            Destroy(escorts[i]);
         }
 
+        int number = Int32.Parse(escortType.Substring(escortType.Length - 1));
         //Spawn number of planes around player
-        squadrons = new GameObject[number];
+        escorts = new GameObject[number];
         float angleOffset = (360 / number) * Mathf.PI / 180;
         float angle = 0;
-        for(int i = 0; i < number; i++)
+        for (int i = 0; i < number; i++)
         {
-            Vector3 squadronPos = new Vector3(Mathf.Sin(angle), Mathf.Cos(angle), 0);
-            squadrons[i] = Instantiate(squadronPrefab, transform.position + squadronPos, Quaternion.identity);
-            squadrons[i].transform.parent = transform;
-            Squadron squadron = squadrons[i].GetComponent<Squadron>();
-            squadron.angle = angle;
+            Vector3 escortPos = new Vector3(Mathf.Sin(angle), Mathf.Cos(angle), 0);
+            escorts[i] = Instantiate(prefab, transform.position + escortPos, Quaternion.identity);
+            escorts[i].transform.parent = transform;
+            Escort escort = escorts[i].GetComponent<Escort>();
+            escort.angle = angle;
             angle += angleOffset;
         }
-        GameObject.Find("SquadronTypeUI").GetComponent<ShootTypeUI>().ChangeShootSprite(FindObjectOfType<UISpriteManager>().Find("UIStandardEscort" + number.ToString()));
+        GameObject.Find("SquadronTypeUI").GetComponent<ShootTypeUI>().ChangeShootSprite(FindObjectOfType<UISpriteManager>().Find(escortType));
     }
-
-    //TODO refactor this garbage code. Probably have to change PlayerData.cs and UpgradeMenu.cs
-    #region Set Attack Types
-    //private void SetGunType(int shootType)
-    //{
-    //    switch (shootType)
-    //    {
-    //        case 0:
-    //            gunAttack = new DoubleShot(bulletPrefab);
-    //            //Change the Gun sprite in UI
-    //            GameObject.Find("ShootTypeUI").GetComponent<ShootTypeUI>().ChangeShootSprite(FindObjectOfType<UISpriteManager>().Find("UIDoubleShot"));
-    //            break;
-    //        case 1:
-    //            gunAttack = new TripleShot(bulletPrefab);
-    //            GameObject.Find("ShootTypeUI").GetComponent<ShootTypeUI>().ChangeShootSprite(FindObjectOfType<UISpriteManager>().Find("UITripleShot"));
-    //            break;
-    //        case 2:
-    //            gunAttack = new QuadShot(bulletPrefab);
-    //            GameObject.Find("ShootTypeUI").GetComponent<ShootTypeUI>().ChangeShootSprite(FindObjectOfType<UISpriteManager>().Find("UIQuadShot"));
-    //            break;
-    //        case 3:
-    //            gunAttack = new UpgradedTripleShot(bulletPrefab);
-    //            GameObject.Find("ShootTypeUI").GetComponent<ShootTypeUI>().ChangeShootSprite(FindObjectOfType<UISpriteManager>().Find("UIUpgradedTripleShot"));
-    //            break;
-    //        case 4:
-    //            gunAttack = new AutoCannon(bulletPrefab);
-    //            GameObject.Find("ShootTypeUI").GetComponent<ShootTypeUI>().ChangeShootSprite(FindObjectOfType<UISpriteManager>().Find("UIAutoCannon"));
-    //            shootUpdate = .25f;
-    //            defaultShootUpdate = .25f;
-    //            break;
-    //        case 5:
-    //            gunAttack = new HighVelocityShot(bulletPrefab);
-    //            GameObject.Find("ShootTypeUI").GetComponent<ShootTypeUI>().ChangeShootSprite(FindObjectOfType<UISpriteManager>().Find("UIHighVelocityShot"));
-    //            break;
-    //        case 6:
-    //            gunAttack = new UpgradedDoubleShot(bulletPrefab);
-    //            GameObject.Find("ShootTypeUI").GetComponent<ShootTypeUI>().ChangeShootSprite(FindObjectOfType<UISpriteManager>().Find("UIUpgradedDoubleShot"));
-    //            break;
-    //        case 7:
-    //            gunAttack = new DoubleAutoCannon(bulletPrefab);
-    //            GameObject.Find("ShootTypeUI").GetComponent<ShootTypeUI>().ChangeShootSprite(FindObjectOfType<UISpriteManager>().Find("UIDoubleAutoCannon"));
-    //            shootUpdate = .25f;
-    //            defaultShootUpdate = .25f;
-    //            break;
-    //        case 8:
-    //            gunAttack = new SmartHighVelocityShot(bulletPrefab);
-    //            GameObject.Find("ShootTypeUI").GetComponent<ShootTypeUI>().ChangeShootSprite(FindObjectOfType<UISpriteManager>().Find("UISmartHighVelocityShot"));
-    //            break;
-    //    }
-    //}
-
-    //private void SetMissileType(int missileType)
-    //{
-    //    switch (missileType)
-    //    {
-    //        case 1:
-    //            missileAttack = new SingleMissile(playerMissilePrefab);
-    //            GameObject.Find("MissileTypeUI").GetComponent<ShootTypeUI>().ChangeShootSprite(FindObjectOfType<UISpriteManager>().Find("UISingleMissile"));
-    //            break;
-    //        case 2:
-    //            missileAttack = new DoubleMissile(playerMissilePrefab);
-    //            GameObject.Find("MissileTypeUI").GetComponent<ShootTypeUI>().ChangeShootSprite(FindObjectOfType<UISpriteManager>().Find("UIDoubleMissile"));
-    //            break;
-    //        case 3:
-    //            missileAttack = new TripleMissile(playerMissilePrefab);
-    //            GameObject.Find("MissileTypeUI").GetComponent<ShootTypeUI>().ChangeShootSprite(FindObjectOfType<UISpriteManager>().Find("UITripleMissile"));
-    //            break;
-    //        case 4:
-    //            missileAttack = new SwarmerMissile(playerMissilePrefab);
-    //            GameObject.Find("MissileTypeUI").GetComponent<ShootTypeUI>().ChangeShootSprite(FindObjectOfType<UISpriteManager>().Find("UISwarmerMissile"));
-    //            break;
-    //        case 5:
-    //            missileAttack = new SingleMissile(poisonMissilePrefab);
-    //            GameObject.Find("MissileTypeUI").GetComponent<ShootTypeUI>().ChangeShootSprite(FindObjectOfType<UISpriteManager>().Find("UISlowMissile"));
-    //            break;
-    //    }
-    //}
-    #endregion
 
     void CreateDust()
     {

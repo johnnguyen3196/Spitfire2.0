@@ -70,4 +70,16 @@ public class WeaponManager : MonoBehaviour
                 return new PlayerAttack();
         }
     }
+
+    public GameObject FindEscort(string name)
+    {
+        GameObject o = Resources.Load(name) as GameObject;
+
+        if (o == null)
+        {
+            UnityEngine.Debug.LogWarning("Escort: " + name + " not found!");
+            return null;
+        }
+        return o;
+    }
 }

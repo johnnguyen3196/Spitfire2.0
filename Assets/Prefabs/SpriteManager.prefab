@@ -66,13 +66,13 @@ MonoBehaviour:
     sprite: {fileID: 21300000, guid: 5f238f77be3b0cf4f86051f4221fac6c, type: 3}
   - name: UISwarmerMissile
     sprite: {fileID: 21300000, guid: 34e2afa01638762408c6c12d50742b5a, type: 3}
-  - name: UIStandardEscort1
+  - name: Squadron1
     sprite: {fileID: 21300000, guid: 6a89bf6eaefae9f4cb27d311cb859207, type: 3}
-  - name: UIStandardEscort2
+  - name: Squadron2
     sprite: {fileID: 21300000, guid: c4e2113ee54465342bb022a5e4fec989, type: 3}
-  - name: UIStandardEscort3
+  - name: Squadron3
     sprite: {fileID: 21300000, guid: 27dc9c9cabf2b5e409d87cdf89d78081, type: 3}
-  - name: UIStandardEscort4
+  - name: Squadron4
     sprite: {fileID: 21300000, guid: 543180c67987e654c9e8f1be3e8081eb, type: 3}
   - name: UIDoubleAutoCannon
     sprite: {fileID: 21300000, guid: 780776d31fa283f45b6f8c4727d5841a, type: 3}
@@ -86,4 +86,6 @@ MonoBehaviour:
     sprite: {fileID: 21300000, guid: 6e27dab93add48d4fb5bbe02fc7b64f6, type: 3}
   - name: Empty
     sprite: {fileID: 21300000, guid: 470dc79eecfc765409d6d4e4f864ec3a, type: 3}
+  - name: Sword1
+    sprite: {fileID: 21300000, guid: c1dec675e04ee9c4c8dd0c4c2e3b13a8, type: 3}
   instance: {fileID: 0}

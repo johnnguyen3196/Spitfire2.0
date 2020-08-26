@@ -11,15 +11,11 @@ public class TripleMissile : PlayerAttack
         this.UISpriteName = "UITripleMissile";
         this.type = Type.Missile;
         this.id = 3;
+        missilePrefab = Resources.Load("PlayerMissileObject") as GameObject;
     }
 
     public override void Attack(Transform transform)
     {
-        if (missilePrefab == null)
-        {
-            missilePrefab = Resources.Load("PlayerMissileObject") as GameObject;
-        }
-
         Vector3 middleMissilePos = new Vector3(transform.position.x, transform.position.y + .5f, transform.position.z);
         Vector3 leftMissilePos = new Vector3(transform.position.x - .3f, transform.position.y, transform.position.z);
         Vector3 rightMissilePos = new Vector3(transform.position.x + .3f, transform.position.y, transform.position.z);

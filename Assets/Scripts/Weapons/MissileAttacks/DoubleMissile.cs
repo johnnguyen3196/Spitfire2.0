@@ -11,15 +11,11 @@ public class DoubleMissile : PlayerAttack
         this.UISpriteName = "UIDoubleMissile";
         this.type = Type.Missile;
         this.id = 2;
+        missilePrefab = Resources.Load("PlayerMissileObject") as GameObject;
     }
 
     public override void Attack(Transform transform)
     {
-        if (missilePrefab == null)
-        {
-            missilePrefab = Resources.Load("PlayerMissileObject") as GameObject;
-        }
-
         Vector3 leftMissilePos = new Vector3(transform.position.x - .3f, transform.position.y, transform.position.z);
         Vector3 rightMissilePos = new Vector3(transform.position.x + .3f, transform.position.y, transform.position.z);
         GameObject go1 = GameObject.Instantiate(missilePrefab, leftMissilePos, Quaternion.identity);
