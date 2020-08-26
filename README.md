@@ -4,7 +4,7 @@ PC successor of game I made in EE319K, made using Unity Engine.
 ## Installation
 
 1. Download the zip file from 
-https://gofile.io/d/abc123
+https://gofile.io/d/1yu5Ph
 2. Extract zip
 3. Run Spitfire2.exe<br/>
 (If the link doesn't work, just download the Spitfire_2 folder and run the game. Downloading directly from GitHub will guarantee the most recent version of the game)
