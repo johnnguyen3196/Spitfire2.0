@@ -12,6 +12,23 @@ public class DialogueManager : MonoBehaviour
 
     public string[] deathText;
 
+    public DialogueManager instance;
+
+    void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        DontDestroyOnLoad(gameObject);
+    }
+
     public void Create(GameObject target, string text)
     {
         GameObject go = Instantiate(textBubblePrefab, target.transform.position, Quaternion.identity);

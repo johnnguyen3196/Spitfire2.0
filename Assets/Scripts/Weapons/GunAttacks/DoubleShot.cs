@@ -2,16 +2,24 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class DoubleShot : PlayerAttack
 {
-    GameObject bulletPrefab;
-    public DoubleShot(GameObject bulletPrefab)
+    public GameObject bulletPrefab;
+    public DoubleShot()
     {
-        this.bulletPrefab = bulletPrefab;    
+        this.UISpriteName = "UIDoubleShot";
+        this.type = Type.Gun; 
+        this.id = 1;
     }
 
-    public void Attack(Transform transform)
+    public override void Attack(Transform transform)
     {
+        if (bulletPrefab == null)
+        {
+            bulletPrefab = Resources.Load("PlayerBulletObject") as GameObject;
+        }
+
         Vector3 leftBulletPos = new Vector3(transform.position.x - 0.233f, transform.position.y + 0.371f, transform.position.z);
         Vector3 rightBulletPos = new Vector3(transform.position.x + 0.233f, transform.position.y + 0.371f, transform.position.z);
         GameObject go1 = GameObject.Instantiate(bulletPrefab, leftBulletPos, Quaternion.identity);

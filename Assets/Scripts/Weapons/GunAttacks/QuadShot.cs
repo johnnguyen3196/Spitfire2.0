@@ -2,16 +2,24 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class QuadShot : PlayerAttack
 {
-    GameObject bulletPrefab;
-    public QuadShot(GameObject bulletPrefab)
+    public GameObject bulletPrefab;
+    public QuadShot()
     {
-        this.bulletPrefab = bulletPrefab;
+        this.UISpriteName = "UIQuadShot";
+        this.type = Type.Gun;
+        this.id = 3;
     }
 
-    public void Attack(Transform transform)
+    public override void Attack(Transform transform)
     {
+        if (bulletPrefab == null)
+        {
+            bulletPrefab = Resources.Load("PlayerBulletObject") as GameObject;
+        }
+
         Vector3 leftLeftBulletPos = new Vector3(transform.position.x - 0.233f, transform.position.y + 0.371f, transform.position.z);
         Vector3 rightRightBulletPos = new Vector3(transform.position.x + 0.233f, transform.position.y + 0.371f, transform.position.z);
         Vector3 middleLeftBulletPos = new Vector3(transform.position.x - .1f, transform.position.y + .4f, transform.position.z);

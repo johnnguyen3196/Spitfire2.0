@@ -2,16 +2,24 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class SwarmerMissile : PlayerAttack
 {
-    GameObject missilePrefab;
-    public SwarmerMissile(GameObject missilePrefab)
+    public GameObject missilePrefab;
+    public SwarmerMissile()
     {
-        this.missilePrefab = missilePrefab;
+        this.UISpriteName = "UISwarmerMissile";
+        this.type = Type.Missile;
+        this.id = 4;
     }
 
-    public void Attack(Transform transform)
+    public override void Attack(Transform transform)
     {
+        if (missilePrefab == null)
+        {
+            missilePrefab = Resources.Load("PlayerMissileObject") as GameObject;
+        }
+
         Vector3[] directions = { new Vector3(1, 0, 0), new Vector3(-1, 0, 0), new Vector3(0, 1, 0), new Vector3(0, -1, 0), new Vector3(1, 1, 0), new Vector3(-1, 1, 0), new Vector3(1, -1, 0), new Vector3(-1, -1, 0) };
         foreach (Vector3 direction in directions)
         {

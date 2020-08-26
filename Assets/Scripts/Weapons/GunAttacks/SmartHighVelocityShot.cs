@@ -2,16 +2,24 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class SmartHighVelocityShot : PlayerAttack
 {
-    GameObject bulletPrefab;
-    public SmartHighVelocityShot(GameObject bulletPrefab)
+    public GameObject bulletPrefab;
+    public SmartHighVelocityShot()
     {
-        this.bulletPrefab = bulletPrefab;
+        this.UISpriteName = "UISmartHighVelocityShot";
+        this.type = Type.Gun;
+        this.id = 9;
     }
 
-    public void Attack(Transform transform)
+    public override void Attack(Transform transform)
     {
+        if (bulletPrefab == null)
+        {
+            bulletPrefab = Resources.Load("PlayerBulletObject") as GameObject;
+        }
+
         Vector3 bulletPos = new Vector3(transform.position.x, transform.position.y + .5f, transform.position.z);
         GameObject go = GameObject.Instantiate(bulletPrefab, bulletPos, Quaternion.identity);
         PlayerBullet bullet1 = go.GetComponent<PlayerBullet>();

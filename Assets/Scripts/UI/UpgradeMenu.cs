@@ -19,8 +19,7 @@ public class UpgradeMenu : MonoBehaviour
     public GameObject EquipButton;
     public GameObject EquippedObject;
 
-    public Sprite[] gunSprites;
-    public Sprite[] missileSprites;
+    public Sprite EmptySprite;
     public Sprite[] escortSprites;
 
     /*
@@ -42,6 +41,7 @@ public class UpgradeMenu : MonoBehaviour
     private bool[] toggles = new bool[50];
 
     private int powerupselect;
+    private PlayerAttack weaponSelect;
 
     private int upgradeCost;
 
@@ -81,8 +81,10 @@ public class UpgradeMenu : MonoBehaviour
 
     void SetEquippedImage(PlayerData data)
     {
-        EquippedObject.transform.GetChild(0).GetComponent<Image>().sprite = gunSprites[data.shootType];
-        EquippedObject.transform.GetChild(1).GetComponent<Image>().sprite = missileSprites[data.missileType - 1];
+        PlayerAttack gunSelect = FindObjectOfType<WeaponManager>().FindGun(data.shootType);
+        PlayerAttack missileSelect = FindObjectOfType<WeaponManager>().FindMissile(data.missileType);
+        EquippedObject.transform.GetChild(0).GetComponent<Image>().sprite = gunSelect.GetSprite();
+        EquippedObject.transform.GetChild(1).GetComponent<Image>().sprite = missileSelect.GetSprite();
         EquippedObject.transform.GetChild(2).GetComponent<Image>().sprite = escortSprites[data.escortType - 1];
     }
     #endregion
@@ -93,14 +95,14 @@ public class UpgradeMenu : MonoBehaviour
         foreach(int upgrade in upgrades)
         {
             //enable toggle for upgrades the player researched 
-            GameObject toggleObject = GunTreeObject.transform.GetChild(GunTree[upgrade].ObjectPos).gameObject;
+            GameObject toggleObject = GunTreeObject.transform.GetChild(upgrade).gameObject;
             Toggle toggle = toggleObject.GetComponent<Toggle>();
             toggle.interactable = true;
 
             //enable toggle for children of current upgrade
             foreach(int child in GunTree[upgrade].Children)
             {
-                GameObject childToggleObject = GunTreeObject.transform.GetChild(GunTree[child].ObjectPos).gameObject;
+                GameObject childToggleObject = GunTreeObject.transform.GetChild(child).gameObject;
                 Toggle childToggle = childToggleObject.GetComponent<Toggle>();
                 childToggle.interactable = true;
             }
@@ -119,14 +121,14 @@ public class UpgradeMenu : MonoBehaviour
         foreach (int upgrade in upgrades)
         {
             //enable toggle for upgrades the player researched 
-            GameObject toggleObject = MissileTreeObject.transform.GetChild(MissileTree[upgrade].ObjectPos).gameObject;
+            GameObject toggleObject = MissileTreeObject.transform.GetChild(upgrade).gameObject;
             Toggle toggle = toggleObject.GetComponent<Toggle>();
             toggle.interactable = true;
 
             //enable toggle for children of current upgrade
             foreach (int child in MissileTree[upgrade].Children)
             {
-                GameObject childToggleObject = MissileTreeObject.transform.GetChild(MissileTree[child].ObjectPos).gameObject;
+                GameObject childToggleObject = MissileTreeObject.transform.GetChild(child).gameObject;
                 Toggle childToggle = childToggleObject.GetComponent<Toggle>();
                 childToggle.interactable = true;
             }
@@ -183,25 +185,22 @@ public class UpgradeMenu : MonoBehaviour
     public void Upgrade()
     {
         Info.SetActive(false);
-
-        //Figure out which powerup was selected, modify the save data, let the next upgrade be available
-        if(powerupselect >= 0)
+        if (powerupselect > 9000)
         {
-            if(powerupselect > 9000)
-            {
-                data.escortType = powerupselect - 9000;
-                data.researchedEscortUpgrades.Add(Array.FindIndex(EscortTree, escortUpgrade => escortUpgrade.powerup == powerupselect));
-                InitializeEscortUpgrades(data.researchedEscortUpgrades);
-            } else
-            {
-                data.shootType = powerupselect;
-                data.researchedGunUpgrades.Add(Array.FindIndex(GunTree, gunUpgrade => gunUpgrade.powerup == powerupselect));
-                InitializeGunUpgrades(data.researchedGunUpgrades);
-            }
+            data.escortType = powerupselect - 9000;
+            data.researchedEscortUpgrades.Add(Array.FindIndex(EscortTree, escortUpgrade => escortUpgrade.powerup == powerupselect));
+            InitializeEscortUpgrades(data.researchedEscortUpgrades);
+        }
+        //Figure out which powerup was selected, modify the save data, let the next upgrade be available
+        if (weaponSelect.type == PlayerAttack.Type.Gun)
+        {
+            data.shootType = weaponSelect.id;
+            data.researchedGunUpgrades.Add(Array.FindIndex(GunTree, gunUpgrade => gunUpgrade.powerup == data.shootType));
+            InitializeGunUpgrades(data.researchedGunUpgrades);
         } else
         {
-            data.missileType = Mathf.Abs(powerupselect);
-            data.researchedMissileUpgrades.Add(Array.FindIndex(MissileTree, missileUpgrade => missileUpgrade.powerup == powerupselect));
+            data.missileType = weaponSelect.id;
+            data.researchedMissileUpgrades.Add(Array.FindIndex(MissileTree, missileUpgrade => missileUpgrade.powerup == data.missileType));
             InitializeMissileUpgrades(data.researchedMissileUpgrades);
         }
         data.points -= upgradeCost;
@@ -212,22 +211,19 @@ public class UpgradeMenu : MonoBehaviour
     public void Equip()
     {
         Info.SetActive(false);
-
-        //Figure out which powerup was selected, modify the save data, let the next upgrade be available
-        if (powerupselect >= 0)
+        //TEMP
+        if(powerupselect > 9000)
         {
-            if (powerupselect > 9000)
-            {
-                data.escortType = powerupselect - 9000;
-            }
-            else
-            {
-                data.shootType = powerupselect;
-            }
+            data.escortType = powerupselect - 9000; SetEquippedImage(data); return;
+        }
+        //Figure out which powerup was selected, modify the save data, let the next upgrade be available
+        if (weaponSelect.type == PlayerAttack.Type.Gun)
+        {
+            data.shootType = weaponSelect.id;
         }
         else
         {
-            data.missileType = Mathf.Abs(powerupselect);
+            data.missileType = weaponSelect.id;
         }
         SetEquippedImage(data);
     }
@@ -252,7 +248,7 @@ public class UpgradeMenu : MonoBehaviour
 
     void DisableUpgradeButton(int cost)
     {
-        
+
         /*  Upgraded    Can Afford   |   Enable Button
          * --------------------------|----------------
          *      T           T        |         F
@@ -283,16 +279,16 @@ public class UpgradeMenu : MonoBehaviour
 
     bool CheckResearchedUpgrade(PlayerData data)
     {
-        if(Array.FindIndex(GunTree, gunUpgrade => gunUpgrade.powerup == powerupselect) != -1)
+        if(weaponSelect.type == PlayerAttack.Type.Gun && data.researchedGunUpgrades.FindIndex(upgrade => upgrade == weaponSelect.id) != -1)
         {
-            if(data.researchedGunUpgrades.FindIndex(upgrade => upgrade == (Array.FindIndex(GunTree, gunUpgrade => gunUpgrade.powerup == powerupselect))) != -1)
+            if(data.researchedGunUpgrades.FindIndex(upgrade => upgrade == (Array.FindIndex(GunTree, gunUpgrade => gunUpgrade.powerup == weaponSelect.id))) != -1)
             {
                 return true;
             }
         }
-        if (Array.FindIndex(MissileTree, missileUpgrade => missileUpgrade.powerup == powerupselect) != -1)
+        if (weaponSelect.type == PlayerAttack.Type.Missile && data.researchedMissileUpgrades.FindIndex(upgrade => upgrade == weaponSelect.id) != -1)
         {
-            if (data.researchedMissileUpgrades.FindIndex(upgrade => upgrade == (Array.FindIndex(MissileTree, missileUpgrade => missileUpgrade.powerup == powerupselect))) != -1)
+            if (data.researchedMissileUpgrades.FindIndex(upgrade => upgrade == (Array.FindIndex(MissileTree, missileUpgrade => missileUpgrade.powerup == weaponSelect.id))) != -1)
             {
                 return true;
             }
@@ -329,18 +325,64 @@ public class UpgradeMenu : MonoBehaviour
         EscortTreeObject.SetActive(true);
     }
 
+    public void DisableGunSelect()
+    {
+        toggles[18] = toggles[18] ? false : true;
+        SetAllSelectToFalse(18);
+        if (toggles[18])
+        {
+            weaponSelect = new PlayerAttack();
+            weaponSelect.type = PlayerAttack.Type.Gun;
+            Info.SetActive(true);
+            Info.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "Disable Guns";
+            Info.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = "Your guns will not shoot";
+            Info.transform.GetChild(3).GetComponent<Image>().sprite = EmptySprite;
+            Info.transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = "Cost: 0";
+        }
+        else
+        {
+            Info.SetActive(false);
+        }
+        DisableUpgradeButton(0);
+        upgradeCost = 0;
+        DisableEquippedButton(data);
+    }
+
+    public void DisableMissileSelect()
+    {
+        toggles[19] = toggles[19] ? false : true;
+        SetAllSelectToFalse(19);
+        if (toggles[19])
+        {
+            weaponSelect = new PlayerAttack();
+            weaponSelect.type = PlayerAttack.Type.Missile;
+            Info.SetActive(true);
+            Info.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "Disable Missile";
+            Info.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = "Your missiles will not shoot";
+            Info.transform.GetChild(3).GetComponent<Image>().sprite = EmptySprite;
+            Info.transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = "Cost: 0";
+        }
+        else
+        {
+            Info.SetActive(false);
+        }
+        DisableUpgradeButton(0);
+        upgradeCost = 0;
+        DisableEquippedButton(data);
+    }
+
     public void DoubleShotSelect()
     {
         toggles[0] = toggles[0] ? false : true;
         SetAllSelectToFalse(0);
         if (toggles[0])
         {
+            weaponSelect = new DoubleShot();
             Info.SetActive(true);
             Info.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "Double Shot";
             Info.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = "Fire 2 bullets at a time";
-            Info.transform.GetChild(3).GetComponent<Image>().sprite = gunSprites[0];
+            Info.transform.GetChild(3).GetComponent<Image>().sprite = weaponSelect.GetSprite();
             Info.transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = "Cost: 0";
-            powerupselect = 0;
         }
         else
         {
@@ -357,12 +399,12 @@ public class UpgradeMenu : MonoBehaviour
         SetAllSelectToFalse(1);
         if (toggles[1])
         {
+            weaponSelect = new TripleShot();
             Info.SetActive(true);
             Info.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "Triple Shot";
             Info.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = "Fire 3 bullets at a time";
-            Info.transform.GetChild(3).GetComponent<Image>().sprite = gunSprites[1];
+            Info.transform.GetChild(3).GetComponent<Image>().sprite = weaponSelect.GetSprite();
             Info.transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = "Cost: 1000";
-            powerupselect = 1;
         } else
         {
             Info.SetActive(false);
@@ -378,12 +420,13 @@ public class UpgradeMenu : MonoBehaviour
         SetAllSelectToFalse(2);
         if (toggles[2])
         {
+            weaponSelect = new QuadShot();
             Info.SetActive(true);
             Info.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "Quad Shot";
             Info.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = "Fire 4 bullets at a time";
-            Info.transform.GetChild(3).GetComponent<Image>().sprite = gunSprites[2];
+            Info.transform.GetChild(3).GetComponent<Image>().sprite = weaponSelect.GetSprite();
             Info.transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = "Cost: 1500";
-            powerupselect = 2;
+            
         }
         else
         {
@@ -400,12 +443,13 @@ public class UpgradeMenu : MonoBehaviour
         SetAllSelectToFalse(3);
         if (toggles[3])
         {
+            weaponSelect = new UpgradedTripleShot();
             Info.SetActive(true);
             Info.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "Upgrade Triple Shot";
             Info.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = "Fire 3 bullets at a time. Center bullet does increased damage.";
-            Info.transform.GetChild(3).GetComponent<Image>().sprite = gunSprites[3];
+            Info.transform.GetChild(3).GetComponent<Image>().sprite = weaponSelect.GetSprite();
             Info.transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = "Cost: 2000";
-            powerupselect = 3;
+            
         }
         else
         {
@@ -422,12 +466,13 @@ public class UpgradeMenu : MonoBehaviour
         SetAllSelectToFalse(4);
         if (toggles[4])
         {
+            weaponSelect = new SingleMissile();
             Info.SetActive(true);
             Info.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "Single Missile";
             Info.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = "Fire 1 missiles at a time";
-            Info.transform.GetChild(3).GetComponent<Image>().sprite = missileSprites[0];
+            Info.transform.GetChild(3).GetComponent<Image>().sprite = weaponSelect.GetSprite();
             Info.transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = "Cost: 0";
-            powerupselect = -1;
+            
         }
         else
         {
@@ -444,12 +489,13 @@ public class UpgradeMenu : MonoBehaviour
         SetAllSelectToFalse(5);
         if (toggles[5])
         {
+            weaponSelect = new DoubleMissile();
             Info.SetActive(true);
             Info.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "Double Missile";
             Info.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = "Fire 2 missiles at a time";
-            Info.transform.GetChild(3).GetComponent<Image>().sprite = missileSprites[1];
+            Info.transform.GetChild(3).GetComponent<Image>().sprite = weaponSelect.GetSprite();
             Info.transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = "Cost: 1000";
-            powerupselect = -2;
+            
         }
         else
         {
@@ -466,12 +512,13 @@ public class UpgradeMenu : MonoBehaviour
         SetAllSelectToFalse(6);
         if (toggles[6])
         {
+            weaponSelect = new TripleMissile();
             Info.SetActive(true);
             Info.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "Triple Missile";
             Info.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = "Fire 3 missiles at a time";
-            Info.transform.GetChild(3).GetComponent<Image>().sprite = missileSprites[2];
+            Info.transform.GetChild(3).GetComponent<Image>().sprite = weaponSelect.GetSprite();
             Info.transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = "Cost: 1500";
-            powerupselect = -3;
+            
         }
         else
         {
@@ -488,12 +535,13 @@ public class UpgradeMenu : MonoBehaviour
         SetAllSelectToFalse(7);
         if (toggles[7])
         {
+            weaponSelect = new SwarmerMissile();
             Info.SetActive(true);
             Info.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "Swarmer Missile";
             Info.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = "Fire 8 swarmer missiles at a time. Swarmer missiles do half damage of regular missiles";
-            Info.transform.GetChild(3).GetComponent<Image>().sprite = missileSprites[3];
+            Info.transform.GetChild(3).GetComponent<Image>().sprite = weaponSelect.GetSprite();
             Info.transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = "Cost: 2000";
-            powerupselect = -4;
+            
         }
         else
         {
@@ -598,12 +646,13 @@ public class UpgradeMenu : MonoBehaviour
         SetAllSelectToFalse(12);
         if (toggles[12])
         {
+            weaponSelect = new AutoCannon();
             Info.SetActive(true);
             Info.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "Auto Cannon";
             Info.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = "Fires 5 bullets per second";
-            Info.transform.GetChild(3).GetComponent<Image>().sprite = gunSprites[4];
+            Info.transform.GetChild(3).GetComponent<Image>().sprite = weaponSelect.GetSprite();
             Info.transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = "Cost: 2000";
-            powerupselect = 4;
+            
         }
         else
         {
@@ -620,12 +669,13 @@ public class UpgradeMenu : MonoBehaviour
         SetAllSelectToFalse(13);
         if (toggles[13])
         {
+            weaponSelect = new HighVelocityShot();
             Info.SetActive(true);
             Info.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "High Velocity Shot";
             Info.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = "Fires 1 high velocity bullet that does TONS OF DAMAGE";
-            Info.transform.GetChild(3).GetComponent<Image>().sprite = gunSprites[5];
+            Info.transform.GetChild(3).GetComponent<Image>().sprite = weaponSelect.GetSprite();
             Info.transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = "Cost: 2000";
-            powerupselect = 5;
+            
         }
         else
         {
@@ -642,12 +692,13 @@ public class UpgradeMenu : MonoBehaviour
         SetAllSelectToFalse(14);
         if (toggles[14])
         {
+            weaponSelect = new UpgradedDoubleShot();
             Info.SetActive(true);
             Info.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "Upgraded Double Shot";
             Info.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = "Fires 2 bullets at a time with increased damage";
-            Info.transform.GetChild(3).GetComponent<Image>().sprite = gunSprites[6];
+            Info.transform.GetChild(3).GetComponent<Image>().sprite = weaponSelect.GetSprite();
             Info.transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = "Cost: 3000";
-            powerupselect = 6;
+            
         }
         else
         {
@@ -664,12 +715,13 @@ public class UpgradeMenu : MonoBehaviour
         SetAllSelectToFalse(15);
         if (toggles[15])
         {
+            weaponSelect = new DoubleAutoCannon();
             Info.SetActive(true);
             Info.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "Double Auto Cannon";
             Info.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = "Fires 10 bullets per second";
-            Info.transform.GetChild(3).GetComponent<Image>().sprite = gunSprites[7];
+            Info.transform.GetChild(3).GetComponent<Image>().sprite = weaponSelect.GetSprite();
             Info.transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = "Cost: 3000";
-            powerupselect = 7;
+            
         }
         else
         {
@@ -686,12 +738,13 @@ public class UpgradeMenu : MonoBehaviour
         SetAllSelectToFalse(16);
         if (toggles[16])
         {
+            weaponSelect = new SmartHighVelocityShot();
             Info.SetActive(true);
             Info.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "Smart High Velocity Shot";
             Info.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = "Fires 1 high velocity bullet that does TONS OF DAMAGE. Bullet moves towards mouse direction upon firing";
-            Info.transform.GetChild(3).GetComponent<Image>().sprite = gunSprites[8];
+            Info.transform.GetChild(3).GetComponent<Image>().sprite = weaponSelect.GetSprite();
             Info.transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = "Cost: 3000";
-            powerupselect = 8;
+            
         }
         else
         {
@@ -708,12 +761,13 @@ public class UpgradeMenu : MonoBehaviour
         SetAllSelectToFalse(17);
         if (toggles[17])
         {
+            weaponSelect = new SinglePoisonMissile();
             Info.SetActive(true);
             Info.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "Poison Missile";
             Info.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = "Fires a poison missile. Poison missiles slows all enemies in an area and does damage over time";
-            Info.transform.GetChild(3).GetComponent<Image>().sprite = missileSprites[4];
+            Info.transform.GetChild(3).GetComponent<Image>().sprite = weaponSelect.GetSprite();
             Info.transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = "Cost: 2000";
-            powerupselect = -5;
+            
         }
         else
         {

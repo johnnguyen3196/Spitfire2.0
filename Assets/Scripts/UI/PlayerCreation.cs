@@ -91,15 +91,22 @@ public class PlayerCreation : MonoBehaviour
         data.plane = plane;
         data.level = 1;
         data.points = 1000;
-        data.shootType = 0;
+
+        data.shootType = 1;
         data.missileType = 1;
         data.escortType = 1;
+
         data.researchedGunUpgrades = new List<int>();
         data.researchedGunUpgrades.Add(0);
+        data.researchedGunUpgrades.Add(1);
+
         data.researchedMissileUpgrades = new List<int>();
         data.researchedMissileUpgrades.Add(0);
+        data.researchedMissileUpgrades.Add(1);
+
         data.researchedEscortUpgrades = new List<int>();
         data.researchedEscortUpgrades.Add(0);
+
         data.slot = slot;
         SaveSystem.SavePlayerData(data);
 

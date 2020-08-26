@@ -2,16 +2,24 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class DoubleAutoCannon : PlayerAttack
 {
-    GameObject bulletPrefab;
-    public DoubleAutoCannon(GameObject bulletPrefab)
+    public GameObject bulletPrefab;
+    public DoubleAutoCannon()
     {
-        this.bulletPrefab = bulletPrefab;
+        this.UISpriteName = "UIDoubleAutoCannon";
+        this.type = Type.Gun;
+        this.id = 8;
     }
 
-    public void Attack(Transform transform)
+    public override void Attack(Transform transform)
     {
+        if (bulletPrefab == null)
+        {
+            bulletPrefab = Resources.Load("PlayerBulletObject") as GameObject;
+        }
+
         Vector3[] positions = { new Vector3(transform.position.x - .4f, transform.position.y + 0.5f, 0), new Vector3(transform.position.x - .3f, transform.position.y + 0.5f, 0), new Vector3(transform.position.x -.2f, transform.position.y + 0.5f, 0) };
         GameObject go = GameObject.Instantiate(bulletPrefab, positions[Random.Range(0, positions.Length)], Quaternion.identity);
         PlayerBullet bullet1 = go.GetComponent<PlayerBullet>();

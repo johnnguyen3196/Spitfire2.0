@@ -55,11 +55,6 @@ public class Missile : MonoBehaviour
             Destroy(gameObject);
             Player player = collision.gameObject.GetComponent<Player>();
             player.TakeDamage(damage);
-            if (player.currentHealth <= 0)
-            {
-
-                player.Die();
-            }
         }
     }
 }

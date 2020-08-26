@@ -4,6 +4,23 @@ using UnityEngine;
 public class UISpriteManager : MonoBehaviour
 {
     public SpriteObject[] Sprites;
+
+    public UISpriteManager instance;
+
+    void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        DontDestroyOnLoad(gameObject);
+    }
     
     public Sprite Find(string name)
     {

@@ -84,3 +84,6 @@ MonoBehaviour:
     sprite: {fileID: 21300000, guid: 55a869050f1fbb8408ceefbdf6fe473c, type: 3}
   - name: Mustang
     sprite: {fileID: 21300000, guid: 6e27dab93add48d4fb5bbe02fc7b64f6, type: 3}
+  - name: Empty
+    sprite: {fileID: 21300000, guid: 470dc79eecfc765409d6d4e4f864ec3a, type: 3}
+  instance: {fileID: 0}

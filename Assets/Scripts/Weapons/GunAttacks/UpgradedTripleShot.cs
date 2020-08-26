@@ -2,16 +2,24 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class UpgradedTripleShot : PlayerAttack
 {
-    GameObject bulletPrefab;
-    public UpgradedTripleShot(GameObject bulletPrefab)
+    public GameObject bulletPrefab;
+    public UpgradedTripleShot()
     {
-        this.bulletPrefab = bulletPrefab;
+        this.UISpriteName = "UIUpgradedTripleShot";
+        this.type = Type.Gun;
+        this.id = 4;
     }
 
-    public void Attack(Transform transform)
+    public override void Attack(Transform transform)
     {
+        if (bulletPrefab == null)
+        {
+            bulletPrefab = Resources.Load("PlayerBulletObject") as GameObject;
+        }
+
         Vector3 leftBulletPos = new Vector3(transform.position.x - 0.233f, transform.position.y + 0.371f, transform.position.z);
         Vector3 rightBulletPos = new Vector3(transform.position.x + 0.233f, transform.position.y + 0.371f, transform.position.z);
         Vector3 middleBulletPos = new Vector3(transform.position.x, transform.position.y + .5f, transform.position.z);

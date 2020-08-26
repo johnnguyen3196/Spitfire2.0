@@ -1,7 +1,28 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-interface PlayerAttack
+
+public class PlayerAttack
 {
-    void Attack(Transform transform);
+    protected string UISpriteName = "Empty";
+
+    public enum Type
+    {
+        Gun,
+        Missile,
+        Escort
+    }
+
+    public Type type;
+
+    public int id = 0;
+
+    public virtual void Attack(Transform transform) {
+
+    }
+
+    public Sprite GetSprite()
+    {
+        return GameObject.FindObjectOfType<UISpriteManager>().Find(UISpriteName);
+    }
 }

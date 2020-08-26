@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
 
+//DEPRECIATED will not use this
 public class PowerUpScript : MonoBehaviour
 {
     private int speed = 100;
@@ -63,35 +64,35 @@ public class PowerUpScript : MonoBehaviour
         rb.AddForce(targetVector.normalized * speed);
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject.name == "plane")
-        {
-            Destroy(gameObject);
-            Player player = collision.gameObject.GetComponent<Player>();
-            Sprite sprite = gameObject.GetComponent<SpriteRenderer>().sprite;
-            if (type > 0)
-            {
-                //squadron powerup
-                if(type > 9000)
-                {
-                    player.SetNumberOfSquadrons(type - 9000);
-                    ShootTypeUI squadronTypeUI = GameObject.Find("SquadronTypeUI").GetComponent<ShootTypeUI>();
-                    squadronTypeUI.ChangeShootSprite(sprite);
-                } else
-                {
-                    //gun powerup
-                    player.shootType = type;
-                    ShootTypeUI shootTypeMenu = GameObject.Find("ShootTypeUI").GetComponent<ShootTypeUI>();
-                    shootTypeMenu.ChangeShootSprite(sprite);
-                }
-            } else
-            {
-                //missile powerup
-                player.missileType = Mathf.Abs(type);
-                ShootTypeUI missileTypeMenu = GameObject.Find("MissileTypeUI").GetComponent<ShootTypeUI>();
-                missileTypeMenu.ChangeShootSprite(sprite);
-            }
-        }
-    }
+    //private void OnTriggerEnter2D(Collider2D collision)
+    //{
+    //    if (collision.gameObject.name == "plane")
+    //    {
+    //        Destroy(gameObject);
+    //        Player player = collision.gameObject.GetComponent<Player>();
+    //        Sprite sprite = gameObject.GetComponent<SpriteRenderer>().sprite;
+    //        if (type > 0)
+    //        {
+    //            //squadron powerup
+    //            if(type > 9000)
+    //            {
+    //                player.SetNumberOfSquadrons(type - 9000);
+    //                ShootTypeUI squadronTypeUI = GameObject.Find("SquadronTypeUI").GetComponent<ShootTypeUI>();
+    //                squadronTypeUI.ChangeShootSprite(sprite);
+    //            } else
+    //            {
+    //                //gun powerup
+    //                player.shootType = type;
+    //                ShootTypeUI shootTypeMenu = GameObject.Find("ShootTypeUI").GetComponent<ShootTypeUI>();
+    //                shootTypeMenu.ChangeShootSprite(sprite);
+    //            }
+    //        } else
+    //        {
+    //            //missile powerup
+    //            player.missileType = Mathf.Abs(type);
+    //            ShootTypeUI missileTypeMenu = GameObject.Find("MissileTypeUI").GetComponent<ShootTypeUI>();
+    //            missileTypeMenu.ChangeShootSprite(sprite);
+    //        }
+    //    }
+    //}
 }

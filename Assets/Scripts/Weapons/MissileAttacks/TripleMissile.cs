@@ -2,16 +2,24 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class TripleMissile : PlayerAttack
 {
-    GameObject missilePrefab;
-    public TripleMissile(GameObject missilePrefab)
+    public GameObject missilePrefab;
+    public TripleMissile()
     {
-        this.missilePrefab = missilePrefab;
+        this.UISpriteName = "UITripleMissile";
+        this.type = Type.Missile;
+        this.id = 3;
     }
 
-    public void Attack(Transform transform)
+    public override void Attack(Transform transform)
     {
+        if (missilePrefab == null)
+        {
+            missilePrefab = Resources.Load("PlayerMissileObject") as GameObject;
+        }
+
         Vector3 middleMissilePos = new Vector3(transform.position.x, transform.position.y + .5f, transform.position.z);
         Vector3 leftMissilePos = new Vector3(transform.position.x - .3f, transform.position.y, transform.position.z);
         Vector3 rightMissilePos = new Vector3(transform.position.x + .3f, transform.position.y, transform.position.z);
