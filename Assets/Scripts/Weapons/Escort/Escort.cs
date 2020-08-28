@@ -6,6 +6,7 @@ public class Escort : MonoBehaviour
 {
     public float RotateSpeed;
     public float Radius;
+    public float AttackSpeed;
 
     public float angle;
     // Start is called before the first frame update

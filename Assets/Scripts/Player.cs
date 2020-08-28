@@ -23,6 +23,8 @@ public class Player : MonoBehaviour
     private float missileTimer;
     private float defaultMissileUpdate = 2;
     private float missileUpdate = 2;
+    private float escortTimer;
+    private float escortUpdate;
     private float defaultSpeed = 5;
     public float speed;
 
@@ -108,6 +110,7 @@ public class Player : MonoBehaviour
         }
         shootTimer = Time.time + 1;
         missileTimer = Time.time + 1;
+        escortTimer = Time.time + 1;
 
         shootType = data.shootType;
         missileType = data.missileType;
@@ -159,13 +162,18 @@ public class Player : MonoBehaviour
         {
             shootTimer = Time.time + shootUpdate;
             ShootGun();
-            ShootEscortGun();
         }
         //Missile updates
         if(Time.time >= missileTimer)
         {
             missileTimer = Time.time + missileUpdate;
             ShootMissile();
+        }
+        //Escort updates
+        if(Time.time >= escortTimer)
+        {
+            escortTimer = Time.time + escortUpdate;
+            ShootEscortGun();
         }
         #endregion
 
@@ -327,11 +335,13 @@ public class Player : MonoBehaviour
         }
     }
 
-    //TODO CHANGE last line
     //Instantiates the number of escorts around the player
     public void SetNumberOfEscorts()
     {
+        //Find the escort GameObject from WeaponManager
         GameObject prefab = FindObjectOfType<WeaponManager>().FindEscort(escortType.Remove(escortType.Length - 1));
+
+        escortUpdate = prefab.GetComponent<Escort>().AttackSpeed;
         //Reset current escorts
         for (int i = 0; i < escorts.Length; i++)
         {

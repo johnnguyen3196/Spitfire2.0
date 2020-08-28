@@ -73,6 +73,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RotateSpeed: 7.5
   Radius: 2
+  AttackSpeed: 10
   angle: 0
   damage: 50
 --- !u!1 &5959619744781641791

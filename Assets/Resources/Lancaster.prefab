@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &1457433820443334949
+--- !u!1 &3960838156622840799
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,49 +8,49 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 150815576487419696}
-  - component: {fileID: -3960077701765330424}
+  - component: {fileID: 7183104723737378868}
+  - component: {fileID: 5798366300254538008}
   m_Layer: 0
-  m_Name: Squadron
+  m_Name: Lancaster
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &150815576487419696
+--- !u!4 &7183104723737378868
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1457433820443334949}
+  m_GameObject: {fileID: 3960838156622840799}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 8361989911417149803}
+  - {fileID: 3961019018396509828}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-3960077701765330424
+--- !u!114 &5798366300254538008
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1457433820443334949}
+  m_GameObject: {fileID: 3960838156622840799}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6e4dcc80f9e190742a15f6a47daab3c7, type: 3}
+  m_Script: {fileID: 11500000, guid: 106529cf4c5043f46b8d7b20fa5a9f79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   RotateSpeed: 2
-  Radius: 1
-  AttackSpeed: 1
+  Radius: 1.5
+  AttackSpeed: 2
   angle: 0
-  bulletPrefab: {fileID: 2225351258445128224, guid: 6976b68e4633c39429b348de669c3635,
+  bombPrefab: {fileID: 2705921585624981264, guid: b2fd227674977304e9231170dbbe77e0,
     type: 3}
---- !u!1 &7278199534609483038
+--- !u!1 &5330577565668473174
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -58,36 +58,36 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 8361989911417149803}
-  - component: {fileID: 2511466145098978135}
+  - component: {fileID: 3961019018396509828}
+  - component: {fileID: 960535999628006866}
   m_Layer: 0
-  m_Name: playerPlane
+  m_Name: Lancaster
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &8361989911417149803
+--- !u!4 &3961019018396509828
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7278199534609483038}
+  m_GameObject: {fileID: 5330577565668473174}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 150815576487419696}
+  m_Father: {fileID: 7183104723737378868}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &2511466145098978135
+--- !u!212 &960535999628006866
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7278199534609483038}
+  m_GameObject: {fileID: 5330577565668473174}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -120,12 +120,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: f18d491926a59d04488563f5386fea57, type: 3}
+  m_Sprite: {fileID: 21300000, guid: fbdba1b0870518745a990a38fe35bc6c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.32, y: 0.32}
+  m_Size: {x: 0.76, y: 0.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1

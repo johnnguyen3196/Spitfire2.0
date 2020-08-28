@@ -69,7 +69,7 @@ public class UpgradeMenu : MonoBehaviour
         InitializeMissileUpgrades(data.researchedMissileUpgrades);
         InitializeEscortUpgrades(data.researchedEscortUpgrades);
 
-        data.points = 3500;
+        data.points = 10000;
 
         SetPointsText(data.points);
         SetEquippedImage(data);
@@ -861,6 +861,38 @@ public class UpgradeMenu : MonoBehaviour
             escortSelected = false;
             Info.SetActive(false);
         }
+        DisableUpgradeButton(2000);
+        upgradeCost = 2000;
+        DisableEquippedButton(data);
+    }
+
+    public void SingleLancasterSelect()
+    {
+        // Make sure that the integer in the next 3 lines are not used in other functions and are the same in this function. Failure to do this will cause weird Toggle issues
+        toggles[22] = toggles[22] ? false : true;
+        SetAllSelectToFalse(22);
+        if (toggles[22])
+        {
+            //For upgrading escorts, set this variable to true
+            escortSelected = true;
+            Info.SetActive(true);
+            // Set the name of your Escort upgrade
+            Info.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "Lancaster";
+            // Set the description of your Escort upgrade
+            Info.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = "A bomber escort will rotate around the player and shoot bombs. The bomb will explode if the player's mouse is below the bomb projectile.";
+            // Find your UI Sprite from the SpriteManager by name
+            Info.transform.GetChild(3).GetComponent<Image>().sprite = FindObjectOfType<UISpriteManager>().Find("Lancaster1");
+            // Set the cost text of your Escort upgrade
+            Info.transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = "Cost: 2000";
+            // Set the Name of your Escort upgrade. **Important** make sure it is the same as your Toggle name
+            powerupName = "Lancaster1";
+        }
+        else
+        {
+            escortSelected = false;
+            Info.SetActive(false);
+        }
+        //The next two numbers will be the cost of your upgrade in points
         DisableUpgradeButton(2000);
         upgradeCost = 2000;
         DisableEquippedButton(data);
