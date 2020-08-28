@@ -69,8 +69,6 @@ public class UpgradeMenu : MonoBehaviour
         InitializeMissileUpgrades(data.researchedMissileUpgrades);
         InitializeEscortUpgrades(data.researchedEscortUpgrades);
 
-        data.points = 10000;
-
         SetPointsText(data.points);
         SetEquippedImage(data);
     }
