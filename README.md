@@ -4,10 +4,16 @@ PC successor of game I made in EE319K, made using Unity Engine.
 ## Installation
 
 1. Download the zip file from 
-https://gofile.io/d/nZhHpL
+https://gofile.io/d/1yu5Ph
 2. Extract zip
 3. Run Spitfire2.exe<br/>
 (If the link doesn't work, just download the Spitfire_2 folder and run the game. Downloading directly from GitHub will guarantee the most recent version of the game)
+
+## Latest Changes
+* Bug fixes
+* New escort upgrade.<br/>
+Sword: A sword will rotate around the player and do damage on-hit. The sword also has a 50% chance of destroying enemy projectiles.
+* Refactored code so other developers can easily contribute to the game.
 
 ## System Requirements
 A computer that runs better than a potato.
@@ -45,4 +51,4 @@ GamePlay:
 ![gameplay](Screenshots/level2boss.png)
 
 ## Contribution
-Want to contribute? Details on how to add your own stuff to this game coming soon!
+Want to contribute? Check out the [wiki](https://github.com/johnnguyen3196/Spitfire2.0/wiki)!
