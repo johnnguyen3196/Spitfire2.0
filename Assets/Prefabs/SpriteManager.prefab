@@ -90,4 +90,6 @@ MonoBehaviour:
     sprite: {fileID: 21300000, guid: c1dec675e04ee9c4c8dd0c4c2e3b13a8, type: 3}
   - name: Lancaster1
     sprite: {fileID: 21300000, guid: 71b2d0ed9cbf93444bf5e5dd3e7cb092, type: 3}
+  - name: Shotgun
+    sprite: {fileID: 21300000, guid: 05c0e9e672b01534e832a786799aaaa2, type: 3}
   instance: {fileID: 0}

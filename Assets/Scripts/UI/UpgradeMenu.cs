@@ -895,5 +895,37 @@ public class UpgradeMenu : MonoBehaviour
         upgradeCost = 2000;
         DisableEquippedButton(data);
     }
+
+    public void ShotgunSelect()
+    {
+        // Make sure that the integer in the next 3 lines are not used in other functions and are the same in this function and are unique from other functions(In this case, 23 since no other function uses this). Failure to do this will cause weird Toggle issues
+        toggles[23] = toggles[23] ? false : true;
+        SetAllSelectToFalse(23);
+        if (toggles[23])
+        {
+            // Instantiate the class that you made in Step 6
+            weaponSelect = new Shotgun();
+            Info.SetActive(true);
+            // Set the name of your upgrade
+            Info.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "Shotgun";
+            // Set the description of your upgrade
+            Info.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = "Shoot 3 bullets in a small spread";
+            // Find your UI Sprite from the SpriteManager by name from Step 2
+            Info.transform.GetChild(3).GetComponent<Image>().sprite = FindObjectOfType<UISpriteManager>().Find("Shotgun");
+            // Set the cost text of your upgrade
+            Info.transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = "Cost: 0";
+            // Set the Name of your upgrade. **Important** make sure it is the same as your Toggle name
+            powerupName = "Shotgun";
+        }
+        else
+        {
+            escortSelected = false;
+            Info.SetActive(false);
+        }
+        //The next two numbers will be the cost of your upgrade in points
+        DisableUpgradeButton(0);
+        upgradeCost = 0;
+        DisableEquippedButton(data);
+    }
     #endregion
 }

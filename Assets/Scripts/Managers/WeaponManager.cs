@@ -45,6 +45,8 @@ public class WeaponManager : MonoBehaviour
                 return new DoubleAutoCannon();
             case 9:
                 return new SmartHighVelocityShot();
+            case 10:
+                return new Shotgun();
             default:
                 return new PlayerAttack();
         }
