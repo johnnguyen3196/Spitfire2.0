@@ -212,6 +212,7 @@ public class Player : MonoBehaviour
             transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             teleCoolDown = maxTeleCoolDown;
             CreateDust();
+            FindObjectOfType<AudioManager>().Play("Teleport");
         }
         if(teleCoolDown > 0)
         {

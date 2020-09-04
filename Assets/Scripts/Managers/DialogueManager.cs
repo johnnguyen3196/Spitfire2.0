@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -7,8 +6,14 @@ public class DialogueManager : MonoBehaviour
 {
     public GameObject textBubblePrefab;
 
-    //2D string array
-    public MultiDimentionalString[] spawnText;
+    [System.Serializable]
+    public struct EnemyDialogue
+    {
+        public string Name;
+        public string[] Dialogue;
+    }
+
+    public EnemyDialogue[] EnemyDialogues;
 
     public string[] deathText;
 
@@ -38,14 +43,36 @@ public class DialogueManager : MonoBehaviour
         textBubble.UpdateText(text);
     }
 
-    public void CreateRandomSpawnEnemyText(GameObject target, int enemy)
+    public void CreateRandomSpawnEnemyText(GameObject target, string enemy, int percentage)
     {
-        if (enemy >= spawnText.Length)
-            return;
+        //Enemy will spawn with dialogue "percentage" of the time
+        if (Random.Range(0, 100) < percentage)
+        {
+            int index = Array.FindIndex(EnemyDialogues, dialogue => dialogue.Name == enemy);
+            if(index == -1)
+            {
+                Debug.LogWarning("Dialogue for " + enemy + " not found!");
+                return;
+            }
 
-        //Enemy will spawn with dialogue 10% of the time
-        if(Random.Range(0, 10) == 0)
-            Create(target, spawnText[enemy].strings[Random.Range(0, spawnText[enemy].strings.Length)]);
+            Create(target, EnemyDialogues[index].Dialogue[Random.Range(0, EnemyDialogues[index].Dialogue.Length)]);
+        }
+    }
+
+    public void CreateEnemyText(GameObject target, string enemy, int dialogueIndex)
+    {
+        int index = Array.FindIndex(EnemyDialogues, dialogue => dialogue.Name == enemy);
+        if (index == -1)
+        {
+            Debug.LogWarning("Dialogue for " + enemy + " not found!");
+            return;
+        }
+        if(dialogueIndex > EnemyDialogues[index].Dialogue.Length)
+        {
+            Debug.LogWarning("Dialogue for " + enemy + " at " + dialogueIndex + " does not exist");
+            return;
+        }
+        Create(target, EnemyDialogues[index].Dialogue[dialogueIndex]);
     }
 
     public void CreateEnemyDeathText(GameObject target)

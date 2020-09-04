@@ -45,33 +45,46 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textBubblePrefab: {fileID: 7525464343366497298, guid: 678c97a68aaef6c4292ee775aff37de3,
     type: 3}
-  spawnText:
-  - strings:
+  EnemyDialogues:
+  - Name: BF109E
+    Dialogue:
     - Die
     - Please don't hurt me
     - Oh shit its him
-  - strings:
+  - Name: BF109F
+    Dialogue:
     - I got this
     - Engaging
-  - strings:
+  - Name: Do217
+    Dialogue:
     - Intercepting
     - Zoomin
-  - strings:
+  - Name: Me262
+    Dialogue:
     - Fox 2
     - Firing missile
-  - strings:
+  - Name: Me163
+    Dialogue:
     - Can't catch me
     - Gotta go fast
-  - strings:
+  - Name: He111
+    Dialogue:
     - Help! Fighter on my tail
     - You are going to regret this
-  - strings:
-    - Going on divebombing run
-  - strings:
+  - Name: Ju87
+    Dialogue:
+    - Going on a divebombing run
+  - Name: Ju87G
+    Dialogue:
     - Eat these 37mm guns
-  - strings:
+  - Name: Ju88
+    Dialogue:
     - Dropping payload
     - Enemy to the rear!
+  - Name: Fw190
+    Dialogue:
+    - Gotcha
+    - I'm gonna get you
   deathText:
   - AAAAAAAAAAHHHHHHH!!!!!
   - Ow
@@ -83,3 +96,4 @@ MonoBehaviour:
   - Going down!
   - I forgot my parachute
   - HAFHAJWKWAFHWFGW
+  instance: {fileID: 0}

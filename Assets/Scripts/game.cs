@@ -34,9 +34,6 @@ public class game : MonoBehaviour
     //********Player must edit this array in Unity inspector in order to spawn enemies in Level*************
     public EnemyDetails[] EnemyData;
 
-    //only these enemies will spawn in this level
-    public int[] singleEnemies;
-
     public GameObject cloudPrefab;
 
     public GameObject bossPrefab;
@@ -129,7 +126,7 @@ public class game : MonoBehaviour
             //spawn only 1 enemy
             if(spawnSquadron < 7)
             {
-                int enemy = singleEnemies[Random.Range(0, singleEnemies.Length)];
+                int enemy = Random.Range(0, EnemyData.Length);
                 if(EnemyData[enemy].cost > totalPoints)
                 {
                     break;
@@ -376,7 +373,8 @@ public class game : MonoBehaviour
     {
         GameObject go = null;
         go = Instantiate(EnemyData[enemy].prefab, spawnPosition, Quaternion.identity);
-        FindObjectOfType<DialogueManager>().CreateRandomSpawnEnemyText(go, enemy);
+        EnemyPlane plane = go.GetComponent<EnemyPlane>();
+        FindObjectOfType<DialogueManager>().CreateRandomSpawnEnemyText(go, plane._name, 10);
     }
 
     /*Spawn a group of enemies at a random area on top of screen in a V formation

@@ -21,22 +21,6 @@ public class UpgradeMenu : MonoBehaviour
 
     public Sprite EmptySprite;
 
-    /*
-     * 0. Double Shot
-     * 1. Triple Shot 
-     * 2. Quad Shot
-     * 3. Upgrade Triple Shot
-     * 4. Single Missile
-     * 5. Double Missile
-     * 6. Triple Missile
-     * 7. Swarmer Missile
-     * 8. Single Escort
-     * 9. Double Escort
-     * 10. Triple Escort
-     * 11. Quad Escort
-     * 12. AutoCannon
-     * 13. High Velocity Shot
-    */
     private bool[] toggles = new bool[50];
 
     private PlayerAttack weaponSelect;
