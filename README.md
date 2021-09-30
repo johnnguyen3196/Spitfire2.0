@@ -12,8 +12,9 @@ https://gofile.io/d/1yu5Ph
 ## Latest Changes
 * Bug fixes
 * New escort upgrade.<br/>
-Sword: A sword will rotate around the player and do damage on-hit. The sword also has a 50% chance of destroying enemy projectiles.
-* Refactored code so other developers can easily contribute to the game.
+Spear: Free upgrade from Sword. Launches a spear towards mouse location and returns to player. Can block enemy projectiles.
+* Refactored spawning mechanics for easier development of new levels. Check wiki tutorial to see how to spawn your own enemies.
+* File restructuring
 
 ## System Requirements
 A computer that runs better than a potato.
