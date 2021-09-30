@@ -20,6 +20,10 @@ public class Ju87G : EnemyPlane
             attackUpdate = Mathf.FloorToInt(Time.time) + attackSpeed;
             Attack();
         }
+    }
+
+    void FixedUpdate()
+    {
         Move();
     }
 
@@ -68,11 +72,11 @@ public class Ju87G : EnemyPlane
         Vector3 velocity;
         if (player.transform.position.x < gameObject.transform.position.x)
         {
-            velocity = new Vector3(-.33f, -1, 0) * speed;
+            velocity = new Vector3(-.4f, -1, 0) * speed;
         }
         else
         {
-            velocity = new Vector3(.33f, -1, 0) * speed;
+            velocity = new Vector3(.4f, -1, 0) * speed;
         }
         rb.velocity = velocity;
     }

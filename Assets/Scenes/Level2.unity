@@ -190,6 +190,180 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bdb7dc9762d87e2428972d2811a05507, type: 3}
+--- !u!1 &571473301
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 571473303}
+  - component: {fileID: 571473302}
+  m_Layer: 0
+  m_Name: SpawnManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &571473302
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 571473301}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b0a38fe4e45a7f4f9ee833d5c25c793, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EnemyData:
+  - prefab: {fileID: 488738260302698405, guid: a09d1605c81ea0f46807cd9437bd8dc2, type: 3}
+    cost: 10
+  - prefab: {fileID: 7269171257198975377, guid: 678267402b9331441aef88e5144245d2,
+      type: 3}
+    cost: 20
+  - prefab: {fileID: 7844246237508104822, guid: e5cf5ad58159c424d93e92edc2ebd8b9,
+      type: 3}
+    cost: 50
+  - prefab: {fileID: 2354535777333345427, guid: ea8591ccdb1996040b628cf0e3d5ff6c,
+      type: 3}
+    cost: 30
+  - prefab: {fileID: 1439657489087819145, guid: cfe3d7abdf516de48a9b6b50182cfe4d,
+      type: 3}
+    cost: 30
+  - prefab: {fileID: 552413255056779480, guid: 4f8aee3ddf49def47a9363fa48630ca0, type: 3}
+    cost: 50
+  - prefab: {fileID: 5826956364054838915, guid: fd99343281859cf4696e2d3a8e626d44,
+      type: 3}
+    cost: 20
+  - prefab: {fileID: 3063647177519949101, guid: 7fc85e582ce61304ebcbf93f402349ef,
+      type: 3}
+    cost: 30
+  - prefab: {fileID: 7907299870903984852, guid: 8ced5e96a2218374bb302a5470443d6e,
+      type: 3}
+    cost: 40
+  - prefab: {fileID: 7922442377346572709, guid: ee132758f4d261d45bd9ed65b464d1f3,
+      type: 3}
+    cost: 30
+  enemySquadron:
+  - planes: 0,0,0
+    staggered: 0
+  - planes: 0,0,0,0,0
+    staggered: 0
+  - planes: 0,1,0
+    staggered: 0
+  - planes: 1,1,1,1,1
+    staggered: 1
+  - planes: 1,1
+    staggered: 0
+  - planes: 2
+    staggered: 0
+  - planes: 0,1,0
+    staggered: 0
+  - planes: 1,1,1,1
+    staggered: 1
+  - planes: 2
+    staggered: 0
+  - planes: 3
+    staggered: 0
+  - planes: 0,3,0
+    staggered: 0
+  - planes: 4
+    staggered: 0
+  - planes: 4,4
+    staggered: 1
+  - planes: 3,3
+    staggered: 0
+  - planes: 2
+    staggered: 0
+  - planes: 5
+    staggered: 0
+  - planes: 0,5,0
+    staggered: 0
+  - planes: 0,0,5,0,0
+    staggered: 0
+  - planes: 2
+    staggered: 0
+  - planes: 1,1,1,1,1
+    staggered: 1
+  - planes: 6,6,6
+    staggered: 1
+  - planes: 0,6,6,6,0
+    staggered: 0
+  - planes: 3,4
+    staggered: 0
+  - planes: 7
+    staggered: 0
+  - planes: 0,7,0
+    staggered: 0
+  - planes: 8
+    staggered: 0
+  - planes: 7,7,7
+    staggered: 1
+  - planes: 0,8,0
+    staggered: 0
+  - planes: 9
+    staggered: 0
+  - planes: 8,8
+    staggered: 0
+  - planes: 9,9,9
+    staggered: 1
+  - planes: 0,0,1,0,0
+    staggered: 0
+  - planes: 4
+    staggered: 0
+  - planes: 7,7
+    staggered: 0
+  - planes: 2
+    staggered: 0
+  - planes: 0,5,0
+    staggered: 0
+  - planes: 0,6,6,0
+    staggered: 0
+  - planes: 9,9,9
+    staggered: 1
+  - planes: 0,8,8,0
+    staggered: 0
+  - planes: 2
+    staggered: 0
+  - planes: 0,0,0,0,0
+    staggered: 0
+  - planes: 4,4
+    staggered: 0
+  - planes: 0,0,5,0,0
+    staggered: 0
+  - planes: 6,6,6
+    staggered: 0
+  - planes: 0,0,5,0,0
+    staggered: 0
+  - planes: 1,8,1
+    staggered: 0
+  - planes: 4,4
+    staggered: 0
+  - planes: 9,9,9
+    staggered: 0
+  - planes: 2,0
+    staggered: 0
+  spawnIndex: 0
+  pointsUI: {fileID: 1158523756}
+  game: {fileID: 1007588849}
+--- !u!4 &571473303
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 571473301}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 740.4318, y: 531.66986, z: -120.32825}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &614342796
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -340,6 +514,49 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9da0c9421c54c141a3dffb1b32f8582, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &913425450
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 913425452}
+  - component: {fileID: 913425451}
+  m_Layer: 0
+  m_Name: WeaponManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &913425451
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 913425450}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8297b86142a977a4b9e744e609fb2d5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &913425452
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 913425450}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1007588848
 GameObject:
   m_ObjectHideFlags: 0
@@ -369,36 +586,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef1d89c6d4554a84c98107a4ee43b51e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EnemyData:
-  - prefab: {fileID: 488738260302698405, guid: a09d1605c81ea0f46807cd9437bd8dc2, type: 3}
-    cost: 10
-  - prefab: {fileID: 7269171257198975377, guid: 678267402b9331441aef88e5144245d2,
-      type: 3}
-    cost: 20
-  - prefab: {fileID: 7844246237508104822, guid: e5cf5ad58159c424d93e92edc2ebd8b9,
-      type: 3}
-    cost: 50
-  - prefab: {fileID: 2354535777333345427, guid: ea8591ccdb1996040b628cf0e3d5ff6c,
-      type: 3}
-    cost: 30
-  - prefab: {fileID: 1439657489087819145, guid: cfe3d7abdf516de48a9b6b50182cfe4d,
-      type: 3}
-    cost: 30
-  - prefab: {fileID: 552413255056779480, guid: 4f8aee3ddf49def47a9363fa48630ca0, type: 3}
-    cost: 50
-  - prefab: {fileID: 5826956364054838915, guid: fd99343281859cf4696e2d3a8e626d44,
-      type: 3}
-    cost: 20
-  - prefab: {fileID: 5826956364054838915, guid: fd99343281859cf4696e2d3a8e626d44,
-      type: 3}
-    cost: 30
-  - prefab: {fileID: 7907299870903984852, guid: 8ced5e96a2218374bb302a5470443d6e,
-      type: 3}
-    cost: 40
-  - prefab: {fileID: 7922442377346572709, guid: ee132758f4d261d45bd9ed65b464d1f3,
-      type: 3}
-    cost: 30
-  singleEnemies: 00000000010000000200000003000000040000000500000006000000070000000800000009000000
   cloudPrefab: {fileID: 2887225732421820834, guid: ffdf28280a2b3d3498063a56426f7237,
     type: 3}
   bossPrefab: {fileID: 7573545205385313420, guid: 90ed25b3212e52f40bdaed6d34cecf3e,
@@ -410,30 +597,7 @@ MonoBehaviour:
   requiredPoints: 2000
   currentPoints: 0
   level: 2
-  enemySquadron:
-  - planes: 000000000000000000000000
-    staggered: 0
-  - planes: 00000000000000000000000000000000
-    staggered: 0
-  - planes: 000000000100000000000000
-    staggered: 0
-  - planes: 0300000003000000030000000300000003000000
-    staggered: 1
-  - planes: 0300000003000000
-    staggered: 0
-  - planes: 0400000004000000
-    staggered: 0
-  - planes: 04000000040000000400000004000000
-    staggered: 1
-  - planes: 0000000000000000050000000000000000000000
-    staggered: 0
-  - planes: 010000000500000001000000
-    staggered: 0
-  - planes: 0000000000000000000000000500000005000000000000000000000000000000
-    staggered: 0
-  - planes: 090000000900000009000000
-    staggered: 0
-  spawnIndex: 0
+  finishSpawning: 0
 --- !u!4 &1007588850
 Transform:
   m_ObjectHideFlags: 0

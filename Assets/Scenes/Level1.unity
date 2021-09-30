@@ -3625,6 +3625,129 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1508157034}
   m_CullTransparentMesh: 0
+--- !u!1 &1580486400
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1580486402}
+  - component: {fileID: 1580486401}
+  m_Layer: 0
+  m_Name: SpawnManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1580486401
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1580486400}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b0a38fe4e45a7f4f9ee833d5c25c793, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EnemyData:
+  - prefab: {fileID: 488738260302698405, guid: a09d1605c81ea0f46807cd9437bd8dc2, type: 3}
+    cost: 10
+  - prefab: {fileID: 7269171257198975377, guid: 678267402b9331441aef88e5144245d2,
+      type: 3}
+    cost: 20
+  - prefab: {fileID: 5826956364054838915, guid: fd99343281859cf4696e2d3a8e626d44,
+      type: 3}
+    cost: 20
+  - prefab: {fileID: 7907299870903984852, guid: 8ced5e96a2218374bb302a5470443d6e,
+      type: 3}
+    cost: 40
+  enemySquadron:
+  - planes: 0
+    staggered: 0
+  - planes: 0,0,0
+    staggered: 1
+  - planes: 0,1,0
+    staggered: 0
+  - planes: 2,2,2
+    staggered: 1
+  - planes: 0,0,1,0,0
+    staggered: 0
+  - planes: 0,0,0,0,0
+    staggered: 0
+  - planes: 0,1,0
+    staggered: 0
+  - planes: 1,1,1
+    staggered: 1
+  - planes: 1,1
+    staggered: 0
+  - planes: 2,1,2
+    staggered: 0
+  - planes: 3
+    staggered: 0
+  - planes: 0,3,0
+    staggered: 0
+  - planes: 3,3
+    staggered: 1
+  - planes: 0,0,1,0,0
+    staggered: 0
+  - planes: 1,1,1
+    staggered: 1
+  - planes: 0,0,1,0,0
+    staggered: 0
+  - planes: 2,2,2,2
+    staggered: 0
+  - planes: 2,3,2
+    staggered: 0
+  - planes: 0,0,0
+    staggered: 0
+  - planes: 1,1,1
+    staggered: 0
+  - planes: 2,1,2
+    staggered: 0
+  - planes: 2,1,3,2
+    staggered: 0
+  - planes: 3,3,3
+    staggered: 1
+  - planes: 1,1,1
+    staggered: 1
+  - planes: 0,0,1,0,0
+    staggered: 0
+  - planes: 2,2,2
+    staggered: 1
+  - planes: 2,3,2
+    staggered: 0
+  - planes: 0,0,3,0,0
+    staggered: 0
+  - planes: 3,3,3,3
+    staggered: 1
+  - planes: 3,3
+    staggered: 0
+  - planes: 0,0,1,0,0
+    staggered: 0
+  - planes: 1
+    staggered: 0
+  spawnIndex: 0
+  pointsUI: {fileID: 128370229}
+  game: {fileID: 1796265897}
+--- !u!4 &1580486402
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1580486400}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 740.4318, y: 531.66986, z: -120.32825}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1591791395
 GameObject:
   m_ObjectHideFlags: 0
@@ -4442,18 +4565,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef1d89c6d4554a84c98107a4ee43b51e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EnemyData:
-  - prefab: {fileID: 488738260302698405, guid: a09d1605c81ea0f46807cd9437bd8dc2, type: 3}
-    cost: 10
-  - prefab: {fileID: 7269171257198975377, guid: 678267402b9331441aef88e5144245d2,
-      type: 3}
-    cost: 20
-  - prefab: {fileID: 5826956364054838915, guid: fd99343281859cf4696e2d3a8e626d44,
-      type: 3}
-    cost: 20
-  - prefab: {fileID: 7907299870903984852, guid: 8ced5e96a2218374bb302a5470443d6e,
-      type: 3}
-    cost: 40
   cloudPrefab: {fileID: 2887225732421820834, guid: ffdf28280a2b3d3498063a56426f7237,
     type: 3}
   bossPrefab: {fileID: 4479060573339291730, guid: 0d5d67453a49b994da218d8b014db762,
@@ -4465,22 +4576,7 @@ MonoBehaviour:
   requiredPoints: 1500
   currentPoints: 0
   level: 1
-  enemySquadron:
-  - planes: 000000000000000000000000
-    staggered: 0
-  - planes: 00000000000000000000000000000000
-    staggered: 0
-  - planes: 000000000100000000000000
-    staggered: 0
-  - planes: 0000000000000000000000000000000000000000
-    staggered: 1
-  - planes: 0100000001000000010000000100000001000000
-    staggered: 1
-  - planes: 020000000200000002000000
-    staggered: 0
-  - planes: 000000000200000000000000
-    staggered: 0
-  spawnIndex: 0
+  finishSpawning: 0
 --- !u!1 &1801352271
 GameObject:
   m_ObjectHideFlags: 0

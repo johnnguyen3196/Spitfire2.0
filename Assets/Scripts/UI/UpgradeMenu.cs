@@ -48,6 +48,7 @@ public class UpgradeMenu : MonoBehaviour
     {
         // load the player's save and initialize the upgrades
         data = SaveSystem.LoadPlayer(PlayerPrefs.GetString("saveName"));
+        data.points = 10000;
      
         InitializeGunUpgrades(data.researchedGunUpgrades);
         InitializeMissileUpgrades(data.researchedMissileUpgrades);
@@ -907,6 +908,30 @@ public class UpgradeMenu : MonoBehaviour
             Info.SetActive(false);
         }
         //The next two numbers will be the cost of your upgrade in points
+        DisableUpgradeButton(0);
+        upgradeCost = 0;
+        DisableEquippedButton(data);
+    }
+
+    public void SingleSpearSelect()
+    {
+        toggles[24] = toggles[24] ? false : true;
+        SetAllSelectToFalse(24);
+        if (toggles[24])
+        {
+            escortSelected = true;
+            Info.SetActive(true);
+            Info.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "Spear";
+            Info.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = "A spear will rotate around player and periodically thrust towards the mouse position. The spear also has a 50% chance to destroy enemy projectiles.";
+            Info.transform.GetChild(3).GetComponent<Image>().sprite = FindObjectOfType<UISpriteManager>().Find("Sword1");
+            Info.transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = "Cost: 0";
+            powerupName = "Spear1";
+        }
+        else
+        {
+            escortSelected = false;
+            Info.SetActive(false);
+        }
         DisableUpgradeButton(0);
         upgradeCost = 0;
         DisableEquippedButton(data);

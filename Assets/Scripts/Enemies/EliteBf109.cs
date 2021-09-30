@@ -34,6 +34,10 @@ public class EliteBf109 : EnemyPlane
             burstUpdate = Time.time + burstInterval;
             burstAmount++;
         }
+    }
+
+    void FixedUpdate()
+    {
         Move();
     }
 
@@ -71,11 +75,11 @@ public class EliteBf109 : EnemyPlane
         Vector3 velocity;
         if (player.transform.position.x < gameObject.transform.position.x)
         {
-            velocity = new Vector3(-.33f, -1, 0) * speed;
+            velocity = new Vector3(-.4f, -1, 0) * speed;
         }
         else
         {
-            velocity = new Vector3(.33f, -1, 0) * speed;
+            velocity = new Vector3(.4f, -1, 0) * speed;
         }
         rb.velocity = velocity;
     }

@@ -51,6 +51,10 @@ public class Me163 : EnemyPlane
             burstUpdate = Time.time + burstInterval;
             burstAmount++;
         }
+    }
+
+    void FixedUpdate()
+    {
         Move();
     }
 
@@ -89,7 +93,7 @@ public class Me163 : EnemyPlane
                 }
                 else
                 {
-                    transform.rotation = Quaternion.AngleAxis(transform.eulerAngles.z - .5f, Vector3.forward);
+                    transform.rotation = Quaternion.AngleAxis(transform.eulerAngles.z - 1, Vector3.forward);
                 }
             }
             else
@@ -102,7 +106,7 @@ public class Me163 : EnemyPlane
                 }
                 else
                 {
-                    transform.rotation = Quaternion.AngleAxis(transform.eulerAngles.z + .5f, Vector3.forward);
+                    transform.rotation = Quaternion.AngleAxis(transform.eulerAngles.z + 1, Vector3.forward);
                 }
             }
         }

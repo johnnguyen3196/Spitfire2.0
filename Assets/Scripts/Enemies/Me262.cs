@@ -42,6 +42,10 @@ public class Me262 : EnemyPlane
             attackUpdate = Mathf.FloorToInt(Time.time) + attackSpeed;
             Attack();
         }
+    }
+
+    void FixedUpdate()
+    {
         Move();
     }
 
@@ -67,7 +71,7 @@ public class Me262 : EnemyPlane
                 }
                 else
                 {
-                    transform.rotation = Quaternion.AngleAxis(transform.eulerAngles.z - .3f, Vector3.forward);
+                    transform.rotation = Quaternion.AngleAxis(transform.eulerAngles.z - 1, Vector3.forward);
                 }
             }
             else
@@ -80,7 +84,7 @@ public class Me262 : EnemyPlane
                 }
                 else
                 {
-                    transform.rotation = Quaternion.AngleAxis(transform.eulerAngles.z + .3f, Vector3.forward);
+                    transform.rotation = Quaternion.AngleAxis(transform.eulerAngles.z + 1, Vector3.forward);
                 }
             }
         }
